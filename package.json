@@ -9,7 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@headlessui/react": "^1.7.8",
     "@next/font": "13.1.6",
+    "emotion-normalize": "^11.0.1",
     "eslint": "8.33.0",
     "eslint-config-next": "13.1.6",
     "i18next": "^22.4.9",
@@ -18,6 +22,9 @@
     "next-sanity": "^4.1.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-i18next": "^12.1.5"
+    "react-headroom": "^3.2.1",
+    "react-i18next": "^12.1.5",
+    "react-icons": "^4.7.1",
+    "theme-ui": "^0.15.4"
   }
 }

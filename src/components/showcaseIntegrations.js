@@ -1,0 +1,43 @@
+import React from 'react'
+import { Box, Flex, Container } from 'theme-ui'
+import SingleImage from './singleImage'
+
+export default function ShowcaseIntegrations(props) {
+  return (
+    <Box
+      bg={props.colorBg ? props.colorBg.hex : ''}
+      sx={{
+        bg: props.colorBg ? props.colorBg.hex : '',
+        pt: props.padding && props.padding.newBottom ? props?.padding?.newTop : props?.padding?.top,
+        pb: props.padding && props.padding.newBottom ? props?.padding?.newBottom : props?.padding?.bottom,
+      }}
+    >
+      <Container>
+        <Flex
+          css={{
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          {props.rows &&
+            props.rows.map(story => (
+              <Box
+                key={story._key}
+                p={3}
+                css={{
+                  width: '10rem',
+                }}
+              >
+                <SingleImage
+                  imgMaxHeight="2rem"
+                  key={story._key}
+                  image={story.image && story.image.image && story.image.image}
+                />
+              </Box>
+            ))}
+        </Flex>
+      </Container>
+    </Box>
+  )
+}

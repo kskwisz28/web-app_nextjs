@@ -1,0 +1,146 @@
+import { Link } from 'gatsby'
+
+import { GatsbyImage } from "gatsby-plugin-image";
+import EditorWrap from './editorWrap'
+import SingleImage from './singleImage'
+
+import InfoText from './infoText'
+
+
+import { jsx, Flex, Box, Button, Image } from 'theme-ui'
+import Container from './container'
+
+import styled from '@emotion/styled'
+
+const Info = styled.div`
+  .infoImg {
+    box-shadow: ${p =>
+      p.shadowImage ? '0px 32px 32px 0px rgba(0,0,0,.05)' : ''};
+  }
+`
+
+export default function pInfoSection(props) {
+  return (
+    <Info shadowImage={props.shadowImage}>
+      <Box
+        sx={{
+          py: 4,
+          bg: props.info && props.info.colorBg ? props.info.colorBg.hex : '',
+          pt: props.padding && props.padding.newBottom ? props?.padding?.newTop : props?.padding?.top,
+          pb: props.padding && props.padding.newBottom ? props?.padding?.newBottom : props?.padding?.bottom,
+        }}
+      >
+        <Container>
+          <Flex
+            sx={{
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              justifyContent: 'space-around',
+              flexDirection: props.imageFirst ? 'row' : 'row-reverse',
+            }}
+          >
+            {props.editorWrap && (
+              <Box sx={{ width: ['100%', null, '50%'], px: 3 }}>
+                <EditorWrap
+                  css={{ width: '100%' }}
+                  windowText={props.windowText}
+                >
+                  <SingleImage
+                    image={props.image && props.image.image}
+                    noLazyLoad={props.image && props.image.noLazyLoad}
+                    shadowImage={props.shadowImage}
+                  />
+                </EditorWrap>
+              </Box>
+            )}
+
+            {!props.editorWrap && (
+              <Box
+                sx={{
+                  width: ['100%', null, '50%'],
+                  px: 2,
+                }}
+              >
+                <SingleImage
+                  image={props.image && props.image.image}
+                  noLazyLoad={props.image && props.image.noLazyLoad}
+                  shadowImage={props.shadowImage}
+                  rounded={props.image && props.image.rounded ? '8px' : 0}
+                />
+              </Box>
+            )}
+
+            {props.illustration && (
+              <Flex sx={{ width: ['100%', null, '50%'] }}>
+                <Image
+                  sx={{ width: '100%' }}
+                  src={props.illustration}
+                  className="infoImg"
+                ></Image>
+              </Flex>
+            )}
+            {props.illustrationEditor && (
+              <Flex
+                sx={{
+                  width: ['100%', null, '50%'],
+                  px: props.noPadding ? 0 : 3,
+                }}
+              >
+                <div className="infoImg" css={{ width: '100%' }}>
+                  <EditorWrap
+                    css={{ width: '100%' }}
+                    windowText={props.windowText}
+                  >
+                    <Image
+                      sx={{ width: '100%' }}
+                      src={props.illustrationEditor}
+                    ></Image>
+                  </EditorWrap>
+                </div>
+              </Flex>
+            )}
+            {props.gatsbyImage && (
+              <Flex sx={{ width: ['100%', null, '50%'] }}>
+                <GatsbyImage
+                  image={props.gatsbyImage}
+                  css={{ width: '100%' }}
+                  className="infoImg"
+                  alt={props.gasbyImageAlt} />
+              </Flex>
+            )}
+            <Flex
+              sx={{
+                width: ['100%', null, '50%'],
+                py: 4,
+                px: props.noPadding ? 0 : 3,
+              }}
+            >
+              <InfoText {...props.info}>
+                {props.buttonText && (
+                  <Link to={props.buttonUrl ? props.buttonUrl : '/'}>
+                    <Button
+                      my="2"
+                      bg={
+                        props.colorButtonBg
+                          ? props.colorButtonBg.hex
+                          : 'primary'
+                      }
+                      color={
+                        props.colorButtonText
+                          ? props.colorButtonText.hex
+                          : 'White'
+                      }
+                    >
+                      {props.buttonText}
+                    </Button>
+                  </Link>
+                )}
+                {props.children}
+              </InfoText>
+            </Flex>
+          </Flex>
+        </Container>
+      </Box>
+    </Info>
+  );
+}
