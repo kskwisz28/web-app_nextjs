@@ -1,0 +1,11 @@
+{
+  "notFound": "Not found",
+  "notFoundMessage": "Nothing to see here.",
+  "404Top": "404 Error message",
+  "404Headline": "Page could not be found",
+  "404Text": "You have arrived to a page that does not exist. Please navigate to a different page by clicking one of the buttons below or contact us if something is wrong.",
+  "404PrimaryButton": "Start Page",
+  "404PrimaryLink": "/en",
+  "404SecondaryButton":"Contact Us",
+  "404SecondaryLink": "/en/contact"
+}

@@ -1,0 +1,11 @@
+{
+  "notFound": "Inget funnet",
+  "notFoundMessage": "Inget att se här.",
+  "404Top": "404 Felmeddelande",
+  "404Headline": "Sidan kunde inte hittas",
+  "404Text": "Du har landat på en sida som inte verkar existera längre. Vänligen klicka på en av knapparna nedan för att komma till startsidan eller kontakta oss om du tror det är fel.",
+  "404PrimaryButton": "Till Startsidan",
+  "404PrimaryLink": "/sv",
+  "404SecondaryButton": "Kontakta oss",
+  "404SecondaryLink": "/sv/support"
+}

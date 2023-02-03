@@ -1,0 +1,11 @@
+{
+  "notFound": "Inget fundet",
+  "notFoundMessage": "Inget at se her.",
+  "404Top": "404 Fejlmeddelelse",
+  "404Headline": "Siden kunne ikke findes",
+  "404Text": "Du er landet på en side som ikke virker til at eksistere længere. Venligst klik på en af knapperne herunder for at komme til startsiden eller kontakt os hvis du tror det er en fejl.",
+  "404PrimaryButton": "Til Startsiden",
+  "404PrimaryLink": "/da",
+  "404SecondaryButton":"Kontakt os",
+  "404SecondaryLink": "/da/kontakt"
+}
