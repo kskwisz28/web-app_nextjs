@@ -1,25 +1,17 @@
-import {createClient} from "next-sanity";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import Layout from "@/components/layout";
-
-const client = createClient({
-  projectId: process.env.SANITY_PROJECT_ID,
-  dataset: process.env.SANITY_DATASET,
-  token: process.env.SANITY_TOKEN,
-  apiVersion: "2022-03-25",
-  useCdn: true
-});
+import client from "../apollo-client";
+import {gql} from "@apollo/client";
+import {CONTENT_FRAGMENT, LOCALIZATION_FRAGMENT, NAVIGATION_FRAGMENT} from "@/helpers/content";
 
 export default function PageDefault(props) {
-  console.log(props.data)
+  console.log('main', props)
   return (
     <Layout
       headerBg={props?.data?.sanityPage?.menuBg?.hex ? props.data.sanityPage.menuBg.hex : 'aubergine'}
       headerColor="white"
-      alternateLink={props.alternateLinks}
-      navMenu={props.data.allSanityNavigationMenu}
-      siteSettings={props.data.allSanitySiteSettings}
-      currentLanguage={props?.pageContext?.language}
+      navMenu={props.allNavigationMenu}
+      siteSettings={props.allSiteSettings[0]}
     >
       PageDefault
     </Layout>
@@ -27,10 +19,29 @@ export default function PageDefault(props) {
 }
 
 export async function getStaticPaths() {
-  const pages = await client.fetch(`*[_type == "page"]{_id,'slug': slug.current,language,alternativePages}`);
-  const paths = pages.filter(page => page.slug).map(page => ({
+  const {data} = await client.query({
+    query: gql`
+    query Page {
+     allPage {
+      _id
+      slug {
+       current
+      }
+      language
+      alternativePages {
+       language
+       slug {
+        current
+       }
+      }
+     }
+    }
+  `,
+  });
+
+  const paths = data.allPage.filter(page => page.slug.current).map(page => ({
     params: {
-      slug: page.slug,
+      slug: page.slug.current,
     },
     locale: page.language
   }))
@@ -41,11 +52,54 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({params, locale}) {
-  const data = await client.fetch(`*[_type == "page" && slug.current == ${params.slug}]`);
+  const {data} = await client.query({
+    query: gql`
+    ${LOCALIZATION_FRAGMENT}
+    ${NAVIGATION_FRAGMENT}
+    ${CONTENT_FRAGMENT}
+    query PageDefault($page: String, $language: String) {
+    allPage(
+      where: { slug: { current: { eq: $page } }, language: { eq: $language } }
+     ) {
+      containerSize
+      title
+      slug {
+       current
+      }
+      language
+      bodyRaw
+      menuBg {
+       hex
+      }
+      ...Content
+      alternativePages {
+       language
+       slug {current}
+      }
+      openGraph {
+       title
+       description
+       image {
+        asset {
+         _id
+         url
+        }
+       }
+      }
+     }
+      allNavigationMenu {...SanityNavigationMenu}
+      allSiteSettings {...SanitySiteSettings}
+    }
+  `,
+    variables: {
+      page: params.slug,
+      language: locale
+    }
+  });
   return {
     props: {
       ...(await serverSideTranslations(locale)),
-      data,
+      ...data,
     },
   }
 }

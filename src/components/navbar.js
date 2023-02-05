@@ -12,6 +12,7 @@ import {CountryFlag} from '../helpers/countryFlags'
 import {Dialog} from '@headlessui/react'
 import {useTranslation} from "next-i18next";
 import Image from "next/image";
+import {useRouter} from "next/router";
 
 const CountryVisitInfo = country => {
   switch (country) {
@@ -31,6 +32,9 @@ const CountryVisitInfo = country => {
 export default function Navbar(props) {
   const {i18n} = useTranslation('common')
   let [isOpen, setIsOpen] = useState(false)
+
+  const router = useRouter()
+  const currentLanguage = router.locale
 
   return (
     <React.Fragment>
@@ -79,7 +83,7 @@ export default function Navbar(props) {
                 padding: 0
               }}>
                 <Box sx={{maxWidth: '1.5rem'}}>
-                  <CountryFlag country={props?.currentLanguage}/>
+                  <CountryFlag country={currentLanguage}/>
                 </Box>
               </Button>
 
@@ -95,7 +99,7 @@ export default function Navbar(props) {
                       background: 'white'
                     }}>
                       <Dialog.Title>Pick a Country/Language</Dialog.Title>
-                      <Text>You are currently on the {CountryVisitInfo(props?.currentLanguage)}</Text>
+                      <Text>You are currently on the {CountryVisitInfo(currentLanguage)}</Text>
 
                       <Grid columns={[1, null, 3]} gap={3} mt={4}>
                         <Link href="https://quickbutik.com/sv">
@@ -123,7 +127,6 @@ export default function Navbar(props) {
               siteSettings={props.siteSettings}
               navMenu={props.navMenu}
               headerColor={props.headerColor}
-              currentLanguage={props?.currentLanguage}
             >
               <Flex
                 width={1}

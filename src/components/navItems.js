@@ -8,7 +8,8 @@ import useClickOutside from '../hooks/useClickOutside'
 // import DropdownMenu from './dropdownMenu'
 
 
-import { jsx, Button } from 'theme-ui'
+import {jsx, Button} from 'theme-ui'
+import {useRouter} from "next/router";
 
 const Ul = styled.ul`
   background-color: none;
@@ -33,7 +34,7 @@ const Ul = styled.ul`
     flex-flow: column nowrap;
     position: fixed;
     z-index: 9;
-    transform: ${({ open }) => (open ? 'translateX(0)' : 'translateX(100%)')};
+    transform: ${({open}) => (open ? 'translateX(0)' : 'translateX(100%)')};
     top: 0;
     right: 0;
     height: 100vh;
@@ -47,26 +48,27 @@ const Ul = styled.ul`
 `
 
 export default function NavItems({
-  open,
-  navMenu,
-  headerColor,
-  onClickOutside,
-  children,
-  siteSettings,
-}) {
+                                   open,
+                                   navMenu,
+                                   headerColor,
+                                   onClickOutside,
+                                   children,
+                                   siteSettings,
+                                 }) {
   const clickRef = React.useRef()
 
   useClickOutside(clickRef, onClickOutside)
 
-
+  const {locale} = useRouter()
+  console.log('navmenu', navMenu)
 
   return (
     <Ul open={open} ref={clickRef}>
-      {navMenu?.menuItems?.translate &&
-        navMenu.menuItems.translate.map(items => (
-          <li key={items._key} sx={{ borderColor: 'primary' }}>
+      {navMenu?.menuItems[locale] &&
+        navMenu.menuItems[locale].map(items => (
+          <li key={items._key} sx={{borderColor: 'primary'}}>
             <LinkCheck
-              activeStyle={{ borderBottom: `2px solid` }}
+              activeStyle={{borderBottom: `2px solid`}}
               to={items.menuItemSlug}
               effect="fade"
               length={0}
@@ -99,7 +101,7 @@ export default function NavItems({
           href={
             siteSettings &&
             siteSettings.headerSecondButtonUrl &&
-            siteSettings.headerSecondButtonUrl.translate
+            siteSettings.headerSecondButtonUrl[locale]
           }
           sx={{
             color: 'white',
@@ -107,7 +109,7 @@ export default function NavItems({
         >
           {siteSettings &&
             siteSettings.headerSecondButtonText &&
-            siteSettings.headerSecondButtonText.translate}
+            siteSettings.headerSecondButtonText[locale]}
         </a>
       </li>
       <li
@@ -123,13 +125,13 @@ export default function NavItems({
           href={
             siteSettings &&
             siteSettings.headerButtonUrl &&
-            siteSettings.headerButtonUrl.translate
+            siteSettings.headerButtonUrl[locale]
           }
         >
-          <Button py={2} variant="buttons.cta" sx={{ fontSize: '17px' }}>
+          <Button py={2} variant="buttons.cta" sx={{fontSize: '17px'}}>
             {siteSettings &&
               siteSettings.headerButtonText &&
-              siteSettings.headerButtonText.translate}
+              siteSettings.headerButtonText[locale]}
           </Button>
         </a>
       </li>

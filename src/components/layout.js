@@ -9,8 +9,9 @@ import Headroom from 'react-headroom'
 export default function Layout(props) {
   const mainMenu =
     props.navMenu &&
-    props.navMenu.edges.filter(menus => menus.node.menuPlacement === 'menuMain')
+    props.navMenu.find(menus => menus.menuPlacement === 'menuMain')
 
+  console.log('layout', props, mainMenu)
   return (
     <div
       css={{
@@ -22,12 +23,11 @@ export default function Layout(props) {
       <GlobalStyles/>
       <Headroom>
         <Header
-          navMenu={mainMenu && mainMenu[0] && mainMenu[0]['node']}
+          navMenu={mainMenu}
           logoDark={props.logoDark}
           headerBg={props.headerBg}
           headerColor={props.headerColor}
-          siteSettings={props?.siteSettings?.edges[0]?.node}
-          currentLanguage={props?.currentLanguage}
+          siteSettings={props?.siteSettings}
         />
       </Headroom>
       <main
@@ -40,7 +40,7 @@ export default function Layout(props) {
       </main>
       <Footer
         navMenu={props.navMenu}
-        siteSettings={props?.siteSettings?.edges[0]?.node}
+        siteSettings={props?.siteSettings}
       />
     </div>
   )

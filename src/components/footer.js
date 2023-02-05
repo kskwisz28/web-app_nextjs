@@ -3,7 +3,6 @@ import {useContext} from 'react'
 import LinkCheck from '../components/linkCheck'
 import Container from './container'
 
-import {AlternateLinksContext} from './wrapWithI18nProvider'
 import {useTranslation} from 'next-i18next'
 import {PathCheck} from '../helpers/pathCheck'
 
@@ -24,6 +23,7 @@ import {
 } from 'react-icons/fa'
 import Link from "next/link";
 import {useRouter} from "next/router";
+import {AlternateLinksContext} from "@/pages/_app";
 
 
 const SocialIcons = styled.div`
@@ -67,32 +67,32 @@ export default function Footer(props) {
 
   const footerSocial =
     props.navMenu &&
-    props.navMenu.edges.filter(
-      menus => menus.node.menuPlacement === 'menuSocial'
+    props.navMenu.filter(
+      menus => menus.menuPlacement === 'menuSocial'
     )
 
   const footerMenuOne =
     props.navMenu &&
-    props.navMenu.edges.filter(
-      menus => menus.node.menuPlacement === 'menuFooterOne'
+    props.navMenu.filter(
+      menus => menus.menuPlacement === 'menuFooterOne'
     )
 
   const footerMenuTwo =
     props.navMenu &&
-    props.navMenu.edges.filter(
-      menus => menus.node.menuPlacement === 'menuFooterTwo'
+    props.navMenu.filter(
+      menus => menus.menuPlacement === 'menuFooterTwo'
     )
 
   const footerMenuThree =
     props.navMenu &&
-    props.navMenu.edges.filter(
-      menus => menus.node.menuPlacement === 'menuFooterThree'
+    props.navMenu.filter(
+      menus => menus.menuPlacement === 'menuFooterThree'
     )
 
   const footerMenuFour =
     props.navMenu &&
-    props.navMenu.edges.filter(
-      menus => menus.node.menuPlacement === 'menuFooterFour'
+    props.navMenu.filter(
+      menus => menus.menuPlacement === 'menuFooterFour'
     )
 
   const SwedishAltExists =
@@ -140,9 +140,9 @@ export default function Footer(props) {
 
   // const currentUrl = typeof window !== 'undefined' ? window.location.href : ''
 
-  const router = useRouter()
+  const {locale, asPath} = useRouter()
   // TODO: fix currentUrl if it's not correct
-  const currentUrl = router.asPath
+  const currentUrl = asPath
 
   return (
     <footer sx={{bg: 'bgSecondary', width: '100%', pt: 4, position: 'relative'}}>
@@ -163,11 +163,11 @@ export default function Footer(props) {
             <FooterLinkTitle>
               {footerMenuOne &&
                 footerMenuOne[0] &&
-                footerMenuOne[0]['node'].menuName.translate}
+                footerMenuOne[0].menuName[locale]}
             </FooterLinkTitle>
             {footerMenuOne &&
               footerMenuOne[0] &&
-              footerMenuOne[0]['node'].menuItems.translate.map(items => (
+              footerMenuOne[0].menuItems[locale].map(items => (
                 <div key={items._key}>
                   {items.menuItemExternalLink && (
                     <FooterALink href={items.menuItemExternalLink}>
@@ -198,11 +198,11 @@ export default function Footer(props) {
             <FooterLinkTitle>
               {footerMenuTwo &&
                 footerMenuTwo[0] &&
-                footerMenuTwo[0]['node'].menuName.translate}
+                footerMenuTwo[0].menuName[locale]}
             </FooterLinkTitle>
             {footerMenuTwo &&
               footerMenuTwo[0] &&
-              footerMenuTwo[0]['node'].menuItems.translate.map(items => (
+              footerMenuTwo[0].menuItems[locale].map(items => (
                 <div key={items._key}>
                   {items.menuItemExternalLink && (
                     <FooterALink href={items.menuItemExternalLink}>
@@ -232,11 +232,11 @@ export default function Footer(props) {
             <FooterLinkTitle>
               {footerMenuThree &&
                 footerMenuThree[0] &&
-                footerMenuThree[0]['node'].menuName.translate}
+                footerMenuThree[0].menuName[locale]}
             </FooterLinkTitle>
             {footerMenuThree &&
               footerMenuThree[0] &&
-              footerMenuThree[0]['node'].menuItems.translate.map(items => (
+              footerMenuThree[0].menuItems[locale].map(items => (
                 <div key={items._key}>
                   {items.menuItemExternalLink && (
                     <FooterALink href={items.menuItemExternalLink}>
@@ -266,13 +266,13 @@ export default function Footer(props) {
             <FooterLinkTitle>
               {footerMenuFour &&
                 footerMenuFour[0] &&
-                footerMenuFour[0]['node'].menuName.translate}
+                footerMenuFour[0].menuName[locale]}
             </FooterLinkTitle>
             <SocialIcons>
               {footerSocial &&
                 footerSocial[0] &&
-                footerSocial[0]['node'].menuItems.translate &&
-                footerSocial[0]['node'].menuItems.translate.map(
+                footerSocial[0].menuItems[locale] &&
+                footerSocial[0].menuItems[locale].map(
                   items =>
                     items.menuItemExternalLink && (
                       <SocialIconLink
@@ -288,7 +288,7 @@ export default function Footer(props) {
             </SocialIcons>
             {footerMenuFour &&
               footerMenuFour[0] &&
-              footerMenuFour[0]['node'].menuItems.translate.map(items => (
+              footerMenuFour[0].menuItems[locale].map(items => (
                 <div key={items._key}>
                   {items.menuItemExternalLink && (
                     <FooterALink href={items.menuItemExternalLink}>
@@ -330,7 +330,7 @@ export default function Footer(props) {
                 <small>
                   {props.siteSettings &&
                     props.siteSettings.footerLanguageTitle &&
-                    props.siteSettings.footerLanguageTitle.translate}
+                    props.siteSettings.footerLanguageTitle[locale]}
                 </small>
               </Text>
 
@@ -355,6 +355,7 @@ export default function Footer(props) {
                       key={link.language}
                       href={PathCheck(link.path)}
                       hrefLang={link.language}
+                      locale={link.language}
                     >
                       <CountryFlag country={link.language}/>
                     </Link>,
@@ -388,7 +389,7 @@ export default function Footer(props) {
           <small sx={{color: 'dark300'}}>
             {props.siteSettings &&
               props.siteSettings.footerCopyright &&
-              props.siteSettings.footerCopyright.translate}
+              props.siteSettings.footerCopyright[locale]}
           </small>
         </Flex>
       </Container>

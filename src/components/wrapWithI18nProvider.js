@@ -3,8 +3,6 @@ import i18next from 'i18next'
 import * as ReactI18next from 'react-i18next'
 import { PathCheck } from '../helpers/pathCheck'
 
-export const AlternateLinksContext = React.createContext([])
-
 export function wrapWithI18nProvider({ element, props }) {
   const i18n = i18next
     .createInstance({
@@ -18,9 +16,6 @@ export function wrapWithI18nProvider({ element, props }) {
   i18n.init()
   return (
     <ReactI18next.I18nextProvider i18n={i18n}>
-      <AlternateLinksContext.Provider
-        value={props.pageContext && props.pageContext.alternateLinks}
-      >
         {/*
         TODO: Fix react helmet
         {
@@ -39,7 +34,6 @@ export function wrapWithI18nProvider({ element, props }) {
         }
         */}
         {element}
-      </AlternateLinksContext.Provider>
     </ReactI18next.I18nextProvider>
   )
 }
