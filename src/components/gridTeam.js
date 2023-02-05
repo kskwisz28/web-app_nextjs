@@ -1,7 +1,5 @@
 import React from 'react'
-import { useStaticQuery, graphql } from 'gatsby'
 import { Box, Flex } from 'theme-ui'
-import { GatsbyImage } from 'gatsby-plugin-image'
 import Container from './container'
 import InfoText from './infoText'
 import { FaHeart } from 'react-icons/fa'

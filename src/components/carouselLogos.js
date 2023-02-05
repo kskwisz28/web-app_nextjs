@@ -1,10 +1,6 @@
 import React from 'react'
-import { useKeenSlider } from 'keen-slider/react'
-import { useStaticQuery, graphql } from 'gatsby'
-import { GatsbyImage } from 'gatsby-plugin-image'
+import {useKeenSlider} from 'keen-slider/react'
 
-
-import { jsx } from 'theme-ui'
 
 import styled from '@emotion/styled'
 

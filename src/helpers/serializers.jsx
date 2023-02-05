@@ -17,7 +17,6 @@ import DeveloperTesting from '../components/developerTesting'
 import BlockContent from '@sanity/block-content-to-react'
 import serializer from '../helpers/serializers'
 
-/** @jsx jsx */
 import { jsx, Box, Styled } from 'theme-ui'
 
 import LinkCheck from '../components/linkCheck'

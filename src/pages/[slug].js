@@ -3,9 +3,14 @@ import Layout from "@/components/layout";
 import client from "../apollo-client";
 import {gql} from "@apollo/client";
 import {CONTENT_FRAGMENT, LOCALIZATION_FRAGMENT, NAVIGATION_FRAGMENT} from "@/helpers/content";
+import serializer from '../helpers/serializers'
+import Container from '../components/container'
+import PageBuilder from '../components/pageBuilder'
+import BlockContent from '@sanity/block-content-to-react'
 
 export default function PageDefault(props) {
   console.log('main', props)
+  const {content, _rawContent} = props.page
   return (
     <Layout
       headerBg={props?.data?.sanityPage?.menuBg?.hex ? props.data.sanityPage.menuBg.hex : 'aubergine'}
@@ -13,7 +18,42 @@ export default function PageDefault(props) {
       navMenu={props.allNavigationMenu}
       siteSettings={props.allSiteSettings[0]}
     >
-      PageDefault
+      {props.page &&
+      props.page.containerSize &&
+      props.page.containerSize !== 'fullwidth' ? (
+        <Container
+          containersize={
+            props.page.containerSize
+          }
+        >
+          <div
+            sx={{
+              variant: 'styles',
+            }}
+          >
+            {_rawContent &&
+              <PageBuilder content={content} _rawContent={_rawContent}/>
+            }
+            <BlockContent
+              blocks={props?.page?.bodyRaw}
+              serializers={serializer}
+              hardBreak
+            />
+          </div>
+        </Container>
+      ) : (
+        <>
+          {_rawContent &&
+            <PageBuilder content={content} _rawContent={_rawContent}/>
+          }
+
+          <BlockContent
+            blocks={props?.page?.bodyRaw.slice(0, 4)}
+            serializers={serializer}
+            hardBreak
+          />
+        </>
+      )}
     </Layout>
   )
 }
@@ -100,6 +140,7 @@ export async function getStaticProps({params, locale}) {
     props: {
       ...(await serverSideTranslations(locale)),
       ...data,
+      page: data.allPage[0]
     },
   }
 }

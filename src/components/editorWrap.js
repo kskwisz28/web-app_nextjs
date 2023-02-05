@@ -4,6 +4,7 @@ import styled from '@emotion/styled'
 import { jsx, Flex } from 'theme-ui'
 
 const EditorWindow = styled.div`
+  position: relative;
   .editorTab {
     width: calc(3 * var(--vw));
     height: auto;

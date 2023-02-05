@@ -1,6 +1,3 @@
-import { Link } from 'gatsby'
-
-import { GatsbyImage } from "gatsby-plugin-image";
 import EditorWrap from './editorWrap'
 import SingleImage from './singleImage'
 
@@ -11,6 +8,7 @@ import { jsx, Flex, Box, Button, Image } from 'theme-ui'
 import Container from './container'
 
 import styled from '@emotion/styled'
+import Link from "next/link";
 
 const Info = styled.div`
   .infoImg {
@@ -117,7 +115,7 @@ export default function pInfoSection(props) {
             >
               <InfoText {...props.info}>
                 {props.buttonText && (
-                  <Link to={props.buttonUrl ? props.buttonUrl : '/'}>
+                  <Link href={props.buttonUrl ? props.buttonUrl : '/'}>
                     <Button
                       my="2"
                       bg={

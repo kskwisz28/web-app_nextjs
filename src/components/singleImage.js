@@ -1,9 +1,6 @@
 import React from 'react'
-import clientConfig from '../../client-config'
-import { getGatsbyImageData } from 'gatsby-source-sanity'
-import { GatsbyImage } from 'gatsby-plugin-image'
 
-import { jsx, Image } from 'theme-ui'
+import { Image } from 'theme-ui'
 
 const maybeImage = (
   image,
@@ -16,6 +13,7 @@ const maybeImage = (
   sx
 ) => {
   let img = null
+  // TODO: Make image work
   if (image && image.asset) {
     const gatsbyImageData = getGatsbyImageData(
       image.asset,

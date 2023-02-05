@@ -1,11 +1,17 @@
-import { useStaticQuery, graphql } from 'gatsby'
-
-import { Box, Flex, jsx } from 'theme-ui'
+import {Box, Flex} from 'theme-ui'
 import Carousel from '../components/carousel'
 import InfoText from '../components/infoText'
 import LinkWithArrow from './linkWithArrow'
 
+import MockupNova from "@/images/mockup-nova.jpg"
+import MockupOrion from "@/images/mockup-orion.jpg"
+import MockupOrionWide from "@/images/mockup-orionwide.jpg"
+import MockupSwift from "@/images/mockup-swift.jpg"
+import MockupCanvas from "@/images/mockup-canvas.jpg"
+import MockupDefined from "@/images/mockup-defined.jpg"
+
 export default function SliderThemes(props) {
+  /*
   const data = useStaticQuery(graphql`
     {
       Nova: file(relativePath: { eq: "mockup-nova.jpg" }) {
@@ -65,6 +71,98 @@ export default function SliderThemes(props) {
     }
   `)
 
+  // TODO: Use it
+  const gatsbyImages = [
+    {
+      img: data.Nova.childImageSharp.gatsbyImageData,
+      alt: 'Design theme Nova',
+      windowText: 'https://nova-demo.quickbutik.com/',
+    },
+    {
+      img: data.Orion.childImageSharp.gatsbyImageData,
+      alt: 'Design theme Orion',
+      windowText: 'https://orion-demo.quickbutik.com/',
+    },
+    {
+      img: data.OrionWide.childImageSharp.gatsbyImageData,
+      alt: 'Design theme Orion Wide',
+      windowText: 'https://orion-demo.quickbutik.com/?_qbtid=57221',
+    },
+    {
+      img: data.Swift.childImageSharp.gatsbyImageData,
+      alt: 'Design theme Swift Wide',
+      windowText: 'https://swift-demo.quickbutik.com/',
+    },
+    {
+      img: data.Canvas.childImageSharp.gatsbyImageData,
+      alt: 'Design theme Canvas',
+      windowText: 'https://nova-canvas-demo.quickbutik.com/',
+    },
+    {
+      img: data.Defined.childImageSharp.gatsbyImageData,
+      alt: 'Design theme Defined',
+      windowText: 'https://nova-defined-demo.quickbutik.com/',
+    },
+  ]
+   */
+
+  const gatsbyImages = [
+    {
+      img: MockupNova,
+      alt: 'Design theme Nova',
+      windowText: 'https://nova-demo.quickbutik.com/',
+      props: {
+        width: 900,
+        placeholder: 'blur',
+      }
+    },
+    {
+      img: MockupOrion,
+      alt: 'Design theme Orion',
+      windowText: 'https://orion-demo.quickbutik.com/',
+      props: {
+        width: 900,
+        placeholder: 'blur',
+      }
+    },
+    {
+      img: MockupOrionWide,
+      alt: 'Design theme Orion Wide',
+      windowText: 'https://orion-demo.quickbutik.com/?_qbtid=57221',
+      props: {
+        width: 900,
+        placeholder: 'blur',
+      }
+    },
+    {
+      img: MockupSwift,
+      alt: 'Design theme Swift Wide',
+      windowText: 'https://swift-demo.quickbutik.com/',
+      props: {
+        width: 900,
+        placeholder: 'blur',
+      }
+    },
+    {
+      img: MockupCanvas,
+      alt: 'Design theme Canvas',
+      windowText: 'https://nova-canvas-demo.quickbutik.com/',
+      props: {
+        width: 900,
+        placeholder: 'blur',
+      }
+    },
+    {
+      img: MockupDefined,
+      alt: 'Design theme Defined',
+      windowText: 'https://nova-defined-demo.quickbutik.com/',
+      props: {
+        width: 900,
+        placeholder: 'blur',
+      }
+    },
+  ]
+
   return (
     <Flex
       bg={props.info && props.info.colorBg && props.info.colorBg.hex}
@@ -93,44 +191,13 @@ export default function SliderThemes(props) {
         <LinkWithArrow alignStart {...props.linkWithArrow} />
       </Box>
 
-      <Box sx={{ width: '100%' }}>
+      <Box sx={{width: '100%'}}>
         <Carousel
           addShadow
           slidesDesktop={2.2}
           slidesTablet={2.2}
           slidesMobile={1.2}
-          gatsbyImages={[
-            {
-              img: data.Nova.childImageSharp.gatsbyImageData,
-              alt: 'Design theme Nova',
-              windowText: 'https://nova-demo.quickbutik.com/',
-            },
-            {
-              img: data.Orion.childImageSharp.gatsbyImageData,
-              alt: 'Design theme Orion',
-              windowText: 'https://orion-demo.quickbutik.com/',
-            },
-            {
-              img: data.OrionWide.childImageSharp.gatsbyImageData,
-              alt: 'Design theme Orion Wide',
-              windowText: 'https://orion-demo.quickbutik.com/?_qbtid=57221',
-            },
-            {
-              img: data.Swift.childImageSharp.gatsbyImageData,
-              alt: 'Design theme Swift Wide',
-              windowText: 'https://swift-demo.quickbutik.com/',
-            },
-            {
-              img: data.Canvas.childImageSharp.gatsbyImageData,
-              alt: 'Design theme Canvas',
-              windowText: 'https://nova-canvas-demo.quickbutik.com/',
-            },
-            {
-              img: data.Defined.childImageSharp.gatsbyImageData,
-              alt: 'Design theme Defined',
-              windowText: 'https://nova-defined-demo.quickbutik.com/',
-            },
-          ]}
+          gatsbyImages={gatsbyImages}
         />
       </Box>
     </Flex>

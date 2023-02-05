@@ -1,17 +1,18 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 
-import { useState } from 'react'
-import { motion, useAnimation } from 'framer-motion'
+import {useState} from 'react'
+import {motion, useAnimation} from 'framer-motion'
 
 
-import { jsx, Image, Box, Text, Flex, Container, Input } from 'theme-ui'
+import {Box, Text, Flex, Container, Input} from 'theme-ui'
 
-import { FaHeart } from 'react-icons/fa'
-import { FiShoppingCart, FiHeart } from 'react-icons/fi'
-import { BiCheckShield } from 'react-icons/bi'
-import { BsChatSquareDots } from 'react-icons/bs'
+import {FaHeart} from 'react-icons/fa'
+import {FiShoppingCart, FiHeart} from 'react-icons/fi'
+import {BiCheckShield} from 'react-icons/bi'
+import {BsChatSquareDots} from 'react-icons/bs'
 
 import DeviceFrame from './deviceFrame'
+import Image from "next/image";
 
 import BannerFirst from '../images/sample-banner-3.jpg'
 import BannerSecond from '../images/sample-banner-4.jpg'
@@ -59,46 +60,48 @@ export default function TestZone(props) {
 
   const searchBar = useAnimation()
 
-  async function sequence() {
-    await searchBar.start({ display: 'hidden' })
-    // changeSearch(true)
-    // searchBar.start({ scale: 3 })
-  }
+  useEffect(() => {
+    async function sequence() {
+      await searchBar.start({display: 'hidden'})
+      // changeSearch(true)
+      // searchBar.start({ scale: 3 })
+    }
 
-  sequence()
+    sequence()
+  }, [searchBar])
 
   const allProducts = (
     <Flex
       prefix={4}
-      css={{ justifyContent: 'space-between', overflow: 'hidden' }}
+      css={{justifyContent: 'space-between', overflow: 'hidden'}}
       p={3}
     >
       <motion.div
-        css={{ width: '100%' }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
+        css={{width: '100%'}}
+        initial={{opacity: 0}}
+        animate={{opacity: 1}}
+        exit={{opacity: 0}}
       >
-        <Box px={2} sx={{ width: '100%' }}>
+        <Box px={2} sx={{width: '100%'}}>
           <Box
             variant="box.card"
-            sx={{ width: '100%', position: 'relative' }}
+            sx={{width: '100%', position: 'relative'}}
             p={4}
           >
             {wishlist && (
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                sx={{ position: 'absolute', top: '0.5rem', right: '0.5rem' }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                exit={{opacity: 0}}
+                sx={{position: 'absolute', top: '0.5rem', right: '0.5rem'}}
               >
-                <FaHeart sx={{ color: 'red', mx: 1 }} />
+                <FaHeart sx={{color: 'red', mx: 1}}/>
               </motion.div>
             )}
             <Image
               src={ProductTshirt}
               alt="Merchants"
-              sx={{ height: 'auto', width: '100%' }}
+              sx={{height: 'auto', width: '100%'}}
             />
             <Flex py={2}>
               <div
@@ -111,38 +114,38 @@ export default function TestZone(props) {
                   borderRadius: '1rem',
                 }}
               />
-              <FiShoppingCart sx={{ color: 'dark300', mx: 1 }} />
+              <FiShoppingCart sx={{color: 'dark300', mx: 1}}/>
             </Flex>
           </Box>
         </Box>
       </motion.div>
 
       <motion.div
-        css={{ width: '100%' }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
+        css={{width: '100%'}}
+        initial={{opacity: 0}}
+        animate={{opacity: 1}}
+        exit={{opacity: 0}}
       >
-        <Box px={2} sx={{ width: '100%' }}>
+        <Box px={2} sx={{width: '100%'}}>
           <Box
             variant="box.card"
-            sx={{ width: '100%', position: 'relative' }}
+            sx={{width: '100%', position: 'relative'}}
             p={4}
           >
             {wishlist && (
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                sx={{ position: 'absolute', top: '0.5rem', right: '0.5rem' }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                exit={{opacity: 0}}
+                sx={{position: 'absolute', top: '0.5rem', right: '0.5rem'}}
               >
-                <FaHeart sx={{ color: 'red', mx: 1 }} />
+                <FaHeart sx={{color: 'red', mx: 1}}/>
               </motion.div>
             )}
             <Image
               src={ProductTshirt}
               alt="Merchants"
-              sx={{ height: 'auto', width: '100%' }}
+              sx={{height: 'auto', width: '100%'}}
             />
             <Flex py={2}>
               <div
@@ -155,38 +158,38 @@ export default function TestZone(props) {
                   borderRadius: '1rem',
                 }}
               />
-              <FiShoppingCart sx={{ color: 'dark300', mx: 1 }} />
+              <FiShoppingCart sx={{color: 'dark300', mx: 1}}/>
             </Flex>
           </Box>
         </Box>
       </motion.div>
 
       <motion.div
-        css={{ width: '100%' }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
+        css={{width: '100%'}}
+        initial={{opacity: 0}}
+        animate={{opacity: 1}}
+        exit={{opacity: 0}}
       >
-        <Box px={2} sx={{ width: '100%' }}>
+        <Box px={2} sx={{width: '100%'}}>
           <Box
             variant="box.card"
-            sx={{ width: '100%', position: 'relative' }}
+            sx={{width: '100%', position: 'relative'}}
             p={4}
           >
             {wishlist && (
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                sx={{ position: 'absolute', top: '0.5rem', right: '0.5rem' }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                exit={{opacity: 0}}
+                sx={{position: 'absolute', top: '0.5rem', right: '0.5rem'}}
               >
-                <FaHeart sx={{ color: 'red', mx: 1 }} />
+                <FaHeart sx={{color: 'red', mx: 1}}/>
               </motion.div>
             )}
             <Image
               src={ProductTshirt}
               alt="Merchants"
-              sx={{ height: 'auto', width: '100%' }}
+              sx={{height: 'auto', width: '100%'}}
             />
             <Flex py={2}>
               <div
@@ -199,38 +202,38 @@ export default function TestZone(props) {
                   borderRadius: '1rem',
                 }}
               />
-              <FiShoppingCart sx={{ color: 'dark300', mx: 1 }} />
+              <FiShoppingCart sx={{color: 'dark300', mx: 1}}/>
             </Flex>
           </Box>
         </Box>
       </motion.div>
 
       <motion.div
-        css={{ width: '100%' }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
+        css={{width: '100%'}}
+        initial={{opacity: 0}}
+        animate={{opacity: 1}}
+        exit={{opacity: 0}}
       >
-        <Box px={2} sx={{ width: '100%' }}>
+        <Box px={2} sx={{width: '100%'}}>
           <Box
             variant="box.card"
-            sx={{ width: '100%', position: 'relative' }}
+            sx={{width: '100%', position: 'relative'}}
             p={4}
           >
             {wishlist && (
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                sx={{ position: 'absolute', top: '0.5rem', right: '0.5rem' }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                exit={{opacity: 0}}
+                sx={{position: 'absolute', top: '0.5rem', right: '0.5rem'}}
               >
-                <FaHeart sx={{ color: 'red', mx: 1 }} />
+                <FaHeart sx={{color: 'red', mx: 1}}/>
               </motion.div>
             )}
             <Image
               src={ProductTshirt}
               alt="Merchants"
-              sx={{ height: 'auto', width: '100%' }}
+              sx={{height: 'auto', width: '100%'}}
             />
             <Flex py={2}>
               <div
@@ -243,7 +246,7 @@ export default function TestZone(props) {
                   borderRadius: '1rem',
                 }}
               />
-              <FiShoppingCart sx={{ color: 'dark300', mx: 1 }} />
+              <FiShoppingCart sx={{color: 'dark300', mx: 1}}/>
             </Flex>
           </Box>
         </Box>
@@ -252,7 +255,7 @@ export default function TestZone(props) {
   )
 
   return (
-    <Container css={{ position: 'relative' }}>
+    <Container css={{position: 'relative'}}>
       <Box>
         <Flex
           sx={{
@@ -268,16 +271,16 @@ export default function TestZone(props) {
             // top: '0',
           }}
         >
-          <Box px={2} css={{ display: 'none', width: '100%' }}>
-            <AnimatedSwitch onClick={changeTheme} titleBefore="Theme" />
+          <Box px={2} css={{display: 'none', width: '100%'}}>
+            <AnimatedSwitch onClick={changeTheme} titleBefore="Theme"/>
           </Box>
-          <Box px={2} css={{ display: 'none', width: '100%' }}>
+          <Box px={2} css={{display: 'none', width: '100%'}}>
             <AnimatedSwitch
               onClick={changePersonalize}
               titleBefore="Personalize"
             />
           </Box>
-          <Box px={2} css={{ display: 'none', width: '100%' }}>
+          <Box px={2} css={{display: 'none', width: '100%'}}>
             <AnimatedSwitch
               onClick={changeProducts}
               titleBefore="Import products"
@@ -285,9 +288,9 @@ export default function TestZone(props) {
           </Box>
           <motion.div
             animate={searchBar}
-            sx={{ my: 1 }}
+            sx={{my: 1}}
             px={2}
-            css={{ display: 'block', minWidth: '200px' }}
+            css={{display: 'block', minWidth: '200px'}}
           >
             <AnimatedSwitch
               onClick={changeSearch}
@@ -295,38 +298,38 @@ export default function TestZone(props) {
               titleBefore={props.functionSearch}
             />
           </motion.div>
-          <Box my={1} px={2} css={{ display: 'block', minWidth: '200px' }}>
+          <Box my={1} px={2} css={{display: 'block', minWidth: '200px'}}>
             <AnimatedSwitch
               onClick={changeWishlist}
               titleBefore={props.functionWishlist}
             />
           </Box>
-          <Box px={2} css={{ display: 'none' }}>
-            <AnimatedSwitch onClick={changePayments} titleBefore="Payments" />
+          <Box px={2} css={{display: 'none'}}>
+            <AnimatedSwitch onClick={changePayments} titleBefore="Payments"/>
           </Box>
-          <Box px={2} css={{ display: 'none' }}>
-            <AnimatedSwitch onClick={changeShipping} titleBefore="Shipping" />
+          <Box px={2} css={{display: 'none'}}>
+            <AnimatedSwitch onClick={changeShipping} titleBefore="Shipping"/>
           </Box>
-          <Box my={1} px={2} css={{ display: 'block', minWidth: '200px' }}>
+          <Box my={1} px={2} css={{display: 'block', minWidth: '200px'}}>
             <AnimatedSwitch
               onClick={changeBanner}
               titleBefore={props.functionBanners}
             />
           </Box>
-          <Box my={1} px={2} css={{ display: 'block', minWidth: '200px' }}>
+          <Box my={1} px={2} css={{display: 'block', minWidth: '200px'}}>
             <AnimatedSwitch
               onClick={changeChat}
               titleBefore={props.functionChat}
             />
           </Box>
-          <Box px={2} css={{ display: 'none' }}>
+          <Box px={2} css={{display: 'none'}}>
             <AnimatedSwitch
               onClick={changeDistribute}
               titleBefore="Distribute"
             />
           </Box>
         </Flex>
-        <Box px={4} css={{ width: '100%' }}>
+        <Box px={4} css={{width: '100%'}}>
           <DeviceFrame>
             <EditorWrap
               windowText={
@@ -353,7 +356,7 @@ export default function TestZone(props) {
                       }}
                     >
                       <BsChatSquareDots
-                        sx={{ fontSize: '2rem', color: 'white' }}
+                        sx={{fontSize: '2rem', color: 'white'}}
                       />
                     </Flex>
                   )}
@@ -361,9 +364,9 @@ export default function TestZone(props) {
                     px={3}
                     py={2}
                     bg={theme ? 'dark' : 'black'}
-                    css={{ justifyContent: 'space-between' }}
+                    css={{justifyContent: 'space-between'}}
                   >
-                    <Flex css={{ width: '100%' }}>
+                    <Flex css={{width: '100%'}}>
                       <div
                         sx={{
                           width: '16%',
@@ -402,20 +405,20 @@ export default function TestZone(props) {
                   >
                     {personalize && (
                       <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
+                        initial={{opacity: 0}}
+                        animate={{opacity: 1}}
+                        exit={{opacity: 0}}
                       >
                         <Image
                           src={RSlogo}
                           alt="Merchants"
-                          sx={{ height: 'auto', py: 3, px: 2 }}
+                          sx={{height: 'auto', py: 3, px: 2}}
                         />
                       </motion.div>
                     )}
                     <Box
                       p={3}
-                      sx={{ width: '100%', display: ['none', null, 'block'] }}
+                      sx={{width: '100%', display: ['none', null, 'block']}}
                     >
                       <Flex>
                         <Flex
@@ -430,13 +433,13 @@ export default function TestZone(props) {
                             height: '100%',
                           }}
                         >
-                          <BiCheckShield />
+                          <BiCheckShield/>
                         </Flex>
                         {search && (
                           <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
+                            initial={{opacity: 0}}
+                            animate={{opacity: 1}}
+                            exit={{opacity: 0}}
                             sx={{
                               width: '100%',
                             }}
@@ -462,23 +465,23 @@ export default function TestZone(props) {
 
                     {wishlist && (
                       <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        sx={{ color: 'white', px: 2 }}
+                        initial={{opacity: 0}}
+                        animate={{opacity: 1}}
+                        exit={{opacity: 0}}
+                        sx={{color: 'white', px: 2}}
                       >
-                        <FiHeart />
+                        <FiHeart/>
                       </motion.div>
                     )}
                     <Text px={2} color="white">
-                      <FiShoppingCart />
+                      <FiShoppingCart/>
                     </Text>
                   </Flex>
                   {search && (
                     <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
+                      initial={{opacity: 0}}
+                      animate={{opacity: 1}}
+                      exit={{opacity: 0}}
                       sx={{
                         width: '100%',
                         py: 1,
@@ -491,7 +494,7 @@ export default function TestZone(props) {
                         py={1}
                         my={2}
                         bg="white"
-                        sx={{ borderColor: 'white' }}
+                        sx={{borderColor: 'white'}}
                       />
                     </motion.div>
                   )}
@@ -508,9 +511,9 @@ export default function TestZone(props) {
                   >
                     {personalize && (
                       <motion.ul
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
+                        initial={{opacity: 0}}
+                        animate={{opacity: 1}}
+                        exit={{opacity: 0}}
                         sx={{
                           display: 'flex',
                           fontWeight: '600',
@@ -520,26 +523,26 @@ export default function TestZone(props) {
                       >
                         {props.items &&
                           props.items.map(item => (
-                            <li sx={{ pr: 3 }} key={item._key}>
+                            <li sx={{pr: 3}} key={item._key}>
                               {item.title}
                             </li>
                           ))}
                         {!props.items && (
                           <React.Fragment>
                             <li>Home</li>
-                            <li sx={{ px: 2 }}>Products</li>
-                            <li sx={{ px: 2 }}>Blog</li>
+                            <li sx={{px: 2}}>Products</li>
+                            <li sx={{px: 2}}>Blog</li>
                           </React.Fragment>
                         )}
                       </motion.ul>
                     )}
                     {payments && (
                       <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
+                        initial={{opacity: 0}}
+                        animate={{opacity: 1}}
+                        exit={{opacity: 0}}
                       >
-                        <Flex css={{ justifySelf: 'end' }}>
+                        <Flex css={{justifySelf: 'end'}}>
                           <Image
                             src={Klarna}
                             alt="Merchants"
@@ -571,12 +574,12 @@ export default function TestZone(props) {
 
                 {!personalize && (
                   <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+                    initial={{opacity: 0}}
+                    animate={{opacity: 1}}
+                    exit={{opacity: 0}}
                   >
-                    <Flex p={3} css={{ justifyContent: 'space-between' }}>
-                      <Box px={2} sx={{ width: '100%' }}>
+                    <Flex p={3} css={{justifyContent: 'space-between'}}>
+                      <Box px={2} sx={{width: '100%'}}>
                         <Box
                           variant={theme ? 'box.card' : ''}
                           sx={{
@@ -586,7 +589,7 @@ export default function TestZone(props) {
                           }}
                         />
                       </Box>
-                      <Box px={2} sx={{ width: '100%' }}>
+                      <Box px={2} sx={{width: '100%'}}>
                         <Box
                           variant={theme ? 'box.card' : ''}
                           sx={{
@@ -602,12 +605,12 @@ export default function TestZone(props) {
 
                 {banner && (
                   <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+                    initial={{opacity: 0}}
+                    animate={{opacity: 1}}
+                    exit={{opacity: 0}}
                   >
-                    <Flex p={3} css={{ justifyContent: 'space-between' }}>
-                      <Box px={2} sx={{ width: '100%' }}>
+                    <Flex p={3} css={{justifyContent: 'space-between'}}>
+                      <Box px={2} sx={{width: '100%'}}>
                         <Image
                           src={BannerFirst}
                           alt="Merchants"
@@ -619,7 +622,7 @@ export default function TestZone(props) {
                           }}
                         />
                       </Box>
-                      <Box px={2} sx={{ width: '100%' }}>
+                      <Box px={2} sx={{width: '100%'}}>
                         <Image
                           src={BannerSecond}
                           alt="Merchants"
@@ -667,10 +670,10 @@ export default function TestZone(props) {
                 )}
                 {shipping && (
                   <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    css={{ display: 'flex' }}
+                    initial={{opacity: 0}}
+                    animate={{opacity: 1}}
+                    exit={{opacity: 0}}
+                    css={{display: 'flex'}}
                   >
                     <Image
                       src={dhl}

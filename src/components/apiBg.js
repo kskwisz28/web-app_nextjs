@@ -1,10 +1,10 @@
-import MatrixCard from 'matrix-card'
 
 
 import { jsx, Box, Heading, Text, Flex } from 'theme-ui'
 import InfoSection from '../components/infoWithImage'
 
 export default function App(props) {
+  // TODO: Find support for MatrixCard
     return (
         <Box
             sx={{

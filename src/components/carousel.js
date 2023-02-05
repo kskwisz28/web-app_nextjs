@@ -1,8 +1,8 @@
 import React from 'react'
-import { GatsbyImage } from 'gatsby-plugin-image'
-import { useKeenSlider } from 'keen-slider/react'
+import {useKeenSlider} from 'keen-slider/react'
 
-import { Image, Box, jsx } from 'theme-ui'
+import {Box, jsx} from 'theme-ui'
+import Image from 'next/image'
 
 import EditorWrap from './editorWrap'
 import styled from '@emotion/styled'
@@ -26,22 +26,30 @@ const Carousel = props => {
   const [pause, setPause] = React.useState(false)
   const timer = React.useRef()
 
-  const [sliderRef, slider] = useKeenSlider({
+  const [sliderRef, instanceRef] = useKeenSlider({
     afterChange(s) {
       setCurrentSlide(s.details().relativeSlide)
     },
-    slidesPerView: props.slidesMobile ? props.slidesMobile : 1,
+    slides: {
+      perView: props.slidesMobile ? props.slidesMobile : 1,
+      spacing: 50,
+    },
     breakpoints: {
       '(min-width: 735px) and (max-width: 1070px)': {
-        slidesPerView: props.slidesTablet ? props.slidesTablet : 1,
+        slides: {
+          perView: props.slidesTablet ? props.slidesTablet : 1,
+          spacing: 50,
+        }
       },
       '(min-width: 1070px)': {
-        slidesPerView: props.slidesDesktop ? props.slidesDesktop : 1,
+        slides: {
+          perView: props.slidesDesktop ? props.slidesDesktop : 1,
+          spacing: 50,
+        },
       },
     },
     initial: 0,
     mode: 'free',
-    spacing: 50,
     loop: true,
     dragStart: () => {
       setPause(true)
@@ -52,24 +60,26 @@ const Carousel = props => {
   })
 
   React.useEffect(() => {
-    sliderRef.current.addEventListener('mouseover', () => {
-      setPause(true)
-    })
-    sliderRef.current.addEventListener('mouseout', () => {
-      setPause(false)
-    })
+    if (sliderRef && sliderRef.current) {
+      sliderRef.current.addEventListener('mouseover', () => {
+        setPause(true)
+      })
+      sliderRef.current.addEventListener('mouseout', () => {
+        setPause(false)
+      })
+    }
   }, [sliderRef])
 
   React.useEffect(() => {
     timer.current = setInterval(() => {
-      if (!pause && slider) {
-        slider.next()
+      if (!pause && instanceRef.current && instanceRef.current.slides.length > 0) {
+        instanceRef.current.next()
       }
     }, 2500)
     return () => {
       clearInterval(timer.current)
     }
-  }, [pause, slider])
+  }, [pause, instanceRef])
 
   return (
     <Box
@@ -118,11 +128,12 @@ const Carousel = props => {
                 }}
               >
                 <EditorWrap windowText={src.windowText}>
-                  <GatsbyImage
-                    image={src.img}
-                    css={{ width: '100%' }}
+                  <Image
+                    src={src.img}
+                    style={{width: '100%'}}
                     alt={src.alt}
-                  ></GatsbyImage>
+                    {...src.props}
+                  ></Image>
                 </EditorWrap>
               </Box>
             ))}
