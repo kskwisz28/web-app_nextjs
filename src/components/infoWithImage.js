@@ -4,20 +4,35 @@ import SingleImage from './singleImage'
 import InfoText from './infoText'
 
 
-import { jsx, Flex, Box, Button, Image } from 'theme-ui'
+import {Flex, Box, Button} from 'theme-ui'
 import Container from './container'
+import Image from 'next/image'
 
 import styled from '@emotion/styled'
 import Link from "next/link";
+import imageUrlBuilder from "@sanity/image-url";
+import {useMemo} from "react";
 
 const Info = styled.div`
   .infoImg {
     box-shadow: ${p =>
-      p.shadowImage ? '0px 32px 32px 0px rgba(0,0,0,.05)' : ''};
+  p.shadowImage ? '0px 32px 32px 0px rgba(0,0,0,.05)' : ''};
   }
 `
 
 export default function pInfoSection(props) {
+  const gatsbyImages = useMemo(() => {
+    if (!props.gatsbyImage) {
+      return []
+    }
+    console.log(props.gatsbyImage)
+    const builder = imageUrlBuilder({
+      projectId: '7hja5omh',
+      dataset: 'production',
+    })
+    return props.gatsbyImage.map(image => builder.image(image.asset).url())
+  }, [props.gatsbyImage])
+
   return (
     <Info shadowImage={props.shadowImage}>
       <Box
@@ -38,9 +53,9 @@ export default function pInfoSection(props) {
             }}
           >
             {props.editorWrap && (
-              <Box sx={{ width: ['100%', null, '50%'], px: 3 }}>
+              <Box sx={{width: ['100%', null, '50%'], px: 3}}>
                 <EditorWrap
-                  css={{ width: '100%' }}
+                  css={{width: '100%'}}
                   windowText={props.windowText}
                 >
                   <SingleImage
@@ -69,9 +84,9 @@ export default function pInfoSection(props) {
             )}
 
             {props.illustration && (
-              <Flex sx={{ width: ['100%', null, '50%'] }}>
+              <Flex sx={{width: ['100%', null, '50%']}}>
                 <Image
-                  sx={{ width: '100%' }}
+                  sx={{width: '100%'}}
                   src={props.illustration}
                   className="infoImg"
                 ></Image>
@@ -84,26 +99,26 @@ export default function pInfoSection(props) {
                   px: props.noPadding ? 0 : 3,
                 }}
               >
-                <div className="infoImg" css={{ width: '100%' }}>
+                <div className="infoImg" css={{width: '100%'}}>
                   <EditorWrap
-                    css={{ width: '100%' }}
+                    css={{width: '100%'}}
                     windowText={props.windowText}
                   >
                     <Image
-                      sx={{ width: '100%' }}
+                      sx={{width: '100%'}}
                       src={props.illustrationEditor}
                     ></Image>
                   </EditorWrap>
                 </div>
               </Flex>
             )}
-            {props.gatsbyImage && (
-              <Flex sx={{ width: ['100%', null, '50%'] }}>
-                <GatsbyImage
-                  image={props.gatsbyImage}
-                  css={{ width: '100%' }}
+            {gatsbyImages.length > 0 && (
+              <Flex sx={{width: ['100%', null, '50%']}}>
+                <Image
+                  src={gatsbyImages}
+                  css={{width: '100%'}}
                   className="infoImg"
-                  alt={props.gasbyImageAlt} />
+                  alt={props.gasbyImageAlt}/>
               </Flex>
             )}
             <Flex

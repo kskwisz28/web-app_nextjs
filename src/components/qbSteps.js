@@ -1,9 +1,9 @@
-
-import { jsx, Image, Box, Flex, Divider } from 'theme-ui'
+import {Box, Flex, Divider} from 'theme-ui'
 import InfoText from '../components/infoText'
 import Container from '../components/container'
 import Base from '../images/qb-base-3.svg'
 import InfoSection from '../components/infoWithImage'
+import Image from 'next/image'
 
 export default function QBSteps(props) {
   return (
@@ -23,7 +23,7 @@ export default function QBSteps(props) {
       }}
     >
       <Container noPadding>
-        <Box css={{ position: 'relative' }} p={4}>
+        <Box css={{position: 'relative'}} p={4}>
           <InfoText
             {...props.info}
             centered={props.info && props.info.centered}
@@ -35,12 +35,12 @@ export default function QBSteps(props) {
             width: [null, null, null, null, null, '50%', '70%'],
           }}
         >
-          <Box css={{ width: '100%' }}>
+          <Box css={{width: '100%'}}>
             <InfoText
               center
               heading="h3"
-              colorDesc={{ hex: 'white' }}
-              colorHeadline={{ hex: 'white' }}
+              colorDesc={{hex: 'white'}}
+              colorHeadline={{hex: 'white'}}
             />
             <Flex
               sx={{
@@ -50,16 +50,16 @@ export default function QBSteps(props) {
               }}
             ></Flex>
           </Box>
-          <Box sx={{ alignItems: 'center', position: 'relative' }}>
+          <Box sx={{alignItems: 'center', position: 'relative'}}>
             <Image
               p={[0, null, null, null, null, 2, 3, 4]}
-              css={{ width: '100%', position: 'relative', zIndex: 5 }}
+              css={{width: '100%', position: 'relative', zIndex: 5}}
               src={Base}
               alt="Quickbutik base image"
             />
           </Box>
         </Box>
-        <Box css={{ position: 'relative' }}>
+        <Box css={{position: 'relative'}}>
           <Divider
             mt={-6}
             mx={'auto'}
