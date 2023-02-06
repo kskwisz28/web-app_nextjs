@@ -9,12 +9,12 @@ import {createContext} from "react";
 export const AlternateLinksContext = createContext([])
 
 function App({Component, pageProps}) {
-  const alternateLinks = pageProps.page.alternativePages
+  const alternateLinks = pageProps.page.alternativePages ? pageProps.page.alternativePages
     .filter(d => d?.slug?.current && d?.language)
     .map(link => ({
       language: link.language,
       path: `/${link.slug.current}`
-    }))
+    })) : []
 
   return (
     <AlternateLinksContext.Provider

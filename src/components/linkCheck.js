@@ -1,7 +1,7 @@
 import React from 'react'
 import LinkCustom from './linkCustom'
 import PropTypes from 'prop-types'
-import { Themed } from 'theme-ui'
+import {Themed} from '@theme-ui/mdx'
 
 const LinkCheck = props => {
   if (

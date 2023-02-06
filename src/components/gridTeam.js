@@ -1,96 +1,50 @@
-import React from 'react'
-import { Box, Flex } from 'theme-ui'
+import React, {useMemo} from 'react'
+import {Box, Flex} from 'theme-ui'
 import Container from './container'
 import InfoText from './infoText'
-import { FaHeart } from 'react-icons/fa'
+import {FaHeart} from 'react-icons/fa'
+
+// TODO: use non legacy image component
+import Image from 'next/legacy/image'
+
+import Adrian from '@/images/Adrian.png'
+import Daniel from '@/images/Daniel.png'
+import Jonna from '@/images/Jonna.png'
+import Adam from '@/images/Adam.png'
+import Azddin from '@/images/Azddin.png'
+import Moris from '@/images/qb-moris.png'
+import Victor from '@/images/qb-victor.png'
+import Linnea from '@/images/qb-linnea.png'
+import Oliver from '@/images/Oliver.png'
+import Peter from '@/images/Peter.png'
+import Ron from '@/images/Ron.png'
+import Simon from '@/images/Simon.png'
 
 export default function Employees(props) {
-  const data = useStaticQuery(graphql`
-    {
-      Adrian: file(relativePath: { eq: "Adrian.png" }) {
-        childImageSharp {
-          gatsbyImageData(width: 400, quality: 100, layout: CONSTRAINED)
-        }
-      }
-      Daniel: file(relativePath: { eq: "Daniel.png" }) {
-        childImageSharp {
-          gatsbyImageData(width: 400, quality: 100, layout: CONSTRAINED)
-        }
-      }
-      Jonna: file(relativePath: { eq: "Jonna.png" }) {
-        childImageSharp {
-          gatsbyImageData(width: 400, quality: 100, layout: CONSTRAINED)
-        }
-      }
-      Adam: file(relativePath: { eq: "Adam.png" }) {
-        childImageSharp {
-          gatsbyImageData(width: 400, quality: 100, layout: CONSTRAINED)
-        }
-      }
-      Azddin: file(relativePath: { eq: "Azddin.png" }) {
-        childImageSharp {
-          gatsbyImageData(width: 400, quality: 100, layout: CONSTRAINED)
-        }
-      }
-      Moris: file(relativePath: { eq: "qb-moris.png" }) {
-        childImageSharp {
-          gatsbyImageData(width: 400, quality: 100, layout: CONSTRAINED)
-        }
-      }
-      Victor: file(relativePath: { eq: "qb-victor.png" }) {
-        childImageSharp {
-          gatsbyImageData(width: 400, quality: 100, layout: CONSTRAINED)
-        }
-      }
-      Linnea: file(relativePath: { eq: "qb-linnea.png" }) {
-        childImageSharp {
-          gatsbyImageData(width: 400, quality: 100, layout: CONSTRAINED)
-        }
-      }
-      Oliver: file(relativePath: { eq: "Oliver.png" }) {
-        childImageSharp {
-          gatsbyImageData(width: 400, height: 400, layout: CONSTRAINED)
-        }
-      }
-      Peter: file(relativePath: { eq: "Peter.png" }) {
-        childImageSharp {
-          gatsbyImageData(width: 400, height: 400, layout: CONSTRAINED)
-        }
-      }
-      Ron: file(relativePath: { eq: "Ron.png" }) {
-        childImageSharp {
-          gatsbyImageData(width: 400, height: 400, layout: CONSTRAINED)
-        }
-      }
-      Simon: file(relativePath: { eq: "Simon.png" }) {
-        childImageSharp {
-          gatsbyImageData(width: 400, height: 400, layout: CONSTRAINED)
-        }
-      }
-    }
-  `)
+  const shuffledEmployees = useMemo(() => {
+      const Employees = [
+        Adrian,
+        Daniel,
+        Jonna,
+        Adam,
+        Azddin,
+        Moris,
+        Oliver,
+        Peter,
+        Ron,
+        Simon,
+        Linnea,
+        Victor,
+      ]
 
-  const Employees = [
-    data.Adrian.childImageSharp.gatsbyImageData,
-    data.Daniel.childImageSharp.gatsbyImageData,
-    data.Jonna.childImageSharp.gatsbyImageData,
-    data.Adam.childImageSharp.gatsbyImageData,
-    data.Azddin.childImageSharp.gatsbyImageData,
-    data.Moris.childImageSharp.gatsbyImageData,
-    data.Oliver.childImageSharp.gatsbyImageData,
-    data.Peter.childImageSharp.gatsbyImageData,
-    data.Ron.childImageSharp.gatsbyImageData,
-    data.Simon.childImageSharp.gatsbyImageData,
-    data.Linnea.childImageSharp.gatsbyImageData,
-    data.Victor.childImageSharp.gatsbyImageData,
-  ]
-
-  let shuffledEmployees = Employees.map(a => ({
-    sort: Math.random(),
-    value: a,
-  }))
-    .sort((a, b) => a.sort - b.sort)
-    .map(a => a.value)
+      return Employees.map(a => ({
+        sort: Math.random(),
+        value: a,
+      }))
+        .sort((a, b) => a.sort - b.sort)
+        .map(a => a.value)
+    },
+    [])
 
   return (
     <Box
@@ -102,9 +56,9 @@ export default function Employees(props) {
       }}
     >
       <Container>
-        <Flex p={1} sx={{ alignItems: 'flex-end', flexWrap: 'wrap' }}>
-          <Box sx={{ width: ['100%', null, '70%'] }}>
-            <InfoText topIcon={<FaHeart sx={{ pr: 1 }} />} {...props.info}>
+        <Flex p={1} sx={{alignItems: 'flex-end', flexWrap: 'wrap'}}>
+          <Box sx={{width: ['100%', null, '70%']}}>
+            <InfoText topIcon={<FaHeart sx={{pr: 1}}/>} {...props.info}>
               {props.children}
             </InfoText>
           </Box>
@@ -115,49 +69,49 @@ export default function Employees(props) {
               width: ['100%', null, '30%'],
             }}
           >
-            <Box p={1} sx={{ width: '40%' }}>
-              <GatsbyImage
-                image={shuffledEmployees[0]}
+            <Box p={1} sx={{flex: '1 1 40%'}}>
+              <Image
+                src={shuffledEmployees[0]}
                 alt="Team member Quickbutik"
-                css={{ borderRadius: '8px' }}
+                css={{borderRadius: '8px'}}
               />
             </Box>
-            <Box p={1} sx={{ width: '60%' }}>
-              <GatsbyImage
-                image={shuffledEmployees[1]}
+            <Box p={1} sx={{flex: '1 1 60%'}}>
+              <Image
+                src={shuffledEmployees[1]}
                 alt="Team member Quickbutik"
-                css={{ borderRadius: '8px' }}
+                css={{borderRadius: '8px'}}
               />
             </Box>
           </Flex>
         </Flex>
-        <Flex pt={3} sx={{ alignItems: 'flex-start', flexWrap: 'wrap' }}>
-          <Box p={1} sx={{ width: '22%' }}>
-            <GatsbyImage
-              image={shuffledEmployees[2]}
+        <Flex pt={3} sx={{alignItems: 'flex-start', flexWrap: 'wrap'}}>
+          <Box p={1} sx={{flex: '1 1 22%'}}>
+            <Image
+              src={shuffledEmployees[2]}
               alt="Team member Quickbutik"
-              css={{ borderRadius: '8px' }}
+              css={{borderRadius: '8px'}}
             />
           </Box>
-          <Box p={1} sx={{ width: '28%' }}>
-            <GatsbyImage
-              image={shuffledEmployees[3]}
+          <Box p={1} sx={{flex: '1 1 28%'}}>
+            <Image
+              src={shuffledEmployees[3]}
               alt="Team member Quickbutik"
-              css={{ borderRadius: '8px' }}
+              css={{borderRadius: '8px'}}
             />
           </Box>
-          <Box p={1} sx={{ width: '28%' }}>
-            <GatsbyImage
-              image={shuffledEmployees[4]}
+          <Box p={1} sx={{flex: '1 1 28%'}}>
+            <Image
+              src={shuffledEmployees[4]}
               alt="Team member Quickbutik"
-              css={{ borderRadius: '8px' }}
+              css={{borderRadius: '8px'}}
             />
           </Box>
-          <Box p={1} sx={{ width: '22%' }}>
-            <GatsbyImage
-              image={shuffledEmployees[5]}
+          <Box p={1} sx={{flex: '1 1 22%'}}>
+            <Image
+              src={shuffledEmployees[5]}
               alt="Team member Quickbutik"
-              css={{ borderRadius: '8px' }}
+              css={{borderRadius: '8px'}}
             />
           </Box>
         </Flex>

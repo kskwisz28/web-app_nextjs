@@ -48,7 +48,7 @@ export default function PageDefault(props) {
           }
 
           <BlockContent
-            blocks={props?.page?.bodyRaw.slice(0, 4)}
+            blocks={props?.page?.bodyRaw}
             serializers={serializer}
             hardBreak
           />
@@ -139,8 +139,9 @@ export async function getStaticProps({params, locale}) {
   return {
     props: {
       ...(await serverSideTranslations(locale)),
-      ...data,
-      page: data.allPage[0]
+      page: data.allPage[0],
+      allNavigationMenu: data.allNavigationMenu,
+      allSiteSettings: data.allSiteSettings,
     },
   }
 }
