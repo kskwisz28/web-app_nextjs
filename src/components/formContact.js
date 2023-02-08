@@ -1,12 +1,12 @@
-import React, { useState, useRef } from 'react'
-import { useForm } from 'react-hook-form'
+import React, {useState, useRef} from 'react'
+import {useForm} from 'react-hook-form'
 import axios from 'axios'
-import { Box, Input, Textarea, Button, Text } from 'theme-ui'
-import { useTranslation } from 'react-i18next'
+import {Box, Input, Textarea, Button, Text} from 'theme-ui'
+import {useTranslation} from 'react-i18next'
 import ReCAPTCHA from 'react-google-recaptcha'
 
 export default function FormContact(props) {
-  const { t, i18n } = useTranslation('common')
+  const {t, i18n} = useTranslation('common')
   const recaptchaRef = useRef()
   const [formData, setFormData] = useState({})
   const [qbResponseErrors, setqbResponseErrors] = useState('')
@@ -20,7 +20,7 @@ export default function FormContact(props) {
     })
   }
 
-  const { register, handleSubmit, errors } = useForm()
+  const {register, handleSubmit, formState: {errors}} = useForm()
 
   const onSubmit = data => {
     sendEmail()
@@ -49,7 +49,7 @@ export default function FormContact(props) {
   }
 
   return (
-    <Box py={3} css={{ maxWidth: '500px', minWidth: '50%' }}>
+    <Box py={3} css={{maxWidth: '500px', minWidth: '50%'}}>
       {qbResponseErrors && (
         <Text
           color="white"
@@ -57,7 +57,7 @@ export default function FormContact(props) {
           my={2}
           py={2}
           bg="red"
-          css={{ borderRadius: '4px', textAlign: 'center' }}
+          css={{borderRadius: '4px', textAlign: 'center'}}
         >
           {qbResponseErrors}
         </Text>
@@ -69,7 +69,7 @@ export default function FormContact(props) {
           px={2}
           py={2}
           bg="green"
-          css={{ borderRadius: '4px', textAlign: 'center' }}
+          css={{borderRadius: '4px', textAlign: 'center'}}
         >
           {qbResponseSuccess}
         </Text>
@@ -93,12 +93,12 @@ export default function FormContact(props) {
             },
           }}
           name="name"
-          ref={register({ required: true })}
+          {...register('name', {required: true})}
           onChange={updateInput}
           value={formData.name || ''}
         />
         {errors.example && <small>{t('common:specifyName')}</small>}
-        <br />
+        <br/>
         <Input
           placeholder={t('common:email')}
           sx={{
@@ -117,12 +117,12 @@ export default function FormContact(props) {
             },
           }}
           name="email"
-          ref={register({ required: true })}
+          {...register('email', {required: true})}
           onChange={updateInput}
           value={formData.email || ''}
         />
         {errors.example && <small>{t('common:specifyEmail')}</small>}
-        <br />
+        <br/>
         <Textarea
           placeholder={t('common:message')}
           sx={{
@@ -141,7 +141,7 @@ export default function FormContact(props) {
             },
           }}
           name="message"
-          ref={register({ required: true })}
+          {...register('message', {required: true})}
           onChange={updateInput}
           value={formData.message || ''}
         />
@@ -158,7 +158,7 @@ export default function FormContact(props) {
           my={3}
           // onClick={formValidation}
           variant="buttons.primary"
-          sx={{ maxWidth: '240px', width: '100%', display: 'block' }}
+          sx={{maxWidth: '240px', width: '100%', display: 'block'}}
         >
           {props.buttonText}
         </Button>

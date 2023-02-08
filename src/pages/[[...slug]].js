@@ -7,6 +7,7 @@ import serializer from '../helpers/serializers'
 import Container from '../components/container'
 import PageBuilder from '../components/pageBuilder'
 import BlockContent from '@sanity/block-content-to-react'
+import {isHomepage} from "@/helpers/general";
 
 export default function PageDefault(props) {
   console.log('main', props)
@@ -31,8 +32,8 @@ export default function PageDefault(props) {
               variant: 'styles',
             }}
           >
-            {_rawContent &&
-              <PageBuilder content={content} _rawContent={_rawContent}/>
+            {content &&
+              <PageBuilder content={content}/>
             }
             <BlockContent
               blocks={props?.page?.bodyRaw}
@@ -43,15 +44,17 @@ export default function PageDefault(props) {
         </Container>
       ) : (
         <>
-          {_rawContent &&
-            <PageBuilder content={content} _rawContent={_rawContent}/>
+          {content &&
+            <PageBuilder content={content}/>
           }
 
-          <BlockContent
-            blocks={props?.page?.bodyRaw}
-            serializers={serializer}
-            hardBreak
-          />
+          {props?.page?.bodyRaw && (
+            <BlockContent
+              blocks={props?.page?.bodyRaw}
+              serializers={serializer}
+              hardBreak
+            />
+          )}
         </>
       )}
     </Layout>
@@ -79,12 +82,20 @@ export async function getStaticPaths() {
   `,
   });
 
-  const paths = data.allPage.filter(page => page.slug.current).map(page => ({
-    params: {
-      slug: page.slug.current,
-    },
-    locale: page.language
-  }))
+  const paths = data.allPage.filter(page => page.slug.current).map(page => {
+    let path = {
+      locale: page.language,
+      params: {
+        slug: []
+      }
+    }
+    if (!isHomepage(page.slug.current)) {
+      path.params = {
+        slug: [page.slug.current]
+      }
+    }
+    return path
+  })
   return {
     paths,
     fallback: false,
@@ -92,6 +103,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({params, locale}) {
+  const slug = params.slug ? params.slug[0] : `startpage-${locale}`
   const {data} = await client.query({
     query: gql`
     ${LOCALIZATION_FRAGMENT}
@@ -132,7 +144,7 @@ export async function getStaticProps({params, locale}) {
     }
   `,
     variables: {
-      page: params.slug,
+      page: slug,
       language: locale
     }
   });

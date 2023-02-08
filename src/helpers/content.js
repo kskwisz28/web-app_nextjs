@@ -36,6 +36,66 @@ fragment SanityImage on Image {
  }
 }
 
+fragment ImagePaletteSwatch on SanityImagePaletteSwatch {
+ background
+ foreground
+ population
+ title
+}
+
+fragment ImagePalette on SanityImagePalette {
+ darkMuted {...ImagePaletteSwatch}
+ darkVibrant {...ImagePaletteSwatch}
+ dominant {...ImagePaletteSwatch}
+ lightMuted {...ImagePaletteSwatch}
+ lightVibrant {...ImagePaletteSwatch}
+ muted {...ImagePaletteSwatch}
+ vibrant {...ImagePaletteSwatch}
+}
+
+fragment ImageMetadata on SanityImageMetadata {
+ blurHash
+ dimensions {aspectRatio height width}
+ hasAlpha
+ isOpaque
+ location {alt lat lng}
+ lqip
+ palette {...ImagePalette}
+}
+
+fragment SanityMainImage on MainImage {
+ asset {
+  originalFilename
+  label
+  title
+  description
+  url
+  altText
+  assetId
+  extension
+  label
+  metadata {...ImageMetadata}
+  mimeType
+  path
+  sha1hash
+  size
+  source {name id url}
+  uploadId
+ }
+ crop {
+  bottom
+  left
+  right
+  top
+ }
+ hotspot {
+  height
+  width
+  x
+  y
+ }
+}
+
 fragment SanityLocaleImage on LocaleImage {
  sv {
   ...SanityImage
@@ -54,6 +114,7 @@ fragment SanityLocaleImage on LocaleImage {
 
 export const NAVIGATION_FRAGMENT = gql`
 fragment SanityLocaleMenu on MenuItem {
+ _key
  menuItemExternalLink
  menuItemName
  menuItemSlug
@@ -119,6 +180,27 @@ fragment SanitySiteSettings on SiteSettings {
 `
 
 export const CONTENT_FRAGMENT = gql`
+fragment SanityPadding on Padding {top bottom}
+fragment SanityStartTabItems on StartTabItems {
+ _key
+ blockContentRaw
+ button1OpenNewTab
+ button1Text
+ button1Url
+ heading
+ headingSize
+ heroColors {...SanityHeroColors}
+ image {noLazyLoad padding {...SanityPadding} image {...SanityMainImage} }
+ padding {...SanityPadding}
+ reverse
+ showButton
+ tabName
+ transparentImage
+}
+fragment SanityHeroColors on HeroColors {
+ theme {title value}
+}
+
   fragment Content on Page {
  content {
   ... on StartHero {
@@ -131,13 +213,32 @@ export const CONTENT_FRAGMENT = gql`
    heading
    headingSize
    blockContentRaw
+   button1Arrow
+   button1OpenNewTab
+   button1Text
+   button1Url
+   button2Arrow
+   button2OpenNewTab
+   button2Text
+   button2Url
+   center
+   heroColors {
+    ...SanityHeroColors
+   }
+   imageFullWidth
+   imageText
+   reverse
+   subtitle
+   transparentImage
+   videoAutoplay
+   videoControls
+   videoLoop
+   videoMuted
+   videoUrl
    image {
-    image {
-     alt
-     asset {
-      url
-     }
-    }
+    image {...SanityMainImage}
+    noLazyLoad
+    padding {...SanityPadding}
    }
   }
   ... on TextWithImage {
@@ -151,6 +252,17 @@ export const CONTENT_FRAGMENT = gql`
   ... on CallToActionBox {
    _key
    _type
+  blockContentRaw
+  button1OpenNewTab
+  button1Text
+  button1Url
+  button1Text
+  button2OpenNewTab
+  button2Text
+  button2Url
+  heading
+  headingSize
+  heroColors {theme {title value}}
   }
   ... on StatsGrid {
    _key
@@ -183,6 +295,8 @@ export const CONTENT_FRAGMENT = gql`
   ... on StartTab {
    _key
    _type
+  padding {...SanityPadding}
+  tab {...SanityStartTabItems}
   }
   ... on SliderGeneral {
    _key

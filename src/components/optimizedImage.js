@@ -1,6 +1,7 @@
 import React from 'react'
 
-import {Image} from 'theme-ui'
+import Image from 'next/legacy/image'
+import imageUrlBuilder from "@sanity/image-url";
 
 const maybeImage = (
   image,
@@ -15,17 +16,22 @@ const maybeImage = (
   let img = null
   // TODO: Make images work
   if (image && image.asset) {
-    const gatsbyImageData = getGatsbyImageData(
-      image.asset,
-      {},
-      clientConfig.sanity
-    )
+    let url = ''
+    if (!image.asset.url) {
+      const builder = imageUrlBuilder({
+        projectId: '7hja5omh',
+        dataset: 'production',
+      })
+      url = builder.image(image.asset).url()
+    } else {
+      url = image.asset.url
+    }
     !noLazyLoad &&
     (img = (
       <React.Fragment>
         {image && image.asset && image.asset.extension === 'svg' ? (
           <Image
-            src={image?.asset?.url}
+            src={url}
             alt={image.alt}
             className={shadowImage ? 'infoImg' : ''}
             sx={{
@@ -38,21 +44,24 @@ const maybeImage = (
             }}
           />
         ) : (
-          <GatsbyImage
-            alt={image.alt}
-            image={gatsbyImageData}
-            className={shadowImage ? 'shadowImg' : ''}
-            imgStyle={{
-              objectFit: cover ? 'cover' : 'contain',
-            }}
-            sx={{
-              maxHeight: imgMaxHeight,
-              borderRadius: rounded,
-              width: '100%',
-              height: heightFull ? '100%' : '',
-              ...sx
-            }}
-          />
+          <div style={{position: 'relative', width: '100%', height: '300px'}}>
+            <Image
+              alt={image.alt}
+              src={url}
+              className={shadowImage ? 'shadowImg' : ''}
+              imgStyle={{
+                objectFit: cover ? 'cover' : 'contain',
+              }}
+              layout="fill"
+              sx={{
+                maxHeight: imgMaxHeight,
+                borderRadius: rounded,
+                width: '100%',
+                height: heightFull ? '100%' : '',
+                ...sx
+              }}
+            />
+          </div>
         )}
       </React.Fragment>
     ))

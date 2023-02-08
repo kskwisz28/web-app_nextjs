@@ -36,7 +36,7 @@ export default function flex({
   heroColors,
   heading,
   headingSize,
-  blockContent,
+  blockContentRaw,
   button1Text,
   button1Url,
   button1OpenNewTab,
@@ -44,6 +44,7 @@ export default function flex({
   button2Url,
   button2OpenNewTab,
 }) {
+  console.log('cta', heroColors)
   return (
     <Box
       sx={{
@@ -78,7 +79,7 @@ export default function flex({
           </Heading>
 
           <BlockContent
-            blocks={blockContent}
+            blocks={blockContentRaw}
             serializers={serializer}
             hardBreak
           />

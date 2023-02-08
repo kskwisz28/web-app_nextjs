@@ -15,7 +15,7 @@ export default function flex({
   imageFullWidth,
   heroColors,
   heading,
-  blockContent,
+  blockContentRaw,
   button1Text,
   button1Url,
   button2Text,
@@ -167,7 +167,7 @@ export default function flex({
           </Heading>
 
           <BlockContent
-            blocks={blockContent}
+            blocks={blockContentRaw}
             hardBreak
           />
 

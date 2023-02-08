@@ -17,7 +17,8 @@ import DeveloperTesting from '../components/developerTesting'
 import BlockContent from '@sanity/block-content-to-react'
 import serializer from '../helpers/serializers'
 
-import { jsx, Box, Styled } from 'theme-ui'
+import {Box} from 'theme-ui'
+import {Themed} from '@theme-ui/mdx'
 
 import LinkCheck from '../components/linkCheck'
 import IframeGeneral from '../components/iframeGeneral'
@@ -72,12 +73,12 @@ import OptimizedImage from '../components/optimizedImage'
 
 const serializers = {
   listItem: props => (
-    <li css={{ listStyleType: 'disc', listStylePosition: 'inside' }}>
+    <li css={{listStyleType: 'disc', listStylePosition: 'inside'}}>
       {props.children}
     </li>
   ),
   marks: {
-    link: ({ children, mark }) =>
+    link: ({children, mark}) =>
       mark.blank ? (
         <Styled.a href={mark.href} target="_blank" rel="noopener noreferrer">
           {children}
@@ -85,8 +86,8 @@ const serializers = {
       ) : (
         <LinkCheck to={mark.href}>{children}</LinkCheck>
       ),
-    highlight: ({ children }) => (
-      <Box p={2} bg="light300" css={{ borderRadius: '8px' }}>
+    highlight: ({children}) => (
+      <Box p={2} bg="light300" css={{borderRadius: '8px'}}>
         {children}
       </Box>
     ),
@@ -95,56 +96,56 @@ const serializers = {
     block(props) {
       switch (props.node.style) {
         case 'h1':
-          return <Styled.h1>{props.children}</Styled.h1>
+          return <Themed.h1>{props.children}</Themed.h1>
         case 'h2':
-          return <Styled.h2>{props.children}</Styled.h2>
+          return <Themed.h2>{props.children}</Themed.h2>
         case 'h3':
-          return <Styled.h3>{props.children}</Styled.h3>
+          return <Themed.h3>{props.children}</Themed.h3>
         case 'h4':
-          return <Styled.h4>{props.children}</Styled.h4>
+          return <Themed.h4>{props.children}</Themed.h4>
         case 'h5':
-          return <Styled.h5>{props.children}</Styled.h5>
+          return <Themed.h5>{props.children}</Themed.h5>
         case 'h6':
-          return <Styled.h6>{props.children}</Styled.h6>
+          return <Themed.h6>{props.children}</Themed.h6>
         case 'blockquote':
-          return <Styled.blockquote>{props.children}</Styled.blockquote>
+          return <Themed.blockquote>{props.children}</Themed.blockquote>
         case 'image':
           return <p>Works</p>
         default:
-          return <Styled.p>{props.children}</Styled.p>
+          return <Themed.p>{props.children}</Themed.p>
       }
     },
-    image: ({ node }) => {
-      return <OptimizedImage image={node} />
+    image: ({node}) => {
+      return <OptimizedImage image={node}/>
     },
-    youtube: ({ node }) => {
-      const { url } = node
+    youtube: ({node}) => {
+      const {url} = node
       const id = getYouTubeId(url)
-      return <YouTube videoId={id} containerClassName={'youtubeContainer'} />
+      return <YouTube videoId={id} containerClassName={'youtubeContainer'}/>
     },
-    accordion: ({ node }) => {
+    accordion: ({node}) => {
       return <Accordion {...node} />
     },
-    infoSection: ({ node }) => {
+    infoSection: ({node}) => {
       return <InfoSection {...node} />
     },
-    infoWithIcon: ({ node }) => {
+    infoWithIcon: ({node}) => {
       return <InfoWithIcon {...node} />
     },
-    boxedArea: ({ node }) => {
+    boxedArea: ({node}) => {
       return <BoxedArea {...node} />
     },
-    logoList: ({ node }) => {
+    logoList: ({node}) => {
       return <CarouselLogos {...node} />
     },
     // introInfo: ({ node }) => {
     //   return <IntroInfo {...node} />
     // },
-    button: ({ node }) => {
+    button: ({node}) => {
       return <Button {...node} />
     },
-    code: ({ node = {} }) => {
-      const { code, language } = node
+    code: ({node = {}}) => {
+      const {code, language} = node
       if (!code) {
         return null
       }
@@ -154,19 +155,19 @@ const serializers = {
         </SyntaxHighlighter>
       )
     },
-    testZone: ({ node }) => {
+    testZone: ({node}) => {
       return <TestZone {...node} />
     },
-    containedSize: ({ node }) => {
+    containedSize: ({node}) => {
       return <ContainedSize {...node} />
     },
-    developerTesting: ({ node }) => {
+    developerTesting: ({node}) => {
       return <DeveloperTesting {...node} />
     },
-    sliderShops: ({ node }) => {
+    sliderShops: ({node}) => {
       return <CarouselShops {...node} />
     },
-    infoText: ({ node }) => {
+    infoText: ({node}) => {
       return (
         <InfoText
           textVariant={node.textVariant}
@@ -175,7 +176,7 @@ const serializers = {
         />
       )
     },
-    singleImage: ({ node }) => {
+    singleImage: ({node}) => {
       return node.containedWidth ? (
         <Box
           sx={{
@@ -200,7 +201,7 @@ const serializers = {
         </Box>
       )
     },
-    illustration: ({ node }) => {
+    illustration: ({node}) => {
       return node.containedWidth ? (
         <Box
           sx={{
@@ -229,152 +230,152 @@ const serializers = {
         </Box>
       )
     },
-    backgroundApi: ({ node }) => {
+    backgroundApi: ({node}) => {
       return <ApiBg {...node} />
     },
-    customerStories: ({ node }) => {
+    customerStories: ({node}) => {
       return <CustomerStories {...node} />
     },
-    gridReference: ({ node }) => {
+    gridReference: ({node}) => {
       return <GridReference {...node} />
     },
-    reviews: ({ node }) => {
+    reviews: ({node}) => {
       return <Reviews {...node} />
     },
-    iframeGeneral: ({ node }) => {
+    iframeGeneral: ({node}) => {
       return <IframeGeneral {...node} />
     },
-    ctaBoxButtons: ({ node }) => {
+    ctaBoxButtons: ({node}) => {
       return <CTABoxButtons {...node} />
     },
-    socialIcons: ({ node }) => {
+    socialIcons: ({node}) => {
       return <SocialIcons {...node} />
     },
-    pricingPlan: ({ node }) => {
+    pricingPlan: ({node}) => {
       return <PricingPlans {...node} />
     },
-    featureList: ({ node }) => {
+    featureList: ({node}) => {
       return <FeatureList {...node} />
     },
-    migratePicker: ({ node }) => {
+    migratePicker: ({node}) => {
       return <MigratePicker {...node} />
     },
-    gridTeam: ({ node }) => {
+    gridTeam: ({node}) => {
       return <GridTeam {...node} />
     },
-    gridTeamFull: ({ node }) => {
+    gridTeamFull: ({node}) => {
       return <GridTeamFull {...node} />
     },
-    showcaseTemplate: ({ node }) => {
+    showcaseTemplate: ({node}) => {
       return <ShowcaseTemplate {...node} />
     },
-    landingIntro: ({ node }) => {
+    landingIntro: ({node}) => {
       return <LandingIntro {...node} />
     },
-    gradientSection: ({ node }) => {
+    gradientSection: ({node}) => {
       return <GradientSection {...node} />
     },
-    uiAdmin: ({ node }) => {
+    uiAdmin: ({node}) => {
       return <IntroDevice {...node} />
     },
-    showcaseIntegrations: ({ node }) => {
+    showcaseIntegrations: ({node}) => {
       return <ShowcaseIntegrations {...node} />
     },
-    infoSteps: ({ node }) => {
+    infoSteps: ({node}) => {
       return <QBSteps {...node} />
     },
-    formContact: ({ node }) => {
+    formContact: ({node}) => {
       return <FormContact {...node} />
     },
-    formReseller: ({ node }) => {
+    formReseller: ({node}) => {
       return <FormReseller {...node} />
     },
     // a: ({ node }) => {
     //   return <CarouselShops {...node} />
     // },
-    linkWithArrow: ({ node }) => {
+    linkWithArrow: ({node}) => {
       return <LinkWithArrow {...node} />
     },
-    migrateOptions: ({ node }) => {
+    migrateOptions: ({node}) => {
       return <MigrateOptions {...node} />
     },
-    showcaseFeatures: ({ node }) => {
+    showcaseFeatures: ({node}) => {
       return <ShowcaseFeatures {...node} />
     },
-    sliderThemes: ({ node }) => {
+    sliderThemes: ({node}) => {
       return <SliderThemes {...node} />
     },
-    boxInfo: ({ node }) => {
+    boxInfo: ({node}) => {
       return <BoxInfo {...node} />
     },
-    facebookPage: ({ node }) => {
+    facebookPage: ({node}) => {
       return <FacebookPage {...node} />
     },
-    grid: ({ node }) => {
+    grid: ({node}) => {
       return <Grid {...node} />
     },
-    flex: ({ node }) => {
+    flex: ({node}) => {
       return <Flex {...node} />
     },
-    gridBlockContent: ({ node }) => {
+    gridBlockContent: ({node}) => {
       return (
-        <BlockContent blocks={node.body} serializers={serializer} hardBreak />
+        <BlockContent blocks={node.body} serializers={serializer} hardBreak/>
       )
     },
-    flexBlockContent: ({ node }) => {
+    flexBlockContent: ({node}) => {
       return (
-        <BlockContent blocks={node.body} serializers={serializer} hardBreak />
+        <BlockContent blocks={node.body} serializers={serializer} hardBreak/>
       )
     },
-    divTop: ({ node }) => {
+    divTop: ({node}) => {
       return <DivUpper {...node} />
     },
-    divBottom: ({ node }) => {
+    divBottom: ({node}) => {
       return <DivBottom {...node} />
     },
-    hero: ({ node }) => {
+    hero: ({node}) => {
       return <Hero {...node} />
     },
-    startHero: ({ node }) => {
+    startHero: ({node}) => {
       return <StartHero {...node} />
     },
     // Layouts
-    responsiveRow: ({ node }) => {
+    responsiveRow: ({node}) => {
       return <ResponsiveRow {...node} />
     },
-    responsiveRowContent: ({ node }) => {
+    responsiveRowContent: ({node}) => {
       return (
-        <BlockContent blocks={node.body} serializers={serializer} hardBreak />
+        <BlockContent blocks={node.body} serializers={serializer} hardBreak/>
       )
     },
-    thumbnails: ({ node }) => {
+    thumbnails: ({node}) => {
       return <Thumbnails {...node} />
     },
-    stepper: ({ node }) => {
+    stepper: ({node}) => {
       return <Stepper {...node} />
     },
-    imageCTAs: ({ node }) => {
+    imageCTAs: ({node}) => {
       return <ImageCTAs {...node} />
     },
-    imageGrid: ({ node }) => {
+    imageGrid: ({node}) => {
       return <ImageGrid {...node} />
     },
-    testimonials: ({ node }) => {
+    testimonials: ({node}) => {
       return <Testimonials {...node} />
     },
-    statsGrid: ({ node }) => {
+    statsGrid: ({node}) => {
       return <StatsGrid {...node} />
     },
-    iconGrid: ({ node }) => {
+    iconGrid: ({node}) => {
       return <IconGrid {...node} />
     },
-    divider: ({ node }) => {
+    divider: ({node}) => {
       return <Divider {...node} />
     },
-    callToActionBox: ({ node }) => {
+    callToActionBox: ({node}) => {
       return <CallToActionBox {...node} />
     },
-    accordionList: ({ node }) => {
+    accordionList: ({node}) => {
       return <AccordionList {...node} />
     },
   },

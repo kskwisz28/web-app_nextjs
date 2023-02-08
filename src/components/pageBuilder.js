@@ -1,4 +1,3 @@
-
 import React from "react";
 import StartHero from "./startHero";
 import Hero from './hero'
@@ -29,7 +28,7 @@ import FormContact from '../components/formContact'
 import ShowCountdownTimer from "./countdown/showCountdownTimer";
 
 function PageBuilder(props) {
-  const { type, content, _rawContent } = props;
+  const { type, content } = props;
 
   const Components = {
     startHero: StartHero,
@@ -52,7 +51,6 @@ function PageBuilder(props) {
     zettleBox: ZettleBox,
     reviews: Reviews,
     integrationsBasic: IntegrationsBasic,
-    editor: Editor,
     showcaseFeatures: ShowcaseFeatures,
     sliderThemes: SliderThemes,
     editor: Editor,
@@ -66,9 +64,8 @@ function PageBuilder(props) {
       return React.createElement(Components[block._type], {
         key: block._key,
         // Future: Instead of rawContent add ...block with only the props you need defined in content helper
-        ..._rawContent[index],
+        ...content[index],
         type,
-        raw: _rawContent[index]
       });
     }
   });

@@ -14,7 +14,7 @@ export default function textWithImage({
   transparentImage,
   heroColors,
   heading,
-  blockContent,
+  blockContentRaw,
   button1Text,
   button1Url,
   button1OpenNewTab,
@@ -121,7 +121,7 @@ export default function textWithImage({
           </Heading>
 
           <BlockContent
-            blocks={blockContent}
+            blocks={blockContentRaw}
             serializers={serializer}
             hardBreak
           />
