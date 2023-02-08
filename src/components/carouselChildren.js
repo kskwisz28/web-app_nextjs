@@ -1,8 +1,7 @@
 import React from 'react'
-import { useKeenSlider } from 'keen-slider/react'
+import {useKeenSlider} from 'keen-slider/react'
 
-
-import { Box, jsx } from 'theme-ui'
+import {Box} from 'theme-ui'
 
 export default function CarouselChildren(props) {
   // eslint-disable-next-line
@@ -11,7 +10,7 @@ export default function CarouselChildren(props) {
   const [pause, setPause] = React.useState(false)
   const timer = React.useRef()
 
-  const [sliderRef, slider] = useKeenSlider({
+  const [sliderRef, instanceRef] = useKeenSlider({
     afterChange(s) {
       setCurrentSlide(s.details().relativeSlide)
     },
@@ -34,19 +33,21 @@ export default function CarouselChildren(props) {
   })
 
   React.useEffect(() => {
-    sliderRef.current.addEventListener('mouseover', () => {
-      setPause(true)
-    })
-    sliderRef.current.addEventListener('mouseout', () => {
-      setPause(false)
-    })
+    if (sliderRef && sliderRef.current) {
+      sliderRef.current.addEventListener('mouseover', () => {
+        setPause(true)
+      })
+      sliderRef.current.addEventListener('mouseout', () => {
+        setPause(false)
+      })
+    }
   }, [sliderRef])
 
   React.useEffect(() => {
     timer.current = setInterval(
       () => {
-        if (!pause && slider) {
-          slider.next()
+        if (!pause && instanceRef.current && instanceRef.current.slides.length > 0) {
+          instanceRef.current.next()
         }
       },
       props.slideTimer ? props.slideTimer : 5000
@@ -55,7 +56,7 @@ export default function CarouselChildren(props) {
       clearInterval(timer.current)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pause, slider])
+  }, [pause, instanceRef])
 
   return (
     <Box

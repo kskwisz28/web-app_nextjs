@@ -140,6 +140,16 @@ fragment SanityMainImage on MainImage {
  }
 }
 
+fragment SanitySimpleIllustration on SimpleIllustration {
+ image {
+  ...SanityMainImage
+ }
+ noLazyLoad
+ padding {
+  ...SanityPadding
+ }
+}
+
 fragment SanityLocaleImage on LocaleImage {
  sv {
   ...SanityImage
@@ -245,11 +255,37 @@ fragment SanityHeroColors on HeroColors {
  theme {title value}
 }
 
-  fragment Content on Page {
+fragment SanityStartHero on StartHero {
+ _key
+ _type
+ blockContentRaw
+ button1OpenNewTab
+ button1Text
+ button1Url
+ heading
+ headingSize
+ heroColors {
+  ...SanityHeroColors
+ }
+ image {
+  padding {
+   ...SanityPadding
+  }
+  noLazyLoad
+  image {
+   ...SanityMainImage
+  }
+ }
+ reverse
+ subtitle
+ transparentImage
+}
+
+
+fragment Content on Page {
  content {
   ... on StartHero {
-   _key
-   _type
+   ...SanityStartHero
   }
   ... on Hero {
    _key
@@ -280,9 +316,7 @@ fragment SanityHeroColors on HeroColors {
    videoMuted
    videoUrl
    image {
-    image {...SanityMainImage}
-    noLazyLoad
-    padding {...SanityPadding}
+    ...SanitySimpleIllustration
    }
   }
   ... on TextWithImage {
@@ -292,21 +326,33 @@ fragment SanityHeroColors on HeroColors {
   ... on AccordionList {
    _key
    _type
+   accordionItems {
+    _key
+    blockContentRaw
+    heading
+    padding {...SanityPadding}
+   }
+   heading
+   headingSize
+   heroColors {...SanityHeroColors}
+   padding {...SanityPadding}
   }
   ... on CallToActionBox {
    _key
    _type
-  blockContentRaw
-  button1OpenNewTab
-  button1Text
-  button1Url
-  button1Text
-  button2OpenNewTab
-  button2Text
-  button2Url
-  heading
-  headingSize
-  heroColors {theme {title value}}
+   blockContentRaw
+   button1OpenNewTab
+   button1Text
+   button1Url
+   button1Text
+   button2OpenNewTab
+   button2Text
+   button2Url
+   heading
+   headingSize
+   heroColors {
+    ...SanityHeroColors
+   }
   }
   ... on StatsGrid {
    _key
@@ -323,6 +369,26 @@ fragment SanityHeroColors on HeroColors {
   ... on ImageGrid {
    _key
    _type
+   blockContentRaw
+   heading
+   headingSize
+   heroColors {
+    ...SanityHeroColors
+   }
+   images {
+    image {
+     ...SanitySimpleIllustration
+    }
+    openNewTab
+    padding {
+     ...SanityPadding
+    }
+    url
+   }
+   imagesPerRow
+   padding {
+    ...SanityPadding
+   }
   }
   ... on IconGrid {
    _key
@@ -339,12 +405,20 @@ fragment SanityHeroColors on HeroColors {
   ... on StartTab {
    _key
    _type
-  padding {...SanityPadding}
-  tab {...SanityStartTabItems}
+   padding {
+    ...SanityPadding
+   }
+   tab {
+    ...SanityStartTabItems
+   }
   }
   ... on SliderGeneral {
    _key
    _type
+   slideTimer
+   rows {
+    ...SanityStartHero
+   }
   }
   ... on PricingPlan {
    _key
@@ -361,8 +435,12 @@ fragment SanityHeroColors on HeroColors {
   ... on Reviews {
    _key
    _type
-   info {...SanityInfoText}
-   padding {...SanityPadding}
+   info {
+    ...SanityInfoText
+   }
+   padding {
+    ...SanityPadding
+   }
    reviewsText
   }
   ... on IntegrationsBasic {
@@ -373,10 +451,14 @@ fragment SanityHeroColors on HeroColors {
    button1Url
    button2Text
    button2Url
-   heroColors {...SanityHeroColors}
+   heroColors {
+    ...SanityHeroColors
+   }
    integrationPicker {
     _id
-    logo {...SanityImage}
+    logo {
+     ...SanityImage
+    }
     logoAlt
     title
    }

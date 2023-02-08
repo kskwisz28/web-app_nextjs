@@ -1,26 +1,26 @@
-import React, { useRef, useState } from 'react'
+import React, {useRef, useState} from 'react'
 
 import BlockContent from '@sanity/block-content-to-react'
 import Container from '../components/container'
 
-import { Flex, Box, Heading, useThemeUI } from 'theme-ui'
+import {Flex, Box, Heading, useThemeUI} from 'theme-ui'
 
 import serializer from '../helpers/serializers'
 
 const AccordionItem = ({
-  title,
-  content,
-  heroColors,
-  isOpen,
-  handleOnClick,
-}) => {
+                         title,
+                         content,
+                         heroColors,
+                         isOpen,
+                         handleOnClick,
+                       }) => {
   const ANIMATION_DURATION = '0.2'
   const BORDER_RADIUS = 6
 
   const contentRef = useRef(null)
 
   const context = useThemeUI()
-  const { theme } = context
+  const {theme} = context
 
   return (
     <Box onClick={() => handleOnClick()}>
@@ -40,7 +40,7 @@ const AccordionItem = ({
           borderBottom: isOpen ? '1px solid #FAF8F7' : null,
         }}
       >
-        <Heading variant="h4" sx={{ mb: 0 }}>
+        <Heading variant="h4" sx={{mb: 0}}>
           {title}
         </Heading>
 
@@ -74,15 +74,15 @@ const AccordionItem = ({
           borderBottomRightRadius: BORDER_RADIUS,
         }}
       >
-        <Flex ref={contentRef} sx={{ p: 4 }}>
-          <BlockContent blocks={content} serializers={serializer} hardBreak />
+        <Flex ref={contentRef} sx={{p: 4}}>
+          <BlockContent blocks={content} serializers={serializer} hardBreak/>
         </Flex>
       </Box>
     </Box>
   )
 }
 
-export default ({ heroColors, heading, accordionItems, headingSize }) => {
+export default function AccordionList({heroColors, heading, accordionItems, headingSize}) {
   const [openIndex, setOpenIndex] = useState(null)
 
   return (
@@ -99,17 +99,18 @@ export default ({ heroColors, heading, accordionItems, headingSize }) => {
             variant={headingSize ?? 'h1'}
             as={headingSize ?? 'h1'}
             color={heroColors?.theme?.text}
-            sx={{ mb: 5, textAlign: 'center' }}
+            sx={{mb: 5, textAlign: 'center'}}
           >
             {heading}
           </Heading>
         )}
 
-        <Flex sx={{ flexDirection: 'column', gap: 3 }}>
+        <Flex sx={{flexDirection: 'column', gap: 3}}>
           {accordionItems.map((accordionItem, itemIndex) => (
             <AccordionItem
+              key={accordionItem._key}
               title={accordionItem.heading}
-              content={accordionItem.blockContent}
+              content={accordionItem.blockContentRaw}
               heroColors={heroColors}
               isOpen={openIndex === itemIndex}
               itemIndex={itemIndex}

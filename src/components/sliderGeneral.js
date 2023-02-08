@@ -1,5 +1,4 @@
-
-import { Box, jsx } from 'theme-ui'
+import {Box} from 'theme-ui'
 
 import CarouselChildren from '../components/carouselChildren'
 import StartHero from '../components/startHero'
@@ -19,12 +18,12 @@ export default function SliderGeneral(props) {
         slideTimer={props.slideTimer ? props.slideTimer : 5000}
       >
         {props?.rows.map(story => (
-            <Box
-                key={story._key}
-                className={'keen-slider__slide'}
-            >
-                <StartHero {...story} />
-            </Box>
+          <Box
+            key={story._key}
+            className={'keen-slider__slide'}
+          >
+            <StartHero {...story} />
+          </Box>
         ))}
       </CarouselChildren>
     </Box>
