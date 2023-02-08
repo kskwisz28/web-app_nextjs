@@ -282,6 +282,11 @@ fragment SanityStartHero on StartHero {
 }
 
 
+fragment SanityPricingPlanItems on PricingPlanItems {
+ _key
+ title
+}
+
 fragment Content on Page {
  content {
   ... on StartHero {
@@ -423,10 +428,79 @@ fragment Content on Page {
   ... on PricingPlan {
    _key
    _type
+   blockContentRaw
+   heading
+   headingSize
+   heroColors {
+    ...SanityHeroColors
+   }
+   infoPaymentFirst
+   infoPaymentFirstTooltip
+   infoPaymentSecond
+   infoPaymentSecondTooltip
+   introFirstPlan
+   introSecondPlan
+   introThirdPlan
+   itemsFirstPlan {
+    ...SanityPricingPlanItems
+   }
+   itemsSecondPlan {
+    ...SanityPricingPlanItems
+   }
+   itemsThirdPlan {
+    ...SanityPricingPlanItems
+   }
+   padding {
+    ...SanityPadding
+   }
+   priceBeforeMonthlyFirst
+   priceBeforeMonthlySecond
+   priceBeforeMonthlyThird
+   priceBeforeQuarterlyFirst
+   priceBeforeQuarterlySecond
+   priceBeforeQuarterlyThird
+   priceBeforeYearlyFirst
+   priceBeforeYearlySecond
+   priceBeforeYearlyThird
+   priceMonthlyFirst
+   priceMonthlySecond
+   priceMonthlyThird
+   priceQuarterlyFirst
+   priceQuarterlySecond
+   priceQuarterlyThird
+   priceYearlyFirst
+   priceYearlySecond
+   priceYearlyThird
+   titleDisclaimer
+   titleFirstPlan
+   titleMonthly
+   titlePerMonth
+   titleQuarterly
+   titleSecondPlan
+   titleThirdPlan
+   titleWhenPaying
+   titleYearly
   }
   ... on FeatureList {
    _key
    _type
+   blockContentRaw
+   firstOptionTitle
+   heading
+   headingSize
+   hideUnchecked
+   items {
+    _key
+    firstOption
+    secondOption
+     textRight
+    thirdOption
+    title
+   }
+   padding {...SanityPadding}
+   secondOptionTitle
+   tableSize
+   thirdOptionTitle
   }
   ... on ZettleBox {
    _key

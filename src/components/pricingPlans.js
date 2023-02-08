@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import {useState} from 'react'
 
-import { jsx, Heading, Box, Button, Flex, Text } from 'theme-ui'
+import {Heading, Box, Button, Flex, Text} from 'theme-ui'
 
-import ReactTooltip from 'react-tooltip';
+import {Tooltip as ReactTooltip} from 'react-tooltip';
 import Container from '../components/container'
 import Pricing from '../components/boxPricing'
 import Item from '../components/boxListItem'
@@ -63,13 +63,13 @@ export default function PricingPlans(props) {
       }}
     >
       <Container>
-        <Flex sx={{ alignItems: 'center', flexDirection: 'column', pb: 4 }}>
+        <Flex sx={{alignItems: 'center', flexDirection: 'column', pb: 4}}>
           <Heading
             variant={props?.headingSize ?? 'h2'}
             as={props?.headingSize ?? 'h2'}
-            sx={{ pb: 2 }}
-            >
-              {props?.heading}
+            sx={{pb: 2}}
+          >
+            {props?.heading}
           </Heading>
 
           <BlockContent
@@ -201,13 +201,13 @@ export default function PricingPlans(props) {
               infoSecond={props.infoPaymentSecond}
               infoSecondTooltip={props.infoPaymentSecondTooltip}
             >
-              {props?.introFirstPlan && 
-              <Text variant="smaller" css={{ fontWeight: '600'}}>
-                {props?.introFirstPlan}
-              </Text>
+              {props?.introFirstPlan &&
+                <Text variant="smaller" css={{fontWeight: '600'}}>
+                  {props?.introFirstPlan}
+                </Text>
               }
               <Text variant="smaller">
-                <ul sx={{ px: 2, pb: 4 }}>
+                <ul sx={{px: 2, pb: 4}}>
                   {props.itemsFirstPlan &&
                     props.itemsFirstPlan.map(item => (
                       <Item key={item._key}>{item.title}</Item>
@@ -227,13 +227,13 @@ export default function PricingPlans(props) {
               infoSecond={props.infoPaymentSecond}
               infoSecondTooltip={props.infoPaymentSecondTooltip}
             >
-              {props?.introSecondPlan && 
-              <Text variant="smaller" css={{ fontWeight: '600'}}>
-                {props?.introSecondPlan}
-              </Text>
+              {props?.introSecondPlan &&
+                <Text variant="smaller" css={{fontWeight: '600'}}>
+                  {props?.introSecondPlan}
+                </Text>
               }
               <Text variant="smaller">
-                <ul sx={{ px: 4, pb: 4 }}>
+                <ul sx={{px: 4, pb: 4}}>
                   {props.itemsSecondPlan &&
                     props.itemsSecondPlan.map(item => (
                       <Item key={item._key}>{item.title}</Item>
@@ -256,13 +256,13 @@ export default function PricingPlans(props) {
               {/* <Box sx={{ position: 'absolute', top: 0, right: 0 }}>
                 <Flex sx={{ borderBottomLeftRadius: '2px', fontWeight: '600' }} bg="primary" px={4} py={2} color="white">-20%</Flex>
               </Box> */}
-              {props?.introThirdPlan && 
-              <Text variant="smaller" css={{ fontWeight: '600'}}>
-                {props?.introThirdPlan}
-              </Text>
+              {props?.introThirdPlan &&
+                <Text variant="smaller" css={{fontWeight: '600'}}>
+                  {props?.introThirdPlan}
+                </Text>
               }
               <Text variant="smaller">
-                <ul sx={{ px: 4, pb: 4 }}>
+                <ul sx={{px: 4, pb: 4}}>
                   {props.itemsThirdPlan &&
                     props.itemsThirdPlan.map(item => (
                       <Item key={item._key}>{item.title}</Item>
@@ -271,7 +271,7 @@ export default function PricingPlans(props) {
               </Text>
             </Pricing>
           </Flex>
-          <ReactTooltip backgroundColor="#362F4A" />
+          <ReactTooltip backgroundColor="#362F4A"/>
         </PricingBoxes>
       </Container>
     </Box>
