@@ -1,26 +1,24 @@
 import React from 'react'
-import { buildImageObj } from '../helpers/general'
-import { imageUrlFor } from '../helpers/image-url'
-
-import { jsx } from 'theme-ui'
+import {imageUrlFor} from '@/helpers/image-url'
 
 export default function MainImage({
-  mainImage,
-  altText,
-  width = 1200,
-  rounded,
-  roundedUp,
-  maxWidth,
-  absoluteWidth,
-  absoluteHeight,
-  centered,
-  bottomIn,
-  shadowed,
-  hoverEffect,
-}) {
+                                    mainImage,
+                                    altText,
+                                    width = 1200,
+                                    rounded,
+                                    roundedUp,
+                                    maxWidth,
+                                    absoluteWidth,
+                                    absoluteHeight,
+                                    centered,
+                                    bottomIn,
+                                    shadowed,
+                                    hoverEffect,
+                                  }) {
+  console.log('mainimage', mainImage)
   const imgUrl =
     mainImage &&
-    imageUrlFor(buildImageObj(mainImage))
+    imageUrlFor(mainImage)
       .width(width)
       .fit('crop')
       .auto('format')

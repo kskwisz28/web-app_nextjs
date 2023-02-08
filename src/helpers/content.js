@@ -1,27 +1,46 @@
 import {gql} from "@apollo/client";
 
-export const LOCALIZATION_FRAGMENT = gql`
+export const LANGUAGE_FRAGMENT = gql`
 fragment Language on LocaleString {
  sv
  da
  no
  en
 }
+`
 
+export const LANGUAGETEXT_FRAGMENT = gql`
 fragment LanguageText on LocaleText {
  sv
  da
  no
  en
 }
+`
 
+export const OPENGRAPH_FRAGMENT = gql`
+fragment SanityOpenGraph on OpenGraph {
+ title
+ description
+ image {
+  asset {
+   _id
+   url
+  }
+ }
+}
+`
+
+export const IMAGEPALETTESWATCH_FRAGMENT = gql`
 fragment ImagePaletteSwatch on SanityImagePaletteSwatch {
  background
  foreground
  population
  title
 }
+`
 
+export const IMAGEPALETTE_FRAGMENT = gql`
 fragment ImagePalette on SanityImagePalette {
  darkMuted {...ImagePaletteSwatch}
  darkVibrant {...ImagePaletteSwatch}
@@ -31,7 +50,9 @@ fragment ImagePalette on SanityImagePalette {
  muted {...ImagePaletteSwatch}
  vibrant {...ImagePaletteSwatch}
 }
+`
 
+export const COLOR_FRAGMENT = gql`
 fragment SanityColor on Color {
  alpha
  hex
@@ -39,7 +60,9 @@ fragment SanityColor on Color {
  hsv {a h s v}
  rgb {a r g b}
 }
+`
 
+export const INFOTEXT_FRAGMENT = gql`
 fragment SanityInfoText on InfoText {
  advancedDescriptionRaw
  bgTop {...SanityColor}
@@ -65,7 +88,9 @@ fragment SanityInfoText on InfoText {
  textVariant
  topLine
 }
+`
 
+export const IMAGEMETADATA_FRAGMENT = gql`
 fragment ImageMetadata on SanityImageMetadata {
  blurHash
  dimensions {aspectRatio height width}
@@ -75,8 +100,9 @@ fragment ImageMetadata on SanityImageMetadata {
  lqip
  palette {...ImagePalette}
 }
+`
 
-
+export const IMAGEASSET_FRAGMENT = gql`
 fragment ImageAsset on SanityImageAsset {
  originalFilename
  label
@@ -101,21 +127,27 @@ fragment ImageAsset on SanityImageAsset {
  }
  uploadId
 }
+`
 
+export const IMAGECROP_FRAGMENT = gql`
 fragment ImageCrop on SanityImageCrop {
  bottom
  left
  right
  top
 }
+`
 
+export const IMAGEHOTSPOT_FRAGMENT = gql`
 fragment ImageHotspot on SanityImageHotspot {
  height
  width
  x
  y
 }
+`
 
+export const IMAGE_FRAGMENT = gql`
 fragment SanityImage on Image {
  asset {
   ...ImageAsset
@@ -127,7 +159,9 @@ fragment SanityImage on Image {
   ...ImageHotspot
  }
 }
+`
 
+export const MAINIMAGE_FRAGMENT = gql`
 fragment SanityMainImage on MainImage {
  asset {
   ...ImageAsset
@@ -139,7 +173,9 @@ fragment SanityMainImage on MainImage {
   ...ImageHotspot
  }
 }
+`
 
+export const SIMPLEILLUSTRATION_FRAGMENT = gql`
 fragment SanitySimpleIllustration on SimpleIllustration {
  image {
   ...SanityMainImage
@@ -149,7 +185,9 @@ fragment SanitySimpleIllustration on SimpleIllustration {
   ...SanityPadding
  }
 }
+`
 
+export const LOCALEIMAGE_FRAGMENT = gql`
 fragment SanityLocaleImage on LocaleImage {
  sv {
   ...SanityImage
@@ -163,6 +201,69 @@ fragment SanityLocaleImage on LocaleImage {
  en {
   ...SanityImage
  }
+}
+`
+
+export const PADDING_FRAGMENT = gql`
+fragment SanityPadding on Padding {top bottom}
+`
+
+export const STARTTABITEMS_FRAGMENT = gql`
+fragment SanityStartTabItems on StartTabItems {
+ _key
+ blockContentRaw
+ button1OpenNewTab
+ button1Text
+ button1Url
+ heading
+ headingSize
+ heroColors {...SanityHeroColors}
+ image {noLazyLoad padding {...SanityPadding} image {...SanityMainImage} }
+ padding {...SanityPadding}
+ reverse
+ showButton
+ tabName
+ transparentImage
+}
+`
+
+export const HEROCOLORS_FRAGMENT = gql`
+fragment SanityHeroColors on HeroColors {
+ theme {title value}
+}
+`
+
+export const STARTHERO_FRAGMENT = gql`
+fragment SanityStartHero on StartHero {
+ _key
+ _type
+ blockContentRaw
+ button1OpenNewTab
+ button1Text
+ button1Url
+ heading
+ headingSize
+ heroColors {
+  ...SanityHeroColors
+ }
+ image {
+  padding {
+   ...SanityPadding
+  }
+  noLazyLoad
+  image {
+   ...SanityMainImage
+  }
+ }
+ reverse
+ subtitle
+ transparentImage
+}`
+
+export const PRICINGPLANITEMS_FRAGMENT = gql`
+fragment SanityPricingPlanItems on PricingPlanItems {
+ _key
+ title
 }
 `
 
@@ -234,59 +335,6 @@ fragment SanitySiteSettings on SiteSettings {
 `
 
 export const CONTENT_FRAGMENT = gql`
-fragment SanityPadding on Padding {top bottom}
-fragment SanityStartTabItems on StartTabItems {
- _key
- blockContentRaw
- button1OpenNewTab
- button1Text
- button1Url
- heading
- headingSize
- heroColors {...SanityHeroColors}
- image {noLazyLoad padding {...SanityPadding} image {...SanityMainImage} }
- padding {...SanityPadding}
- reverse
- showButton
- tabName
- transparentImage
-}
-fragment SanityHeroColors on HeroColors {
- theme {title value}
-}
-
-fragment SanityStartHero on StartHero {
- _key
- _type
- blockContentRaw
- button1OpenNewTab
- button1Text
- button1Url
- heading
- headingSize
- heroColors {
-  ...SanityHeroColors
- }
- image {
-  padding {
-   ...SanityPadding
-  }
-  noLazyLoad
-  image {
-   ...SanityMainImage
-  }
- }
- reverse
- subtitle
- transparentImage
-}
-
-
-fragment SanityPricingPlanItems on PricingPlanItems {
- _key
- title
-}
-
 fragment Content on Page {
  content {
   ... on StartHero {
