@@ -15,27 +15,6 @@ fragment LanguageText on LocaleText {
  en
 }
 
-fragment SanityImage on Image {
- asset {
-  originalFilename
-  label
-  title
-  description
- }
- crop {
-  bottom
-  left
-  right
-  top
- }
- hotspot {
-  height
-  width
-  x
-  y
- }
-}
-
 fragment ImagePaletteSwatch on SanityImagePaletteSwatch {
  background
  foreground
@@ -53,6 +32,40 @@ fragment ImagePalette on SanityImagePalette {
  vibrant {...ImagePaletteSwatch}
 }
 
+fragment SanityColor on Color {
+ alpha
+ hex
+ hsl {a h s l}
+ hsv {a h s v}
+ rgb {a r g b}
+}
+
+fragment SanityInfoText on InfoText {
+ advancedDescriptionRaw
+ bgTop {...SanityColor}
+ borderRadius
+ buttonOpenNewTab
+ buttonSecondOpenNewTab
+ buttonSecondText
+ buttonSecondType
+ buttonSecondUrl
+ buttonText
+ buttonUrl
+ centered
+ colorBg {...SanityColor}
+ colorDesc {...SanityColor}
+ colorHeadline {...SanityColor}
+ colorTop {...SanityColor}
+ description
+ heading
+ headingVariant
+ headline
+ padding {...SanityPadding}
+ subtitle
+ textVariant
+ topLine
+}
+
 fragment ImageMetadata on SanityImageMetadata {
  blurHash
  dimensions {aspectRatio height width}
@@ -63,36 +76,67 @@ fragment ImageMetadata on SanityImageMetadata {
  palette {...ImagePalette}
 }
 
-fragment SanityMainImage on MainImage {
- asset {
-  originalFilename
-  label
-  title
-  description
+
+fragment ImageAsset on SanityImageAsset {
+ originalFilename
+ label
+ title
+ description
+ url
+ altText
+ assetId
+ extension
+ label
+ metadata {
+  ...ImageMetadata
+ }
+ mimeType
+ path
+ sha1hash
+ size
+ source {
+  name
+  id
   url
-  altText
-  assetId
-  extension
-  label
-  metadata {...ImageMetadata}
-  mimeType
-  path
-  sha1hash
-  size
-  source {name id url}
-  uploadId
+ }
+ uploadId
+}
+
+fragment ImageCrop on SanityImageCrop {
+ bottom
+ left
+ right
+ top
+}
+
+fragment ImageHotspot on SanityImageHotspot {
+ height
+ width
+ x
+ y
+}
+
+fragment SanityImage on Image {
+ asset {
+  ...ImageAsset
  }
  crop {
-  bottom
-  left
-  right
-  top
+  ...ImageCrop
  }
  hotspot {
-  height
-  width
-  x
-  y
+  ...ImageHotspot
+ }
+}
+
+fragment SanityMainImage on MainImage {
+ asset {
+  ...ImageAsset
+ }
+ crop {
+  ...ImageCrop
+ }
+ hotspot {
+  ...ImageHotspot
  }
 }
 
@@ -317,10 +361,27 @@ fragment SanityHeroColors on HeroColors {
   ... on Reviews {
    _key
    _type
+   info {...SanityInfoText}
+   padding {...SanityPadding}
+   reviewsText
   }
   ... on IntegrationsBasic {
    _key
    _type
+   blockContentRaw
+   button1Text
+   button1Url
+   button2Text
+   button2Url
+   heroColors {...SanityHeroColors}
+   integrationPicker {
+    _id
+    logo {...SanityImage}
+    logoAlt
+    title
+   }
+   reverse
+   title
   }
   ... on Editor {
    _key

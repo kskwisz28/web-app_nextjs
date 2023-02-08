@@ -34,6 +34,7 @@ const maybeImage = (
             src={url}
             alt={image.alt}
             className={shadowImage ? 'infoImg' : ''}
+            layout="fill"
             sx={{
               objectFit: cover ? 'cover' : 'contain',
               width: '100%',
@@ -71,6 +72,7 @@ const maybeImage = (
         src={image?.asset?.url}
         alt={image.alt}
         className={shadowImage ? 'infoImg' : ''}
+        layout="fill"
         sx={{
           objectFit: cover ? 'cover' : 'contain',
           width: '100%',
