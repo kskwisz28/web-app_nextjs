@@ -23,9 +23,11 @@ import Container from '@/components/container'
 import Academy from '@/images/academy.png'
 import AcademyCard from '@/components/academyCard'
 import {useTranslation} from "next-i18next";
+import {useMemo} from "react";
 
 export default function ResellerList(props) {
   const {t} = useTranslation('academy')
+  const sortedCategories = useMemo(() => Array.from(props.page).sort((a, b) => a.order - b.order), [props.page])
   return (
     <Layout
       headerBg="rgba(255,255,255,.6)"
@@ -46,27 +48,25 @@ export default function ResellerList(props) {
               filter: 'drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.05));',
             }}
           >
-            {props.page
-              .sort((a, b) => a.order - b.order)
-              .map(category => {
-                return (
-                  <AcademyCard
-                    key={category._id}
-                    title={category.title}
-                    description={category.description}
-                    link={`/${category.language}/academy/${category.slug.current}`}
-                    linkText={`${t('goTo')} →`}
-                    icon={category.icon?.icon}
-                    themeColor={category.iconColor?.theme?.value}
-                    readTime={
-                      category.academies?.reduce(
-                        (p, academy) => p + academy?.readTime || 0,
-                        0
-                      ) || null
-                    }
-                  />
-                )
-              })}
+            {sortedCategories.map(category => {
+              return (
+                <AcademyCard
+                  key={category._id}
+                  title={category.title}
+                  description={category.description}
+                  link={`/${category.language}/academy/${category.slug.current}`}
+                  linkText={`${t('goTo')} →`}
+                  icon={category.icon?.icon}
+                  themeColor={category.iconColor?.theme?.value}
+                  readTime={
+                    category.academies?.reduce(
+                      (p, academy) => p + academy?.readTime || 0,
+                      0
+                    ) || null
+                  }
+                />
+              )
+            })}
           </Grid>
         </Container>
       </Box>

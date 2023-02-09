@@ -80,9 +80,9 @@ const serializers = {
   marks: {
     link: ({children, mark}) =>
       mark.blank ? (
-        <Styled.a href={mark.href} target="_blank" rel="noopener noreferrer">
+        <Themed.a href={mark.href} target="_blank" rel="noopener noreferrer">
           {children}
-        </Styled.a>
+        </Themed.a>
       ) : (
         <LinkCheck to={mark.href}>{children}</LinkCheck>
       ),
