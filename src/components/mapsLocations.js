@@ -12,22 +12,13 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from 'use-places-autocomplete'
 
-import {
-  Combobox,
-  ComboboxInput,
-  ComboboxPopover,
-  ComboboxList,
-  ComboboxOption,
-} from '@reach/combobox'
+import './mapsLocations.module.css'
 
-import './mapsLocations.css'
-
-import { BiCurrentLocation } from 'react-icons/bi'
+import {BiCurrentLocation} from 'react-icons/bi'
 
 
-import { jsx, Flex, Image, Button } from 'theme-ui'
-
-import '@reach/combobox/styles.css'
+import {Flex, Button} from 'theme-ui'
+import Image from 'next/image'
 
 import qbLogoDark from '../images/qb-logo-black.svg'
 import ResellerImage from '../images/qb-app.svg'
@@ -74,7 +65,7 @@ const center = {
 }
 
 export default function MapsLocations(props) {
-  const { isLoaded, loadError } = useLoadScript({
+  const {isLoaded, loadError} = useLoadScript({
     googleMapsApiKey: 'AIzaSyDm0rHOlBnr5QZNpLgCBRey_lxlsSY53-M',
     libraries,
   })
@@ -85,8 +76,8 @@ export default function MapsLocations(props) {
     mapRef.current = map
   }, [])
 
-  const panTo = React.useCallback(({ lat, lng }) => {
-    mapRef.current.panTo({ lat, lng })
+  const panTo = React.useCallback(({lat, lng}) => {
+    mapRef.current.panTo({lat, lng})
     mapRef.current.setZoom(14)
   }, [])
 
@@ -94,7 +85,7 @@ export default function MapsLocations(props) {
   if (!isLoaded) return 'Laddar...'
 
   return (
-    <div css={{ position: 'relative' }}>
+    <div css={{position: 'relative'}}>
       <Flex
         sx={{
           position: 'absolute',
@@ -119,8 +110,8 @@ export default function MapsLocations(props) {
           src={qbLogoDark}
         />
 
-        <Search panTo={panTo} />
-        <Locate panTo={panTo} />
+        <Search panTo={panTo}/>
+        <Locate panTo={panTo}/>
       </Flex>
 
       <GoogleMap
@@ -170,7 +161,7 @@ export default function MapsLocations(props) {
   )
 }
 
-function Locate({ panTo }) {
+function Locate({panTo}) {
   return (
     <Button
       px={2}
@@ -196,21 +187,21 @@ function Locate({ panTo }) {
         )
       }}
     >
-      <BiCurrentLocation /> Nära mig
+      <BiCurrentLocation/> Nära mig
     </Button>
   )
 }
 
-function Search({ panTo }) {
+function Search({panTo}) {
   const {
     ready,
     value,
-    suggestions: { status, data },
+    suggestions: {status, data},
     setValue,
     // clearSuggestions,
   } = usePlacesAutocomplete({
     requestOptions: {
-      location: { lat: () => 56.06272, lng: () => 12.71472 },
+      location: {lat: () => 56.06272, lng: () => 12.71472},
       radius: 1000 * 1000,
     },
   })
@@ -224,9 +215,9 @@ function Search({ panTo }) {
     // clearSuggestions()
 
     try {
-      const results = await getGeocode({ address })
-      const { lat, lng } = await getLatLng(results[0])
-      panTo({ lat, lng })
+      const results = await getGeocode({address})
+      const {lat, lng} = await getLatLng(results[0])
+      panTo({lat, lng})
     } catch (error) {
       // TODO: Error management
     }
@@ -234,26 +225,7 @@ function Search({ panTo }) {
 
   return (
     <SearchBox>
-      <Combobox onSelect={handleSelect}>
-        <Flex className="searchContent">
-          <ComboboxInput
-            value={value}
-            onChange={handleInput}
-            disabled={!ready}
-            placeholder="Sök plats..."
-          />
-        </Flex>
-        <ComboboxPopover>
-          <div>
-            <ComboboxList>
-              {status === 'OK' &&
-                data.map(({ place_id, description }) => (
-                  <ComboboxOption key={place_id} value={description} />
-                ))}
-            </ComboboxList>
-          </div>
-        </ComboboxPopover>
-      </Combobox>
+      REQUIRES REPLACEMENT FOR REACHUI/COMBOBOX
     </SearchBox>
   )
 }

@@ -41,7 +41,6 @@ export default function Specialist(props) {
       headerBg="rgba(255,255,255,.6)"
       logoDark
       headerColor="dark"
-      alternateLink={props.alternateLinks}
       navMenu={props.allNavigationMenu}
       siteSettings={props.allSiteSettings[0]}
     >
