@@ -24,8 +24,8 @@ import {
   STARTTABITEMS_FRAGMENT, HEROCOLORS_FRAGMENT, STARTHERO_FRAGMENT, PRICINGPLANITEMS_FRAGMENT
 } from "@/helpers/content";
 import serializer from '../helpers/serializers'
-import Container from '../components/container'
-import PageBuilder from '../components/pageBuilder'
+import Container from '@/components/container'
+import PageBuilder from '@/components/pageBuilder'
 import BlockContent from '@sanity/block-content-to-react'
 import {isHomepage} from "@/helpers/general";
 

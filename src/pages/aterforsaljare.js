@@ -15,19 +15,19 @@ import {
   OPENGRAPH_FRAGMENT,
 } from "@/helpers/content";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import Layout from '../components/layout'
+import Layout from '@/components/layout'
 import {Box, Heading, Flex, Text} from 'theme-ui'
 import Image from 'next/image'
 
-import Container from '../components/container'
+import Container from '@/components/container'
 
-import DivUpper from '../components/divTop'
-import DivBottom from '../components/divBottom'
+import DivUpper from '@/components/divTop'
+import DivBottom from '@/components/divBottom'
 
 import ResellerImage from '../images/qb-reseller.svg'
-import MapsLocations from '../components/mapsLocations'
-import ResellerInfo from '../components/resellerInfo'
-import CompanyInfoBox from '../components/companyInfoBox'
+import MapsLocations from '@/components/mapsLocations'
+import ResellerInfo from '@/components/resellerInfo'
+import CompanyInfoBox from '@/components/companyInfoBox'
 
 export default function ResellerList(props) {
   const resellers = props.page

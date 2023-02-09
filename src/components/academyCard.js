@@ -1,17 +1,18 @@
 import React from 'react'
 
-import { Flex, Box, Heading, Image, Grid, Link, Text } from 'theme-ui'
+import {Flex, Box, Heading, Link, Text} from 'theme-ui'
+import {useTranslation} from "next-i18next";
 
-export default function flex({
-  title,
-  description,
-  link,
-  linkText,
-  themeColor,
-  icon,
-  readTime,
-  t,
-}) {
+export default function AcademyCard({
+                               title,
+                               description,
+                               link,
+                               linkText,
+                               themeColor,
+                               icon,
+                               readTime,
+                             }) {
+  const {t} = useTranslation('academy')
   return (
     <Flex
       sx={{
@@ -42,7 +43,7 @@ export default function flex({
         >
           <Text
             variant="normal"
-            sx={{ fontSize: '12px', fontWeight: '400', color: 'faded' }}
+            sx={{fontSize: '12px', fontWeight: '400', color: 'faded'}}
           >
             {t('readTime')} {readTime} {t('minutes')}
           </Text>
@@ -87,14 +88,13 @@ export default function flex({
           position: 'absolute',
           backgroundColor: themeColor ?? 'primary',
           width: 8,
-          top: 0,
           left: 1,
           borderRadius: 4,
           top: 1,
           bottom: 1,
         }}
       ></Box>
-      <Flex sx={{ zIndex: 10, flexDirection: 'column', gap: 2 }}>
+      <Flex sx={{zIndex: 10, flexDirection: 'column', gap: 2}}>
         <Heading
           variant="h5"
           as="h5"
@@ -120,7 +120,7 @@ export default function flex({
 
         <Text
           variant="normal"
-          sx={{ fontSize: 16, fontWeight: '700', color: 'primary' }}
+          sx={{fontSize: 16, fontWeight: '700', color: 'primary'}}
         >
           {linkText}
         </Text>
