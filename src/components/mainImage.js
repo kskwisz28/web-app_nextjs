@@ -15,7 +15,6 @@ export default function MainImage({
                                     shadowed,
                                     hoverEffect,
                                   }) {
-  console.log('mainimage', mainImage)
   const imgUrl =
     mainImage &&
     imageUrlFor(mainImage)

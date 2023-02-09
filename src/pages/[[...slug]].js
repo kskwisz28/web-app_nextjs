@@ -30,7 +30,6 @@ import BlockContent from '@sanity/block-content-to-react'
 import {isHomepage} from "@/helpers/general";
 
 export default function PageDefault(props) {
-  console.log('main', props)
   const {content, _rawContent} = props.page
   return (
     <Layout

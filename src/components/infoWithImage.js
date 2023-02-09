@@ -25,7 +25,6 @@ export default function pInfoSection(props) {
     if (!props.gatsbyImage) {
       return []
     }
-    console.log(props.gatsbyImage)
     const builder = imageUrlBuilder({
       projectId: '7hja5omh',
       dataset: 'production',

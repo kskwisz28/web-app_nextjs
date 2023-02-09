@@ -6,10 +6,9 @@ import serializer from '../helpers/serializers'
 export default function editor(props) {
     return (
         <div>
-            {console.log(props)}
             <BlockContent
                 key={props._key}
-                blocks={props.blockContent}
+                blocks={props.blockContentRaw}
                 serializers={serializer}
                 hardBreak
             />

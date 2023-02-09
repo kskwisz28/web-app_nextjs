@@ -11,7 +11,6 @@ export default function Layout(props) {
     props.navMenu &&
     props.navMenu.find(menus => menus.menuPlacement === 'menuMain')
 
-  console.log('layout', props, mainMenu)
   return (
     <div
       css={{

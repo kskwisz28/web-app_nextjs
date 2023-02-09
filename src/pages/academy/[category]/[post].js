@@ -235,8 +235,6 @@ export default function ResellerList({academy, category, academyIndex, previousA
       ...summary.map(summaryItem => SUMMARY_TAGS.indexOf(summaryItem.tagName))
     )
 
-    console.log('summary', summary, articleContent, contentRef)
-
     setSummaryStructure(summary)
 
     window.addEventListener('scroll', () => handleOnScroll(summary))

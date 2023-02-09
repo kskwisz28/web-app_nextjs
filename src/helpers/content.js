@@ -334,6 +334,271 @@ fragment SanitySiteSettings on SiteSettings {
 }
 `
 
+export const CONTENTELEMENTS_FRAGMENT = gql`
+fragment ContentElements on CallToActionBoxOrCountdownOrEditorOrFeatureListOrFormContactOrFormGeneralOrHeroOrIconGridOrImageCTAsOrImageGridOrInfoStepsOrIntegrationsBasicOrPricingPlanOrReviewsOrShowcaseFeaturesOrSliderGeneralOrSliderThemesOrStartTabOrStatsGridOrStepperOrTestimonialsOrTextWithImageOrThumbnailsOrZettleBox {
+ ... on Hero {
+  _key
+  _type
+  heading
+  headingSize
+  blockContentRaw
+  button1Arrow
+  button1OpenNewTab
+  button1Text
+  button1Url
+  button2Arrow
+  button2OpenNewTab
+  button2Text
+  button2Url
+  center
+  heroColors {
+   ...SanityHeroColors
+  }
+  imageFullWidth
+  imageText
+  reverse
+  subtitle
+  transparentImage
+  videoAutoplay
+  videoControls
+  videoLoop
+  videoMuted
+  videoUrl
+  image {
+   ...SanitySimpleIllustration
+  }
+ }
+ ... on TextWithImage {
+  _key
+  _type
+ }
+ ... on CallToActionBox {
+  _key
+  _type
+  blockContentRaw
+  button1OpenNewTab
+  button1Text
+  button1Url
+  button1Text
+  button2OpenNewTab
+  button2Text
+  button2Url
+  heading
+  headingSize
+  heroColors {
+   ...SanityHeroColors
+  }
+ }
+ ... on StatsGrid {
+  _key
+  _type
+ }
+ ... on Testimonials {
+  _key
+  _type
+ }
+ ... on ImageCTAs {
+  _key
+  _type
+ }
+ ... on ImageGrid {
+  _key
+  _type
+  blockContentRaw
+  heading
+  headingSize
+  heroColors {
+   ...SanityHeroColors
+  }
+  images {
+   image {
+    ...SanitySimpleIllustration
+   }
+   openNewTab
+   padding {
+    ...SanityPadding
+   }
+   url
+  }
+  imagesPerRow
+  padding {
+   ...SanityPadding
+  }
+ }
+ ... on IconGrid {
+  _key
+  _type
+ }
+ ... on Stepper {
+  _key
+  _type
+ }
+ ... on Thumbnails {
+  _key
+  _type
+ }
+ ... on StartTab {
+  _key
+  _type
+  padding {
+   ...SanityPadding
+  }
+  tab {
+   ...SanityStartTabItems
+  }
+ }
+ ... on SliderGeneral {
+  _key
+  _type
+  slideTimer
+  rows {
+   ...SanityStartHero
+  }
+ }
+ ... on PricingPlan {
+  _key
+  _type
+  blockContentRaw
+  heading
+  headingSize
+  heroColors {
+   ...SanityHeroColors
+  }
+  infoPaymentFirst
+  infoPaymentFirstTooltip
+  infoPaymentSecond
+  infoPaymentSecondTooltip
+  introFirstPlan
+  introSecondPlan
+  introThirdPlan
+  itemsFirstPlan {
+   ...SanityPricingPlanItems
+  }
+  itemsSecondPlan {
+   ...SanityPricingPlanItems
+  }
+  itemsThirdPlan {
+   ...SanityPricingPlanItems
+  }
+  padding {
+   ...SanityPadding
+  }
+  priceBeforeMonthlyFirst
+  priceBeforeMonthlySecond
+  priceBeforeMonthlyThird
+  priceBeforeQuarterlyFirst
+  priceBeforeQuarterlySecond
+  priceBeforeQuarterlyThird
+  priceBeforeYearlyFirst
+  priceBeforeYearlySecond
+  priceBeforeYearlyThird
+  priceMonthlyFirst
+  priceMonthlySecond
+  priceMonthlyThird
+  priceQuarterlyFirst
+  priceQuarterlySecond
+  priceQuarterlyThird
+  priceYearlyFirst
+  priceYearlySecond
+  priceYearlyThird
+  titleDisclaimer
+  titleFirstPlan
+  titleMonthly
+  titlePerMonth
+  titleQuarterly
+  titleSecondPlan
+  titleThirdPlan
+  titleWhenPaying
+  titleYearly
+ }
+ ... on FeatureList {
+  _key
+  _type
+  blockContentRaw
+  firstOptionTitle
+  heading
+  headingSize
+  hideUnchecked
+  items {
+   _key
+   firstOption
+   secondOption
+   textRight
+   thirdOption
+   title
+  }
+  padding {
+   ...SanityPadding
+  }
+  secondOptionTitle
+  tableSize
+  thirdOptionTitle
+ }
+ ... on ZettleBox {
+  _key
+  _type
+ }
+ ... on Reviews {
+  _key
+  _type
+  info {
+   ...SanityInfoText
+  }
+  padding {
+   ...SanityPadding
+  }
+  reviewsText
+ }
+ ... on IntegrationsBasic {
+  _key
+  _type
+  blockContentRaw
+  button1Text
+  button1Url
+  button2Text
+  button2Url
+  heroColors {
+   ...SanityHeroColors
+  }
+  integrationPicker {
+   _id
+   logo {
+    ...SanityImage
+   }
+   logoAlt
+   title
+  }
+  reverse
+  title
+ }
+ ... on Editor {
+  _key
+  _type
+  blockContentRaw
+ }
+ ... on ShowcaseFeatures {
+  _key
+  _type
+ }
+ ... on SliderThemes {
+  _key
+  _type
+ }
+ ... on InfoSteps {
+  _key
+  _type
+ }
+ ... on FormContact {
+  _key
+  _type
+ }
+ ... on Countdown {
+  _key
+  _type
+ }
+}
+`
+
 export const CONTENT_FRAGMENT = gql`
 fragment Content on Page {
  content {
@@ -590,6 +855,7 @@ fragment Content on Page {
   ... on Editor {
    _key
    _type
+   blockContentRaw
   }
   ... on ShowcaseFeatures {
    _key

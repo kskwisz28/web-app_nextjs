@@ -60,7 +60,6 @@ export default function NavItems({
   useClickOutside(clickRef, onClickOutside)
 
   const {locale} = useRouter()
-  console.log('navmenu', navMenu)
 
   return (
     <Ul open={open} ref={clickRef}>

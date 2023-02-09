@@ -44,7 +44,6 @@ export default function flex({
   button2Url,
   button2OpenNewTab,
 }) {
-  console.log('cta', heroColors)
   return (
     <Box
       sx={{

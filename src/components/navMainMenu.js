@@ -70,8 +70,6 @@ export default function NavMainMenu(props) {
 
   const {locale} = useRouter()
 
-  console.log('navmainmenu', props.siteSettings)
-
   return (
     <React.Fragment>
       <StyledBurger
