@@ -1,10 +1,7 @@
-
-import { jsx } from 'theme-ui'
-
 import Sticky from 'react-sticky-el'
 import BlogSidebarItems from './blogSidebarItems'
 
-import useWindowSize from '../hooks/useWindowSize'
+import useWindowSize from '@/hooks/useWindowSize'
 
 export default function BlogSidebar({ categoriesMenu }) {
   const size = useWindowSize()

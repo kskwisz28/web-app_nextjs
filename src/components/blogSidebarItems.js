@@ -1,17 +1,18 @@
-
-import { jsx, Box, Heading, useThemeUI } from 'theme-ui'
+import {Box, Heading, useThemeUI} from 'theme-ui'
 
 import SocialIcons from '../components/socialIcons'
 import styled from '@emotion/styled'
 import LinkCustom from '../components/linkCustom'
 
-import { useTranslation } from 'react-i18next'
+import {useTranslation} from 'react-i18next'
+import {useRouter} from "next/router";
 
-export default function BlogSidebarItems({ categoriesMenu }) {
-  const { t } = useTranslation('common')
+export default function BlogSidebarItems({categoriesMenu}) {
+  const {t} = useTranslation('common')
 
+  const router = useRouter()
   const context = useThemeUI()
-  const { theme } = context
+  const {theme} = context
 
   const CategoryLink = styled(LinkCustom)`
     color: ${theme.colors.primary600};
@@ -26,15 +27,15 @@ export default function BlogSidebarItems({ categoriesMenu }) {
 
   return (
     <div>
-      <Box p={3} mb={3} sx={{ borderRadius: '8px' }}>
-        <Heading as="h1" sx={{ mb: 3 }}>
+      <Box p={3} mb={3} sx={{borderRadius: '8px'}}>
+        <Heading as="h1" sx={{mb: 3}}>
           {t('common:Blog')}
         </Heading>
         <h2>{t('common:Categories')}</h2>
         {categoriesMenu &&
           categoriesMenu[0] &&
-          categoriesMenu[0]['node'].menuItems.translate &&
-          categoriesMenu[0]['node'].menuItems.translate.map(category => (
+          categoriesMenu[0].menuItems[router.locale] &&
+          categoriesMenu[0].menuItems[router.locale].map(category => (
             <CategoryLink
               key={category._key}
               to={category.menuItemSlug}
@@ -45,9 +46,9 @@ export default function BlogSidebarItems({ categoriesMenu }) {
             </CategoryLink>
           ))}
       </Box>
-      <Box my={3} p={3} sx={{ borderRadius: '8px' }}>
+      <Box my={3} p={3} sx={{borderRadius: '8px'}}>
         <h2>{t('common:connect')}</h2>
-        <SocialIcons />
+        <SocialIcons/>
       </Box>
     </div>
   )

@@ -1,26 +1,25 @@
-import { Link } from 'gatsby'
+import Image from 'next/image'
+import Link from 'next/link'
+import {Box, Heading, Text, Button, Flex} from 'theme-ui'
 
-
-import { jsx, Box, Heading, Text, Button, Flex, Image } from 'theme-ui'
-
-import { useTranslation } from 'react-i18next'
+import {useTranslation} from 'react-i18next'
 
 import MainImage from '../components/mainImage'
 
-export default function CardPost({ node }) {
-  const { t } = useTranslation('common')
+export default function CardPost({node}) {
+  const {t} = useTranslation('common')
 
   return (
     <article
-      key={node._rawSlug.current}
+      key={node.slug.current}
       css={{
         boxShadow:
           '0 30px 60px -10px rgb(0 0 0 / 10%), 0 18px 36px -18px rgb(0 0 0 / 23%)',
       }}
     >
       <Link
-        to={`/${node.language}/${node.language === 'en' ? 'blog' : 'blogg'}/${
-          node._rawSlug.current
+        href={`/${node.language}/${node.language === 'en' ? 'blog' : 'blogg'}/${
+          node.slug.current
         }`}
       >
         {node.mainImage && (
@@ -49,7 +48,7 @@ export default function CardPost({ node }) {
               }}
             >
               {node.categories && (
-                <Flex css={{ justifyContent: 'center' }}>
+                <Flex css={{justifyContent: 'center'}}>
                   {node.categories.map(category => (
                     <Text
                       variant="lead"
@@ -67,7 +66,7 @@ export default function CardPost({ node }) {
                 </Flex>
               )}
               {node.publishedAt && (
-                <Text px={1} variant="lead" sx={{ color: 'dark300' }}>
+                <Text px={1} variant="lead" sx={{color: 'dark300'}}>
                   {node.publishedAt}
                 </Text>
               )}

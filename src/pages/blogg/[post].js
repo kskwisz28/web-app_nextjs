@@ -352,7 +352,6 @@ export async function getStaticProps({params, locale}) {
       language: locale
     }
   });
-  console.log('data', data.allPost[0].content[0])
   return {
     props: {
       ...(await serverSideTranslations(locale)),
