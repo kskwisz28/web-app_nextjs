@@ -29,11 +29,10 @@ export const CountryFlag = ({country}) => {
       src={source}
       alt="flag"
       style={{
-        height: '1.8rem',
         marginLeft: '0.2rem',
         marginRight: '0.2rem',
-        ...theme.images.flag
       }}
+      width={24}
     />
   )
 }

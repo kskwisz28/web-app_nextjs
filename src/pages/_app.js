@@ -3,9 +3,8 @@ import {ThemeProvider} from "theme-ui";
 import theme from "@/gatsby-plugin-theme-ui/index"
 import {ApolloProvider} from "@apollo/client";
 import client from "../apollo-client";
-import {createContext, useMemo} from "react";
+import {createContext, useEffect, useMemo} from "react";
 import {isHomepage} from "@/helpers/general";
-
 
 export const AlternateLinksContext = createContext([])
 
@@ -24,6 +23,19 @@ function App({Component, pageProps}) {
         }
       })
   }, [pageProps.page])
+
+  useEffect(() => {
+    window.WebFontConfig = {
+      typekit: {id: 'ymn7npe'}
+    };
+
+    (function (d) {
+      var wf = d.createElement('script'), s = d.scripts[0];
+      wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js';
+      wf.async = true;
+      s.parentNode.insertBefore(wf, s);
+    })(document);
+  })
 
   return (
     <AlternateLinksContext.Provider

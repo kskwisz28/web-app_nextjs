@@ -70,7 +70,7 @@ export default function Navbar(props) {
                 <Image
                   src={props.logoDark ? qbLogoDark : qbLogoWhite}
                   alt="Quickbutik logo"
-                  style={{maxHeight: '28px'}}
+                  height={28}
                 />
               </LinkCheck>
 

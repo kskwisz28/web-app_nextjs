@@ -2,6 +2,7 @@ import React from 'react'
 import LinkCustom from './linkCustom'
 import PropTypes from 'prop-types'
 import {Themed} from '@theme-ui/mdx'
+import Link from 'next/link'
 
 const LinkCheck = props => {
   if (
@@ -9,9 +10,11 @@ const LinkCheck = props => {
     (props.to && props.to.startsWith('mailto'))
   ) {
     return (
-      <Themed.a {...props} href={props.to} target={props.blank ? '_blank' : ''}>
-        {props.children}
-      </Themed.a>
+      <Link href={props.to} passHref legacyBehavior>
+        <Themed.a {...props} target={props.blank ? '_blank' : ''}>
+          {props.children}
+        </Themed.a>
+      </Link>
     )
   }
 
