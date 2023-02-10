@@ -1,37 +1,26 @@
 import client from "@/apollo-client";
 import {gql} from "@apollo/client";
 import {
-  COLOR_FRAGMENT,
-  CONTENT_FRAGMENT,
-  CONTENTELEMENTS_FRAGMENT,
-  HEROCOLORS_FRAGMENT,
   IMAGE_FRAGMENT,
   IMAGEASSET_FRAGMENT,
   IMAGECROP_FRAGMENT,
   IMAGEHOTSPOT_FRAGMENT,
   IMAGEMETADATA_FRAGMENT,
   IMAGEPALETTE_FRAGMENT,
-  IMAGEPALETTESWATCH_FRAGMENT, INFOTEXT_FRAGMENT,
+  IMAGEPALETTESWATCH_FRAGMENT,
   LANGUAGE_FRAGMENT,
   LANGUAGETEXT_FRAGMENT,
   LOCALEIMAGE_FRAGMENT,
-  MAINIMAGE_FRAGMENT,
   NAVIGATION_FRAGMENT,
-  OPENGRAPH_FRAGMENT,
-  PADDING_FRAGMENT, PRICINGPLANITEMS_FRAGMENT,
-  SIMPLEILLUSTRATION_FRAGMENT,
-  STARTHERO_FRAGMENT,
-  STARTTABITEMS_FRAGMENT,
 } from "@/helpers/content";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import Layout from '@/components/layout'
-import {useTranslation} from "next-i18next";
-import {Breadcrumbs} from '@/components/breadcrumbs'
 import {Box, Divider, Flex, Grid, Heading, Text, useThemeUI} from 'theme-ui'
 import Container from '@/components/container'
+import CardPost from "@/components/cardPost";
+import BlogSidebar from "@/components/blogSidebar";
 
-import BlogSidebar from '@/components/blogSidebar'
-import CardPost from '@/components/cardPost'
+const POSTS_PER_PAGE = 10
 
 export default function ResellerList(props) {
   const categoriesMenu =
@@ -89,7 +78,7 @@ export async function getStaticPaths() {
   const {data} = await client.query({
     query: gql`
   query Page {
-    allCategory
+    allPost
     {
       _id
       slug
@@ -97,17 +86,33 @@ export async function getStaticPaths() {
         current
       }
       language
+      alternativePages
+      {
+        language
+        slug
+        {
+          current
+        }
+      }
     }
   }
   `,
   });
 
-  const paths = data.allCategory.filter(page => page.slug.current).map(page => ({
-    locale: page.language,
-    params: {
-      category: page.slug.current
-    }
-  }))
+  const locales = ['sv', 'no', 'da', 'en']
+  let paths = []
+  locales.forEach(locale => {
+    const posts = data.allPost.filter(post => post.language === locale)
+    const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE)
+
+    paths = paths.concat(Array.from({length: totalPages}).map((_, index) => ({
+      locale,
+      params: {
+        index: [index === 0 ? '' : (index + 1).toString()]
+      }
+    })))
+  })
+  console.log(paths)
   return {
     paths,
     fallback: false,
@@ -170,10 +175,8 @@ export async function getStaticProps({params, locale}) {
   ${IMAGE_FRAGMENT}
   ${LOCALEIMAGE_FRAGMENT}
   ${NAVIGATION_FRAGMENT}
-  query PageReseller($slug: String, $language: String) {
-    allCategory(
-  where: { slug: { current: { eq: $slug } }, language: { eq: $language } }
- ) {
+  query PageReseller($limit: Int, $offset: Int, $language: String) {
+      allCategory(where: { language: { eq: $language } }) {
   _id
   description
   language
@@ -183,9 +186,11 @@ export async function getStaticProps({params, locale}) {
   title
  }
  allPost(
-  where: {language: { eq: $language }}
+  limit: $limit
+  offset: $offset
   sort: [ { publishedAt: DESC } ]
-  ) {
+  where: { language: { eq: $language } }
+ ) {
   _id
   language
   title
@@ -200,22 +205,24 @@ export async function getStaticProps({params, locale}) {
    name
   }
   publishedAt
-  slug {current}
+  slug {
+   current
+  }
  }
       allNavigationMenu {...SanityNavigationMenu}
       allSiteSettings {...SanitySiteSettings}
   }
   `,
     variables: {
-      slug: params.category,
+      limit: POSTS_PER_PAGE,
+      offset: Number(params.index ? params.index[0] : 0) * POSTS_PER_PAGE,
       language: locale
     }
   });
   return {
     props: {
       ...(await serverSideTranslations(locale)),
-      category: data.allCategory[0],
-      posts: data.allPost.filter(post => post.categories && post.categories.some(cat => cat._id === data.allCategory[0]._id)),
+      posts: data.allPost,
       allNavigationMenu: data.allNavigationMenu,
       allSiteSettings: data.allSiteSettings,
     },
