@@ -200,7 +200,7 @@ export async function getStaticPaths() {
   const paths = data.allSpecialist.filter(page => page.slug.current).map(page => ({
     locale: page.language,
     params: {
-      slug: [page.slug.current]
+      slug: page.slug.current
     }
   }))
   return {
@@ -210,7 +210,6 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({params, locale}) {
-  const slug = params.slug[0]
   const {data} = await client.query({
     query: gql`
     ${LANGUAGE_FRAGMENT}
@@ -261,7 +260,7 @@ export async function getStaticProps({params, locale}) {
 }
   `,
     variables: {
-      page: slug,
+      page: params.slug,
       language: locale
     }
   });
