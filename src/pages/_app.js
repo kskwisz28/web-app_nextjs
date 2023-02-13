@@ -5,6 +5,7 @@ import {ApolloProvider} from "@apollo/client";
 import client from "../apollo-client";
 import {createContext, useEffect, useMemo} from "react";
 import {isHomepage} from "@/helpers/general";
+import {IntercomProvider} from "react-use-intercom";
 
 export const AlternateLinksContext = createContext([])
 
@@ -37,15 +38,19 @@ function App({Component, pageProps}) {
     })(document);
   })
 
+  const INTERCOM_APP_ID = 'pjlmfkmx'
+
   return (
     <AlternateLinksContext.Provider
       value={alternateLinks}
     >
-      <ApolloProvider client={client}>
-        <ThemeProvider theme={theme}>
-          <Component {...pageProps} />
-        </ThemeProvider>
-      </ApolloProvider>
+      <IntercomProvider autoBoot={true} appId={INTERCOM_APP_ID}>
+        <ApolloProvider client={client}>
+          <ThemeProvider theme={theme}>
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </ApolloProvider>
+      </IntercomProvider>
     </AlternateLinksContext.Provider>
   )
 }
