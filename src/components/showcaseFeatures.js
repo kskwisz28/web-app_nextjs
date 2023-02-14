@@ -413,6 +413,7 @@ export default function TestZone(props) {
                           src={RSlogo}
                           alt="Merchants"
                           sx={{height: 'auto', py: 3, px: 2}}
+                          width={158}
                         />
                       </motion.div>
                     )}

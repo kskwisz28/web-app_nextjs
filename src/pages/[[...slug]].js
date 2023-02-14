@@ -30,7 +30,20 @@ import BlockContent from '@sanity/block-content-to-react'
 import {isHomepage} from "@/helpers/general";
 
 export default function PageDefault(props) {
-  const {content, _rawContent} = props.page
+  const {content} = props.page
+  const wrapIntoContainer = props.page && props.page.containerSize && props.page.containerSize !== 'fullwidth'
+
+  const contentJSX = <>
+    {content &&
+      <PageBuilder content={content.slice(0, 1)}/>
+    }
+    <BlockContent
+      blocks={props?.page?.bodyRaw}
+      serializers={serializer}
+      hardBreak
+    />
+  </>
+
   return (
     <Layout
       headerBg={props?.data?.sanityPage?.menuBg?.hex ? props.data.sanityPage.menuBg.hex : 'aubergine'}
@@ -38,9 +51,7 @@ export default function PageDefault(props) {
       navMenu={props.allNavigationMenu}
       siteSettings={props.allSiteSettings[0]}
     >
-      {props.page &&
-      props.page.containerSize &&
-      props.page.containerSize !== 'fullwidth' ? (
+      {wrapIntoContainer ? (
         <Container
           containersize={
             props.page.containerSize
@@ -51,31 +62,10 @@ export default function PageDefault(props) {
               variant: 'styles',
             }}
           >
-            {content &&
-              <PageBuilder content={content}/>
-            }
-            <BlockContent
-              blocks={props?.page?.bodyRaw}
-              serializers={serializer}
-              hardBreak
-            />
+            {contentJSX}
           </div>
         </Container>
-      ) : (
-        <>
-          {content &&
-            <PageBuilder content={content}/>
-          }
-
-          {props?.page?.bodyRaw && (
-            <BlockContent
-              blocks={props?.page?.bodyRaw}
-              serializers={serializer}
-              hardBreak
-            />
-          )}
-        </>
-      )}
+      ) : contentJSX}
     </Layout>
   )
 }

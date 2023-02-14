@@ -1,18 +1,21 @@
 import React from 'react'
 
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import imageUrlBuilder from "@sanity/image-url";
 
-const maybeImage = (
-  image,
-  imgMaxHeight,
-  shadowImage,
-  rounded,
-  noLazyLoad,
-  cover,
-  heightFull,
-  sx
-) => {
+export default function OptimizedImage({
+                                         image,
+                                         imgMaxHeight,
+                                         shadowImage,
+                                         rounded,
+                                         noLazyLoad,
+                                         cover,
+                                         heightFull,
+                                         sx,
+                                         style,
+                                         className,
+                                         imageSx,
+                                       }) {
   let img = null
   // TODO: Make images work
   if (image && image.asset) {
@@ -26,6 +29,7 @@ const maybeImage = (
     } else {
       url = image.asset.url
     }
+    console.log('sx', imageSx, style, className)
     !noLazyLoad &&
     (img = (
       <React.Fragment>
@@ -45,24 +49,15 @@ const maybeImage = (
             }}
           />
         ) : (
-          <div style={{position: 'relative', width: '100%', height: '300px'}}>
-            <Image
-              alt={image.alt}
-              src={url}
-              className={shadowImage ? 'shadowImg' : ''}
-              imgStyle={{
-                objectFit: cover ? 'cover' : 'contain',
-              }}
-              layout="fill"
-              sx={{
-                maxHeight: imgMaxHeight,
-                borderRadius: rounded,
-                width: '100%',
-                height: heightFull ? '100%' : '',
-                ...sx
-              }}
-            />
-          </div>
+          <Image
+            alt={image.alt}
+            src={url}
+            className={shadowImage ? 'shadowImg' : ''}
+            fill
+            style={{
+              objectFit: cover ? 'cover' : 'contain',
+            }}
+          />
         )}
       </React.Fragment>
     ))
@@ -86,17 +81,4 @@ const maybeImage = (
     ))
   }
   return img
-}
-
-export default function OptimizedImage(props) {
-  const img = maybeImage(
-    props.image,
-    props.imgMaxHeight,
-    props.shadowImage,
-    props.rounded,
-    props.noLazyLoad,
-    props.cover,
-    props.heightFull
-  )
-  return <React.Fragment>{img}</React.Fragment>
 }

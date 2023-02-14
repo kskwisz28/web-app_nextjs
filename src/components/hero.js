@@ -2,38 +2,38 @@ import React from 'react'
 
 import Container from '../components/container'
 
-import { Text, Box, Button, Flex, Heading } from 'theme-ui'
+import {Text, Box, Button, Flex, Heading} from 'theme-ui'
 import LinkWithArrow from './linkWithArrow'
 import OptimizedImage from './optimizedImage'
 
 import BlockContent from '@sanity/block-content-to-react'
 
 export default function flex({
-  image,
-  reverse,
-  transparentImage,
-  imageFullWidth,
-  heroColors,
-  heading,
-  blockContentRaw,
-  button1Text,
-  button1Url,
-  button2Text,
-  button2Url,
-  button1OpenNewTab,
-  button2OpenNewTab,
-  headingSize,
-  subtitle,
-  imageText,
-  button1Arrow,
-  button2Arrow,
-  center,
-  videoUrl,
-  videoAutoplay,
-  videoMuted,
-  videoLoop,
-  videoControls
-}) {
+                               image,
+                               reverse,
+                               transparentImage,
+                               imageFullWidth,
+                               heroColors,
+                               heading,
+                               blockContentRaw,
+                               button1Text,
+                               button1Url,
+                               button2Text,
+                               button2Url,
+                               button1OpenNewTab,
+                               button2OpenNewTab,
+                               headingSize,
+                               subtitle,
+                               imageText,
+                               button1Arrow,
+                               button2Arrow,
+                               center,
+                               videoUrl,
+                               videoAutoplay,
+                               videoMuted,
+                               videoLoop,
+                               videoControls
+                             }) {
 
   const hasImage = image && image?.image?.asset?.url
 
@@ -60,7 +60,7 @@ export default function flex({
       sx={{
         py: transparentImage ? 0 : [5, null, null, null, 6],
         color: heroColors?.theme?.text,
-        backgroundColor: heroColors?.theme?.background,
+        backgroundColor: heroColors?.theme?.value,
         position: 'relative',
       }}
     >
@@ -79,9 +79,10 @@ export default function flex({
         }}
       >
         {videoUrl && (
-          <Flex sx={{ width: '100%', flex: 1, py: 4, px: 2 }}>
-            <video autoPlay={videoAutoplay} muted={videoMuted} loop={videoLoop} controls={videoControls} playsInline css={{ width: '100%', borderRadius: '12px' }}>
-              <source src={videoUrl} type="video/mp4" />
+          <Flex sx={{width: '100%', flex: 1, py: 4, px: 2}}>
+            <video autoPlay={videoAutoplay} muted={videoMuted} loop={videoLoop} controls={videoControls} playsInline
+                   css={{width: '100%', borderRadius: '12px'}}>
+              <source src={videoUrl} type="video/mp4"/>
               Your browser does not support the video tag.
             </video>
           </Flex>
@@ -93,58 +94,30 @@ export default function flex({
               justifyContent: reverse ? 'flex-end' : 'flex-start',
               alignSelf: transparentImage ? [null, null, null, null, 'end'] : '',
               flex: 1,
+              position: 'relative',
+              height: '543px',
             }}
           >
-            <Flex sx={{ position: 'relative' }}>
-              <OptimizedImage
-                image={image?.image}
+            <OptimizedImage
+              image={image?.image}
+            />
+            {imageText &&
+              <Heading
+                variant="h4"
                 sx={{
-                  width: [
-                    '100%',
-                    null,
-                    null,
-                    null,
-                    transparentImage ? '100%' : null,
-                  ],
-                  maxWidth: [
-                    transparentImage ? 350 : null,
-                    null,
-                    null,
-                    null,
-                    transparentImage ? 500 : null,
-                  ],
-                  maxHeight: [
-                    null,
-                    null,
-                    null,
-                    null,
-                    transparentImage ? 500 : null,
-                  ],
-
-                  background: [
-                    transparentImage ? '#fff' : null,
-                    null,
-                    null,
-                    null,
-                    'unset',
-                  ],
-                  objectFit: [
-                    transparentImage ? 'cover' : null,
-                    null,
-                    null,
-                    null,
-                    'unset',
-                  ],
-                }}
-              />
-              {imageText &&
-                <Heading
-                  variant="h4"
-                  sx={{ position: 'absolute', top: 0, left: 0, color: heroColors?.theme?.text, mt: 4, bg: 'kiwi', py: 2, px: 2, fontWeight: '700' }}>
-                  {imageText}
-                </Heading>
-              }
-            </Flex>
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  color: heroColors?.theme?.text,
+                  mt: 4,
+                  bg: 'kiwi',
+                  py: 2,
+                  px: 2,
+                  fontWeight: '700'
+                }}>
+                {imageText}
+              </Heading>
+            }
           </Flex>
         )}
 
@@ -161,7 +134,7 @@ export default function flex({
           <Heading
             variant={headingSize ?? 'h2'}
             as={headingSize ?? 'h2'}
-            sx={{ pb: 2 }}
+            sx={{pb: 2}}
           >
             {heading}
           </Heading>
@@ -172,7 +145,7 @@ export default function flex({
           />
 
           {(button1Text || button2Text) && (
-            <Flex sx={{ alignItems: 'center', gap: 3, mt: 3 }}>
+            <Flex sx={{alignItems: 'center', gap: 3, mt: 3}}>
               {button1Text && !button1Arrow && (
                 <Button
                   as="a"
@@ -191,7 +164,8 @@ export default function flex({
 
               {button1Text && button1Arrow && (
                 <Flex>
-                  <LinkWithArrow sx={{ color: heroColors?.theme?.arrowColor }} justifyLeft noSpace url={button1Url} title={button1Text} alignStart />
+                  <LinkWithArrow sx={{color: heroColors?.theme?.arrowColor}} justifyLeft noSpace url={button1Url}
+                                 title={button1Text} alignStart/>
                 </Flex>
               )}
 
@@ -213,7 +187,8 @@ export default function flex({
 
               {button2Text && button2Arrow && (
                 <Flex>
-                  <LinkWithArrow sx={{ color: heroColors?.theme?.arrowColor }} justifyLeft noSpace url={button2Url} title={button2Text} alignStart />
+                  <LinkWithArrow sx={{color: heroColors?.theme?.arrowColor}} justifyLeft noSpace url={button2Url}
+                                 title={button2Text} alignStart/>
                 </Flex>
               )}
             </Flex>
@@ -222,7 +197,7 @@ export default function flex({
           {subtitle && (
             <Text
               variant="smaller"
-              sx={{ display: 'block', pb: 2, color: heroColors?.theme?.text, mt: 3 }}
+              sx={{display: 'block', pb: 2, color: heroColors?.theme?.text, mt: 3}}
             >
               {subtitle}
             </Text>
