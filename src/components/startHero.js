@@ -3,34 +3,35 @@ import React from 'react'
 import BlockContent from '@sanity/block-content-to-react'
 import Container from '../components/container'
 
-import { Box, Button, Flex, Heading, Image, Text } from 'theme-ui'
+import {Box, Button, Flex, Heading, Image, Text} from 'theme-ui'
 import LinkWithArrow from './linkWithArrow'
 
 import serializer from '../helpers/serializers'
+import OptimizedImage from "@/components/optimizedImage";
 
 export default function textWithImage({
-  image,
-  reverse,
-  transparentImage,
-  heroColors,
-  heading,
-  blockContentRaw,
-  button1Text,
-  button1Url,
-  button1OpenNewTab,
-  headingSize,
-  subtitle,
-  arrowAsButton,
-  customPaddingTop,
-  customPaddingBottom
-}) {
-  const hasImage = image && image?.image?.asset?.url
+                                        image,
+                                        reverse,
+                                        transparentImage,
+                                        heroColors,
+                                        heading,
+                                        blockContent,
+                                        button1Text,
+                                        button1Url,
+                                        button1OpenNewTab,
+                                        headingSize,
+                                        subtitle,
+                                        arrowAsButton,
+                                        customPaddingTop,
+                                        customPaddingBottom
+                                      }) {
+  const hasImage = image && image.image
 
   return (
     <Box
       sx={{
         py: [5, null, null, null, 6],
-        pt: customPaddingTop? customPaddingTop : '',
+        pt: customPaddingTop ? customPaddingTop : '',
         pb: customPaddingBottom ? customPaddingBottom : '',
         color: heroColors?.theme?.text,
         backgroundColor: heroColors?.theme?.background,
@@ -59,47 +60,20 @@ export default function textWithImage({
           }}
         >
           {hasImage && (
-            <Image
-              src={image?.image?.asset?.url}
+            <Flex
               sx={{
-                position: [
-                  null,
-                  null,
-                  null,
-                  null,
-                  transparentImage ? 'absolute' : null,
-                ],
-                bottom: [null, null, null, null, transparentImage ? '0' : null],
-                width: [
-                  '100%',
-                  null,
-                  null,
-                  null,
-                  transparentImage ? '100%' : null,
-                ],
-                maxWidth: [
-                  transparentImage ? 350 : null,
-                  null,
-                  null,
-                  null,
-                  transparentImage ? 500 : null,
-                ],
-                maxHeight: [
-                  null,
-                  null,
-                  null,
-                  null,
-                  transparentImage ? 500 : null,
-                ],
-                objectFit: [
-                  transparentImage ? 'cover' : null,
-                  null,
-                  null,
-                  null,
-                  'unset',
-                ],
+                pt: image?.padding?.top,
+                justifyContent: reverse ? 'flex-end' : 'flex-start',
+                alignSelf: transparentImage ? [null, null, null, null, 'end'] : '',
+                flex: 1,
+                position: 'relative',
+                height: '543px',
               }}
-            />
+            >
+              <OptimizedImage
+                image={image.image}
+              />
+            </Flex>
           )}
         </Flex>
 
@@ -115,13 +89,13 @@ export default function textWithImage({
           <Heading
             variant={headingSize ?? 'h2'}
             as={headingSize ?? 'h2'}
-            sx={{ pb: 2 }}
+            sx={{pb: 2}}
           >
             {heading}
           </Heading>
 
           <BlockContent
-            blocks={blockContentRaw}
+            blocks={blockContent}
             serializers={serializer}
             hardBreak
           />
@@ -133,7 +107,7 @@ export default function textWithImage({
               href={button1Url}
               target={button1OpenNewTab && '_blank'}
               variant="buttons.primary"
-              sx={{ 
+              sx={{
                 background: heroColors?.theme?.buttonBackground,
                 color: heroColors?.theme?.buttonText
               }}
@@ -144,13 +118,13 @@ export default function textWithImage({
 
           {button1Text && arrowAsButton && (
             <div>
-              <LinkWithArrow justifyLeft noSpace url={button1Url} title={button1Text} alignStart />
+              <LinkWithArrow justifyLeft noSpace url={button1Url} title={button1Text} alignStart/>
             </div>
           )}
 
           <Text
             variant="smaller"
-            sx={{ pb: 2, color: heroColors?.theme?.text, mt: 3 }}
+            sx={{pb: 2, color: heroColors?.theme?.text, mt: 3}}
           >
             {subtitle}
           </Text>

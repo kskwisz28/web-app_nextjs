@@ -2,7 +2,7 @@ import {appWithTranslation} from "next-i18next";
 import {ThemeProvider} from "theme-ui";
 import theme from "@/gatsby-plugin-theme-ui/index"
 import {ApolloProvider} from "@apollo/client";
-import client from "../apollo-client";
+import apolloClient from "../apollo-client";
 import {createContext, useEffect, useMemo} from "react";
 import {isHomepage} from "@/helpers/general";
 import {IntercomProvider} from "react-use-intercom";
@@ -45,7 +45,7 @@ function App({Component, pageProps}) {
       value={alternateLinks}
     >
       <IntercomProvider autoBoot={true} appId={INTERCOM_APP_ID}>
-        <ApolloProvider client={client}>
+        <ApolloProvider client={apolloClient}>
           <ThemeProvider theme={theme}>
             <Component {...pageProps} />
           </ThemeProvider>

@@ -36,7 +36,7 @@ export default function IntegrationsBasic(props) {
 
           <Box>
             <BlockContent
-              blocks={props.blockContentRaw}
+              blocks={props.blockContent}
               hardBreak
             />
           </Box>
@@ -75,15 +75,22 @@ export default function IntegrationsBasic(props) {
             </Flex>
           )}
         </Box>
-        {props?.integrationPicker && (
+        {props.integrationPicker && (
           <Grid columns={2} gap={4} sx={{alignItems: 'center', flexBasis: '100%', justifyItems: 'center'}}>
-            {props?.integrationPicker?.map(item => (
-              <OptimizedImage
+            {props.integrationPicker?.map(item => (
+              <Flex
                 key={item._id}
-                image={item.logo}
-                alt={item.alt}
-                imgMaxHeight={'30px'}
-              />
+                sx={{
+                  position: 'relative',
+                  width: '100px',
+                  height: '100px'
+                }}
+              >
+                <OptimizedImage
+                  image={item.logo}
+                  imgMaxHeight={'30px'}
+                />
+              </Flex>
             ))}
           </Grid>
         )}

@@ -15,7 +15,7 @@ export default function flex({
                                imageFullWidth,
                                heroColors,
                                heading,
-                               blockContentRaw,
+                               blockContent,
                                button1Text,
                                button1Url,
                                button2Text,
@@ -35,7 +35,7 @@ export default function flex({
                                videoControls
                              }) {
 
-  const hasImage = image && image?.image?.asset?.url
+  const hasImage = image && image.image
 
   function reverseFullWidthCheck(reverse, fullWidth) {
     if (reverse && fullWidth) {
@@ -140,7 +140,7 @@ export default function flex({
           </Heading>
 
           <BlockContent
-            blocks={blockContentRaw}
+            blocks={blockContent}
             hardBreak
           />
 

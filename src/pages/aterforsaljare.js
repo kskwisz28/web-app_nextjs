@@ -1,4 +1,4 @@
-import client from "@/apollo-client";
+import apolloClient from "@/apollo-client";
 import {gql} from "@apollo/client";
 import {
   IMAGE_FRAGMENT,
@@ -92,7 +92,7 @@ export default function ResellerList(props) {
 }
 
 export async function getStaticProps({params, locale}) {
-  const {data} = await client.query({
+  const {data} = await apolloClient.query({
     query: gql`
     ${LANGUAGE_FRAGMENT}
     ${LANGUAGETEXT_FRAGMENT}

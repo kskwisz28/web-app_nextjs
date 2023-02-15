@@ -70,6 +70,9 @@ import BoxedArea from '../components/boxedArea'
 
 import StartHero from '../components/startHero'
 import OptimizedImage from '../components/optimizedImage'
+import StartTab from "@/components/startTab";
+import IntegrationsBasic from "@/components/integrationsBasic";
+import SliderGeneral from "@/components/sliderGeneral";
 
 const serializers = {
   listItem: props => (
@@ -132,6 +135,7 @@ const serializers = {
     infoWithIcon: ({node}) => {
       return <InfoWithIcon {...node} />
     },
+    integrationsBasic: ({node}) => <IntegrationsBasic {...node}/>,
     boxedArea: ({node}) => {
       return <BoxedArea {...node} />
     },
@@ -167,6 +171,7 @@ const serializers = {
     sliderShops: ({node}) => {
       return <CarouselShops {...node} />
     },
+    sliderGeneral: ({node}) => <SliderGeneral {...node}/>,
     infoText: ({node}) => {
       return (
         <InfoText
@@ -339,6 +344,7 @@ const serializers = {
     startHero: ({node}) => {
       return <StartHero {...node} />
     },
+    startTab: ({node}) => <StartTab {...node}/>,
     // Layouts
     responsiveRow: ({node}) => {
       return <ResponsiveRow {...node} />
