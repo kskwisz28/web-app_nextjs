@@ -1,19 +1,4 @@
-import apolloClient from "@/apollo-client";
-import {gql} from "@apollo/client";
-import {
-  IMAGE_FRAGMENT,
-  IMAGEASSET_FRAGMENT,
-  IMAGECROP_FRAGMENT,
-  IMAGEHOTSPOT_FRAGMENT,
-  IMAGEMETADATA_FRAGMENT,
-  IMAGEPALETTE_FRAGMENT,
-  IMAGEPALETTESWATCH_FRAGMENT,
-  LANGUAGE_FRAGMENT,
-  LANGUAGETEXT_FRAGMENT,
-  LOCALEIMAGE_FRAGMENT,
-  NAVIGATION_FRAGMENT,
-  OPENGRAPH_FRAGMENT,
-} from "@/helpers/content";
+import {client} from "@/apollo-client";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import Layout from '@/components/layout'
 import {Box, Heading, Flex, Text} from 'theme-ui'
@@ -30,8 +15,8 @@ import Certified from '@/images/qb-certified.svg'
 
 export default function Specialist(props) {
   const defaultMeta =
-    props.allSiteSettings &&
-    props.allSiteSettings[0].openGraphDefault
+    props.settings &&
+    props.settings.openGraphDefault
   const ogMeta =
     props.page && props.page.openGraph
   const specialist = props.page
@@ -41,8 +26,8 @@ export default function Specialist(props) {
       headerBg="rgba(255,255,255,.6)"
       logoDark
       headerColor="dark"
-      navMenu={props.allNavigationMenu}
-      siteSettings={props.allSiteSettings[0]}
+      navMenu={props.navigation}
+      siteSettings={props.settings}
     >
       <Container>
         {specialist.logo && (
@@ -183,21 +168,9 @@ export default function Specialist(props) {
 }
 
 export async function getStaticPaths() {
-  const {data} = await apolloClient.query({
-    query: gql`
-     query SpecialistList {
-       allSpecialist {
-        _id
-        slug {
-         current
-        }
-        language
-       }
-      }
-  `,
-  });
+  const data = await client.fetch('*[_type == "specialist"]{slug, language}')
 
-  const paths = data.allSpecialist.filter(page => page.slug.current).map(page => ({
+  const paths = data.filter(page => page.slug.current).map(page => ({
     locale: page.language,
     params: {
       slug: page.slug.current
@@ -210,66 +183,20 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({params, locale}) {
-  const {data} = await apolloClient.query({
-    query: gql`
-    ${LANGUAGE_FRAGMENT}
-    ${LANGUAGETEXT_FRAGMENT}
-    ${OPENGRAPH_FRAGMENT}
-    ${IMAGEPALETTESWATCH_FRAGMENT}
-    ${IMAGEPALETTE_FRAGMENT}
-    ${IMAGEMETADATA_FRAGMENT}
-    ${IMAGEASSET_FRAGMENT}
-    ${IMAGECROP_FRAGMENT}
-    ${IMAGEHOTSPOT_FRAGMENT}
-    ${LOCALEIMAGE_FRAGMENT}
-    ${IMAGE_FRAGMENT}
-    ${NAVIGATION_FRAGMENT}
-    query PageSpecialist($page: String, $language: String) {
- allSpecialist(
-  where: { slug: { current: { eq: $page } }, language: { eq: $language } }
- ) {
-  companyAddress
-  companyCity
-  companyEmail
-  companyName
-  companyWebsite
-  language
-  location {
-   alt
-   lat
-   lng
-  }
-  logo {...SanityImage}
-  openGraph {...SanityOpenGraph}
-  rows {
-   _key
-   title
-  }
-  specialistArea
-  specialistContact {
-    contactImage {...SanityImage}
-   contactName
-  }
- }
- allNavigationMenu {
-  ...SanityNavigationMenu
- }
- allSiteSettings {
-  ...SanitySiteSettings
- }
-}
-  `,
-    variables: {
-      page: params.slug,
-      language: locale
-    }
-  });
+  const data = await client.fetch('{' +
+    '"page": *[_type == "specialist" && slug.current == $slug && language == $language][0],' +
+    '"navigation": *[_type == "navigationMenu"],' +
+    '"settings": *[_type == "siteSettings"][0],' +
+    '}', {
+    slug: params.slug,
+    language: locale
+  })
   return {
     props: {
       ...(await serverSideTranslations(locale)),
-      page: data.allSpecialist[0],
-      allNavigationMenu: data.allNavigationMenu,
-      allSiteSettings: data.allSiteSettings,
+      page: data.page,
+      navigation: data.navigation,
+      settings: data.settings,
     },
   }
 }
