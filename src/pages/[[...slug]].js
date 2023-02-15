@@ -1,6 +1,6 @@
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import Layout from "@/components/layout";
-import {client} from "@/apollo-client";
+import {client} from "@/sanity-client";
 import serializer from '@/helpers/serializers'
 import Container from '@/components/container'
 import PageBuilder from '@/components/pageBuilder'

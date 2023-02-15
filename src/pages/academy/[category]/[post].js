@@ -1,18 +1,4 @@
-import apolloClient, {client} from "@/apollo-client";
-import {gql} from "@apollo/client";
-import {
-  IMAGE_FRAGMENT,
-  IMAGEASSET_FRAGMENT,
-  IMAGECROP_FRAGMENT,
-  IMAGEHOTSPOT_FRAGMENT,
-  IMAGEMETADATA_FRAGMENT,
-  IMAGEPALETTE_FRAGMENT,
-  IMAGEPALETTESWATCH_FRAGMENT,
-  LANGUAGE_FRAGMENT,
-  LANGUAGETEXT_FRAGMENT,
-  LOCALEIMAGE_FRAGMENT,
-  NAVIGATION_FRAGMENT, OPENGRAPH_FRAGMENT,
-} from "@/helpers/content";
+import {client} from "@/sanity-client";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import Layout from '@/components/layout'
 import {useTranslation} from "next-i18next";

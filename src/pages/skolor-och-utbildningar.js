@@ -1,4 +1,4 @@
-import {client} from "@/apollo-client";
+import {client} from "@/sanity-client";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import Layout from '@/components/layout'
 import {Box, Heading, Flex, Text} from 'theme-ui'
