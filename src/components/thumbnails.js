@@ -3,11 +3,11 @@ import React from 'react'
 import BlockContent from '@sanity/block-content-to-react'
 import Container from '../components/container'
 
-import { Flex, Box, Heading, Image, Grid, Link } from 'theme-ui'
+import {Flex, Box, Heading, Image, Grid, Link} from 'theme-ui'
 
 import serializer from '../helpers/serializers'
 
-const Thumbnail = ({ heading, image, body, hoverShadow, url, openNewTab }) => {
+const Thumbnail = ({heading, image, body, hoverShadow, url, openNewTab}) => {
   return (
     <Flex
       backgroundColor={'background'}
@@ -26,7 +26,7 @@ const Thumbnail = ({ heading, image, body, hoverShadow, url, openNewTab }) => {
         <Link
           href={url}
           target={openNewTab && '_blank'}
-          sx={{ '::before': { content: '""', position: 'absolute', inset: 0 } }}
+          sx={{'::before': {content: '""', position: 'absolute', inset: 0}}}
         />
       )}
 
@@ -40,22 +40,22 @@ const Thumbnail = ({ heading, image, body, hoverShadow, url, openNewTab }) => {
         />
       )}
 
-      <Box sx={{ px: 3, mt: 3 }}>
+      <Box sx={{px: 3, mt: 3}}>
         {heading && (
-          <Heading variant="h5" sx={{ mb: 2 }}>
+          <Heading variant="h5" sx={{mb: 2}}>
             {heading}
           </Heading>
         )}
 
         {body && (
-          <BlockContent blocks={body} serializers={serializer} hardBreak />
+          <BlockContent blocks={body} serializers={serializer} hardBreak/>
         )}
       </Box>
     </Flex>
   )
 }
 
-export default function flex({ heroColors, heading, thumbnails, headingSize }) {
+export default function flex({heroColors, heading, thumbnails, headingSize}) {
   return (
     <Box
       sx={{
@@ -70,7 +70,7 @@ export default function flex({ heroColors, heading, thumbnails, headingSize }) {
             variant={headingSize ?? 'h1'}
             as={headingSize ?? 'h1'}
             color={heroColors?.theme?.text}
-            sx={{ mb: 5, textAlign: 'center' }}
+            sx={{mb: 5, textAlign: 'center'}}
           >
             {heading}
           </Heading>
@@ -81,6 +81,7 @@ export default function flex({ heroColors, heading, thumbnails, headingSize }) {
             thumbnails.map(thumbnail => {
               return (
                 <Thumbnail
+                  key={thumbnail._id}
                   heading={thumbnail.heading}
                   image={thumbnail.image}
                   body={thumbnail.blockContent}

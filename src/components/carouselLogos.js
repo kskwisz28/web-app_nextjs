@@ -3,6 +3,7 @@ import {useKeenSlider} from 'keen-slider/react'
 
 
 import styled from '@emotion/styled'
+import Image from "next/image";
 
 const Lazy = styled.div`
   .lazy__slide {
@@ -24,37 +25,37 @@ const CarouselLogos = props => {
     {
       LogoBaby: file(relativePath: { eq: "logo-babylove.png" }) {
         childImageSharp {
-          gatsbyImageData(width: 100, layout: FIXED)
+          ImageData(width: 100, layout: FIXED)
         }
       }
       LogoForm: file(relativePath: { eq: "logo-form.png" }) {
         childImageSharp {
-          gatsbyImageData(width: 100, layout: FIXED)
+          ImageData(width: 100, layout: FIXED)
         }
       }
       LogoGlas: file(relativePath: { eq: "logo-glas.png" }) {
         childImageSharp {
-          gatsbyImageData(width: 100, layout: FIXED)
+          ImageData(width: 100, layout: FIXED)
         }
       }
       LogoMomKids: file(relativePath: { eq: "logo-momkids.png" }) {
         childImageSharp {
-          gatsbyImageData(width: 100, layout: FIXED)
+          ImageData(width: 100, layout: FIXED)
         }
       }
       LogoPrylster: file(relativePath: { eq: "logo-prylster.png" }) {
         childImageSharp {
-          gatsbyImageData(width: 100, layout: FIXED)
+          ImageData(width: 100, layout: FIXED)
         }
       }
       LogoShoelace: file(relativePath: { eq: "logo-shoelace.png" }) {
         childImageSharp {
-          gatsbyImageData(width: 100, layout: FIXED)
+          ImageData(width: 100, layout: FIXED)
         }
       }
       LogoVinylahem: file(relativePath: { eq: "logo-vinylahem.png" }) {
         childImageSharp {
-          gatsbyImageData(width: 150, layout: FIXED)
+          ImageData(width: 150, layout: FIXED)
         }
       }
     }
@@ -121,50 +122,50 @@ const CarouselLogos = props => {
     >
       <div ref={sliderRef} className="keen-slider">
         <div className="keen-slider__slide lazy__slide">
-          <GatsbyImage
-            image={data.LogoBaby.childImageSharp.gatsbyImageData}
+          <Image
+            image={data.LogoBaby.childImageSharp.ImageData}
             // Add alt
             alt=""
           />
         </div>
         <div className="keen-slider__slide lazy__slide">
-          <GatsbyImage
-            image={data.LogoForm.childImageSharp.gatsbyImageData}
+          <Image
+            image={data.LogoForm.childImageSharp.ImageData}
             // Add alt
             alt=""
           />
         </div>
         <div className="keen-slider__slide lazy__slide">
-          <GatsbyImage
-            image={data.LogoGlas.childImageSharp.gatsbyImageData}
+          <Image
+            image={data.LogoGlas.childImageSharp.ImageData}
             // Add alt
             alt=""
           />
         </div>
         <div className="keen-slider__slide lazy__slide">
-          <GatsbyImage
-            image={data.LogoMomKids.childImageSharp.gatsbyImageData}
+          <Image
+            image={data.LogoMomKids.childImageSharp.ImageData}
             // Add alt
             alt=""
           />
         </div>
         <div className="keen-slider__slide lazy__slide">
-          <GatsbyImage
-            image={data.LogoPrylster.childImageSharp.gatsbyImageData}
+          <Image
+            image={data.LogoPrylster.childImageSharp.ImageData}
             // Add alt
             alt=""
           />
         </div>
         <div className="keen-slider__slide lazy__slide">
-          <GatsbyImage
-            image={data.LogoShoelace.childImageSharp.gatsbyImageData}
+          <Image
+            image={data.LogoShoelace.childImageSharp.ImageData}
             // Add alt
             alt=""
           />
         </div>
         <div className="keen-slider__slide lazy__slide">
-          <GatsbyImage
-            image={data.LogoVinylahem.childImageSharp.gatsbyImageData}
+          <Image
+            image={data.LogoVinylahem.childImageSharp.ImageData}
             // Add alt
             alt=""
           />

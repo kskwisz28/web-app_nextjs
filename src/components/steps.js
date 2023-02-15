@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { motion, useSpring, useTransform, AnimatePresence } from 'framer-motion'
+import React, {useEffect, useState} from 'react'
+import {motion, useSpring, useTransform, AnimatePresence} from 'framer-motion'
 
-import { useStaticQuery, graphql, Link } from 'gatsby'
-import { useKeenSlider } from 'keen-slider/react'
-import { jsx, Image, Box, Text, Divider } from 'theme-ui'
-import { GatsbyImage } from 'gatsby-plugin-image'
+import {useStaticQuery, graphql, Link} from 'gatsby'
+import {useKeenSlider} from 'keen-slider/react'
+import {jsx, Image, Box, Text, Divider} from 'theme-ui'
+import {GatsbyImage} from 'gatsby-plugin-image'
 
 
 import InfoText from '../components/infoText'
@@ -14,8 +14,8 @@ import LinkCheck from '../components/linkCheck'
 import mediaqueries from '../styles/media'
 
 // import EditorWrap from './editorWrap'
-import { Flex } from 'theme-ui'
-import { FaArrowRight } from 'react-icons/fa'
+import {Flex} from 'theme-ui'
+import {FaArrowRight} from 'react-icons/fa'
 import Connect from '../images/journey-connect.svg'
 import Customers from '../images/2-reach-customers.svg'
 import Sell from '../images/3-sell-everywhere.svg'
@@ -179,7 +179,7 @@ export default function Steps(props) {
   `)
 
   const ease = [0.6, 0.05, -0.01, 0.99]
-  let x = useSpring(0, { stiffness: 200, damping: 100 })
+  let x = useSpring(0, {stiffness: 200, damping: 100})
   const fadeIn = useTransform(x, [-100, 0], [1, 0])
   const fadeOut = useTransform(x, [-60, 0], [0, 1])
   const scale = useTransform(x, [-100, 0], [1.25, 1])
@@ -217,7 +217,7 @@ export default function Steps(props) {
         <div className="product-inner">
           <div className="product-content">
             <motion.div
-              style={{ translateY: up }}
+              style={{translateY: up}}
               className="product-content-inner"
             >
               <h1>Freedom Everywhere</h1>
@@ -230,14 +230,14 @@ export default function Steps(props) {
             <>
               <motion.div
                 className="background"
-                style={{ opacity: fadeIn }}
+                style={{opacity: fadeIn}}
               ></motion.div>
               <AnimatePresence>
                 <motion.div
-                  initial={{ y: -30, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -30, opacity: 0 }}
-                  transition={{ ease: ease }}
+                  initial={{y: -30, opacity: 0}}
+                  animate={{y: 0, opacity: 1}}
+                  exit={{y: -30, opacity: 0}}
+                  transition={{ease: ease}}
                   className="product-drag-header"
                 >
                   <div className="company-name">How it works</div>
@@ -253,9 +253,9 @@ export default function Steps(props) {
           <div className="product-container">
             <motion.div
               drag="x"
-              style={{ x, scale }}
+              style={{x, scale}}
               dragElastic={0.05}
-              dragConstraints={{ left: -1060, right: 1060 }}
+              dragConstraints={{left: -1060, right: 1060}}
               className="product-image"
             >
               <Flex>
@@ -269,20 +269,19 @@ export default function Steps(props) {
                       height: '100%',
                     }}
                   >
-                    <Box p={3} sx={{ width: '100%' }}>
+                    <Box p={3} sx={{width: '100%'}}>
                       <GatsbyImage
                         image={data.Shopowners.childImageSharp.gatsbyImageData}
                         alt="Merchants looking at tablet"
-                        css={{ borderRadius: '8px' }}
+                        css={{borderRadius: '8px'}}
                       />
                     </Box>
 
                     <InfoText
-                      colorTop={{ hex: 'red' }}
                       heading="h3"
                       topLine="STEP 1"
-                      bgTop={{ hex: 'dark' }}
-                      colorTop={{ hex: 'white' }}
+                      bgTop={{hex: 'dark'}}
+                      colorTop={{hex: 'white'}}
                       headline="Pick a style"
                       description="Choose one of our predefined designs. Then customize it however you like with our easy to use interface."
                     >
@@ -295,7 +294,7 @@ export default function Steps(props) {
                           See available designs
                         </Text>{' '}
                       </LinkCheck>
-                      <FaArrowRight />
+                      <FaArrowRight/>
                     </InfoText>
                   </Flex>
                 </div>
@@ -305,19 +304,18 @@ export default function Steps(props) {
                     bg="white"
                     variant="box.primary"
                     className="slide-content"
-                    sx={{ alignItems: 'center', height: '100%' }}
+                    sx={{alignItems: 'center', height: '100%'}}
                   >
                     <Image
                       src={Connect}
                       alt="Merchants"
-                      sx={{ height: 'auto', width: '100%', px: 4 }}
+                      sx={{height: 'auto', width: '100%', px: 4}}
                     />
                     <InfoText
-                      colorTop={{ hex: 'red' }}
                       heading="h3"
                       topLine="STEP 2"
-                      bgTop={{ hex: 'dark' }}
-                      colorTop={{ hex: 'white' }}
+                      bgTop={{hex: 'dark'}}
+                      colorTop={{hex: 'white'}}
                       headline="Pick payment & shipping"
                       description="With just a few clicks you will get your preferred payment and shipping methods integrated into your shop."
                     ></InfoText>
@@ -329,19 +327,18 @@ export default function Steps(props) {
                     bg="white"
                     variant="box.primary"
                     className="slide-content"
-                    sx={{ alignItems: 'center', height: '100%' }}
+                    sx={{alignItems: 'center', height: '100%'}}
                   >
                     <Image
                       src={Sell}
                       alt="Merchants"
-                      sx={{ height: 'auto', width: '100%', px: 4 }}
+                      sx={{height: 'auto', width: '100%', px: 4}}
                     />
                     <InfoText
-                      colorTop={{ hex: 'red' }}
                       heading="h3"
                       topLine="STEP 3"
-                      bgTop={{ hex: 'dark' }}
-                      colorTop={{ hex: 'white' }}
+                      bgTop={{hex: 'dark'}}
+                      colorTop={{hex: 'white'}}
                       headline="Sell everywhere"
                       description="Create your first products and start selling. Join some of the worlds most well-known marketplaces and boost your sales through ready to use integrations."
                     ></InfoText>
@@ -353,19 +350,18 @@ export default function Steps(props) {
                     bg="white"
                     variant="box.primary"
                     className="slide-content"
-                    sx={{ alignItems: 'center', height: '100%' }}
+                    sx={{alignItems: 'center', height: '100%'}}
                   >
                     <Image
                       src={Customers}
                       alt="Merchants"
-                      sx={{ height: 'auto', width: '100%', px: 4 }}
+                      sx={{height: 'auto', width: '100%', px: 4}}
                     />
                     <InfoText
-                      colorTop={{ hex: 'red' }}
                       heading="h3"
                       topLine="STEP 4"
-                      bgTop={{ hex: 'dark' }}
-                      colorTop={{ hex: 'white' }}
+                      bgTop={{hex: 'dark'}}
+                      colorTop={{hex: 'white'}}
                       headline="Connect with customers"
                       description="Grow your brand through seamless integrations with newsletters, social media-platforms and search engines such as Facebook, Instagram and Google."
                     ></InfoText>
@@ -374,16 +370,16 @@ export default function Steps(props) {
               </Flex>
             </motion.div>
           </div>
-          <motion.div style={{ paddingBottom: down }} className="product-drag">
+          <motion.div style={{paddingBottom: down}} className="product-drag">
             <div className="product-drag-inner">
               <div className="product-drag-label">
-                <motion.h6 style={{ x, opacity: fadeOut }}>
+                <motion.h6 style={{x, opacity: fadeOut}}>
                   Chevron Icon here Drag To Enlarge
                 </motion.h6>
               </div>
               <div className="product-drag-progress-background">
                 <motion.div
-                  style={{ width }}
+                  style={{width}}
                   className="product-drag-progress"
                 ></motion.div>
               </div>

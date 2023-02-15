@@ -1,5 +1,4 @@
-
-import { Box, jsx } from 'theme-ui'
+import {Box} from 'theme-ui'
 
 import {
   Accordion,
@@ -21,13 +20,22 @@ export default function AccordionWrapper(props) {
       <Accordion allowZeroExpanded>
         {props.rows &&
           props.rows.map(item => (
-            <Box css={{ maxWidth: '100%', display: 'block', color: props.colorText ? props.colorText.hex : '' }}>
+            <Box
+              key={item._id}
+              css={{maxWidth: '100%', display: 'block', color: props.colorText ? props.colorText.hex : ''}}
+            >
               <AccordionItem key={item._key}>
                 <AccordionItemHeading>
                   <AccordionItemButton>{item.title}</AccordionItemButton>
                 </AccordionItemHeading>
                 <AccordionItemPanel className="bg-black">
-                  <p sx={{ wordBreak: 'break-word', pt: 1, pb: 4, px: 2, bg: props.colorBg ? `rgba(${props.colorBg.rgb.r},${props.colorBg.rgb.g},${props.colorBg.rgb.b}, .8)` : ''}}>{item.description}</p>
+                  <p sx={{
+                    wordBreak: 'break-word',
+                    pt: 1,
+                    pb: 4,
+                    px: 2,
+                    bg: props.colorBg ? `rgba(${props.colorBg.rgb.r},${props.colorBg.rgb.g},${props.colorBg.rgb.b}, .8)` : ''
+                  }}>{item.description}</p>
                 </AccordionItemPanel>
               </AccordionItem>
             </Box>

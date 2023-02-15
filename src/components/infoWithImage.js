@@ -20,7 +20,7 @@ const Info = styled.div`
   }
 `
 
-export default function pInfoSection(props) {
+export default function InfoSection(props) {
   const gatsbyImages = useMemo(() => {
     if (!props.gatsbyImage) {
       return []

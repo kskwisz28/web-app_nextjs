@@ -153,6 +153,7 @@ export default function flex({ heroColors, heading, steps, headingSize }) {
                 stepsMap.map((_, stepIndex) => {
                   return (
                     <Flex
+                      key={stepIndex}
                       sx={{
                         flexDirection: ['column', null, null, null, 'row'],
                         background: backgroundColor,
@@ -205,7 +206,6 @@ export default function flex({ heroColors, heading, steps, headingSize }) {
                           width: circleHeight,
                           flex: 1,
                           //   border: '3px dashed red',
-                          zIndex: 200,
                           zIndex: stepIndex !== stepsMap.length - 1 ? 0 : 200,
                         }}
                       />
@@ -219,6 +219,7 @@ export default function flex({ heroColors, heading, steps, headingSize }) {
                 stepsMap.map((step, stepIndex) => {
                   return (
                     <Step
+                      key={step._id}
                       heading={step.heading}
                       body={step.blockContent}
                       heroColors={heroColors}

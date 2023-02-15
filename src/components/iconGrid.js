@@ -3,11 +3,11 @@ import React from 'react'
 import BlockContent from '@sanity/block-content-to-react'
 import Container from './container'
 
-import { Box, Flex, Heading, Grid } from 'theme-ui'
+import {Box, Flex, Heading, Grid} from 'theme-ui'
 
 import serializer from '../helpers/serializers'
 
-const IconGridItem = ({ icon, heading, body, heroColors, color }) => {
+const IconGridItem = ({icon, heading, body, heroColors, color}) => {
   return (
     <Flex
       sx={{
@@ -16,24 +16,24 @@ const IconGridItem = ({ icon, heading, body, heroColors, color }) => {
         justifyContent: 'center',
       }}
     >
-      <Box sx={{ width: 48, height: 48 }}>
+      <Box sx={{width: 48, height: 48}}>
         <Box
           sx={{
-            svg: { height: '100%', width: '100%', fill: color || 'faded' },
+            svg: {height: '100%', width: '100%', fill: color || 'faded'},
           }}
-          dangerouslySetInnerHTML={{ __html: icon?.icon }}
+          dangerouslySetInnerHTML={{__html: icon?.icon}}
         />
       </Box>
 
-      <Box sx={{ mt: 3, color: heroColors?.theme?.text }}>
+      <Box sx={{mt: 3, color: heroColors?.theme?.text}}>
         {heading && (
-          <Heading variant="h5" color={heroColors?.theme?.text} sx={{ mb: 2 }}>
+          <Heading variant="h5" color={heroColors?.theme?.text} sx={{mb: 2}}>
             {heading}
           </Heading>
         )}
 
         {body && (
-          <BlockContent blocks={body} serializers={serializer} hardBreak />
+          <BlockContent blocks={body} serializers={serializer} hardBreak/>
         )}
       </Box>
     </Flex>
@@ -41,11 +41,11 @@ const IconGridItem = ({ icon, heading, body, heroColors, color }) => {
 }
 
 export default function flex({
-  heroColors,
-  heading,
-  iconGridItems,
-  headingSize,
-}) {
+                               heroColors,
+                               heading,
+                               iconGridItems,
+                               headingSize,
+                             }) {
   return (
     <Box
       sx={{
@@ -65,7 +65,7 @@ export default function flex({
             variant={headingSize ?? 'h1'}
             as={headingSize ?? 'h1'}
             color={heroColors?.theme?.text}
-            sx={{ mb: 5, textAlign: 'center' }}
+            sx={{mb: 5, textAlign: 'center'}}
           >
             {heading}
           </Heading>
@@ -84,6 +84,7 @@ export default function flex({
             iconGridItems.map((iconGridItem, iconGridItemIndex) => {
               return (
                 <IconGridItem
+                  key={iconGridItem._id}
                   icon={iconGridItem.icon}
                   heading={iconGridItem.heading}
                   body={iconGridItem.blockContent}

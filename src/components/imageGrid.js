@@ -2,11 +2,11 @@ import React from 'react'
 
 import Container from '../components/container'
 
-import { Grid, Flex, Box, Heading, Image, Link } from 'theme-ui'
+import {Grid, Flex, Box, Heading, Image, Link} from 'theme-ui'
 import BlockContent from '@sanity/block-content-to-react'
 import serializer from '../helpers/serializers'
 
-const GridImage = ({ image, hoverShadow, url, openNewTab}) => {
+const GridImage = ({image, hoverShadow, url, openNewTab}) => {
   return (
     <Flex
       backgroundColor={'background'}
@@ -28,7 +28,7 @@ const GridImage = ({ image, hoverShadow, url, openNewTab}) => {
         <Link
           href={url}
           target={openNewTab && '_blank'}
-          sx={{ '::before': { content: '""', position: 'absolute', inset: 0 } }}
+          sx={{'::before': {content: '""', position: 'absolute', inset: 0}}}
         />
       )}
 
@@ -44,7 +44,7 @@ const GridImage = ({ image, hoverShadow, url, openNewTab}) => {
   )
 }
 
-export default function flex({ heroColors, blockContent, heading, images, headingSize }) {
+export default function flex({heroColors, blockContent, heading, images, headingSize}) {
   return (
     <Box
       sx={{
@@ -59,13 +59,13 @@ export default function flex({ heroColors, blockContent, heading, images, headin
             variant={headingSize ?? 'h1'}
             as={headingSize ?? 'h1'}
             color={heroColors?.theme?.text}
-            sx={{ mb: 2, textAlign: 'center' }}
+            sx={{mb: 2, textAlign: 'center'}}
           >
             {heading}
           </Heading>
         )}
 
-        <Flex sx={{ justifyContent: 'center', mb: 4 }}>
+        <Flex sx={{justifyContent: 'center', mb: 4}}>
           <BlockContent
             blocks={blockContent}
             serializers={serializer}
@@ -85,6 +85,7 @@ export default function flex({ heroColors, blockContent, heading, images, headin
             images.map(image => {
               return (
                 <GridImage
+                  key={image._id}
                   image={image.image}
                   hoverShadow={heroColors?.theme?.hoverShadow}
                   url={image?.url}

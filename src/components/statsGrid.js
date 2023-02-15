@@ -3,11 +3,11 @@ import React from 'react'
 import BlockContent from '@sanity/block-content-to-react'
 import Container from './container'
 
-import { Box, Flex, Heading } from 'theme-ui'
+import {Box, Flex, Heading} from 'theme-ui'
 
 import serializer from '../helpers/serializers'
 
-const StatsGridItem = ({ heading, body, color }) => {
+const StatsGridItem = ({heading, body, color}) => {
   return (
     <Flex
       sx={{
@@ -17,15 +17,15 @@ const StatsGridItem = ({ heading, body, color }) => {
         justifyContent: 'center',
       }}
     >
-      <Box sx={{ mt: 3, textAlign: 'center', color: 'faded' }}>
+      <Box sx={{mt: 3, textAlign: 'center', color: 'faded'}}>
         {heading && (
-          <Heading variant="h2" sx={{ mb: 2, color: color || 'faded' }}>
+          <Heading variant="h2" sx={{mb: 2, color: color || 'faded'}}>
             {heading}
           </Heading>
         )}
 
         {body && (
-          <BlockContent blocks={body} serializers={serializer} hardBreak />
+          <BlockContent blocks={body} serializers={serializer} hardBreak/>
         )}
       </Box>
     </Flex>
@@ -33,11 +33,11 @@ const StatsGridItem = ({ heading, body, color }) => {
 }
 
 export default function flex({
-  heroColors,
-  heading,
-  statsGridItems,
-  headingSize,
-}) {
+                               heroColors,
+                               heading,
+                               statsGridItems,
+                               headingSize,
+                             }) {
   return (
     <Box
       sx={{
@@ -58,7 +58,7 @@ export default function flex({
             variant={headingSize ?? 'h1'}
             as={headingSize ?? 'h1'}
             color="faded"
-            sx={{ mb: 5, textAlign: 'center' }}
+            sx={{mb: 5, textAlign: 'center'}}
           >
             {heading}
           </Heading>
@@ -76,6 +76,7 @@ export default function flex({
             statsGridItems.map((statsGridItem, statsGridItemIndex) => {
               return (
                 <StatsGridItem
+                  key={statsGridItem._id}
                   heading={statsGridItem.heading}
                   body={statsGridItem.blockContent}
                   index={statsGridItemIndex}

@@ -4,18 +4,18 @@ import BlockContent from '@sanity/block-content-to-react'
 import Container from './container'
 import LinkCheck from './linkCheck'
 
-import { Box, Button, Flex, Heading, Image } from 'theme-ui'
+import {Box, Button, Flex, Heading, Image} from 'theme-ui'
 
 import serializer from '../helpers/serializers'
 
 const ImageCTA = ({
-  image,
-  heading,
-  body,
-  buttonUrl,
-  buttonText,
-  openNewTab,
-}) => {
+                    image,
+                    heading,
+                    body,
+                    buttonUrl,
+                    buttonText,
+                    openNewTab,
+                  }) => {
   return (
     <Flex
       backgroundColor={'background'}
@@ -39,14 +39,14 @@ const ImageCTA = ({
       >
         <Box>
           {heading && (
-            <Heading variant="h3" sx={{ mb: 3 }}>
+            <Heading variant="h3" sx={{mb: 3}}>
               {heading}
             </Heading>
           )}
 
           {body && (
             <BlockContent
-              sx={{ mb: 5 }}
+              sx={{mb: 5}}
               blocks={body}
               serializers={serializer}
               hardBreak
@@ -75,7 +75,7 @@ const ImageCTA = ({
   )
 }
 
-export default function flex({ heroColors, heading, imageCTAs, headingSize }) {
+export default function flex({heroColors, heading, imageCTAs, headingSize}) {
   return (
     <Box
       sx={{
@@ -90,7 +90,7 @@ export default function flex({ heroColors, heading, imageCTAs, headingSize }) {
             variant={headingSize ?? 'h1'}
             as={headingSize ?? 'h1'}
             color={heroColors?.theme?.text}
-            sx={{ mb: 5, textAlign: 'center' }}
+            sx={{mb: 5, textAlign: 'center'}}
           >
             {heading}
           </Heading>
@@ -108,6 +108,7 @@ export default function flex({ heroColors, heading, imageCTAs, headingSize }) {
             imageCTAs.map(imageCTA => {
               return (
                 <ImageCTA
+                  key={imageCTA._id}
                   heading={imageCTA.heading}
                   image={imageCTA.image}
                   body={imageCTA.blockContent}

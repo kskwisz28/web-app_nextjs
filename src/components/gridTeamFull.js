@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Flex, Heading } from 'theme-ui'
+import {Box, Flex, Heading} from 'theme-ui'
 import Container from './container'
 import SingleImage from './singleImage'
 
@@ -14,10 +14,11 @@ export default function GridTeamFull(props) {
       }}
     >
       <Container>
-        <Flex css={{ flexWrap: 'wrap' }}>
+        <Flex css={{flexWrap: 'wrap'}}>
           {props.rows &&
             props.rows.map(employee => (
               <Box
+                key={employee._id}
                 sx={{
                   width: ['100%', null, null, '50%', null, '33.333%'],
                   px: 2,
@@ -27,14 +28,14 @@ export default function GridTeamFull(props) {
                 <SingleImage
                   noLazyLoad={employee.image && employee.image.noLazyLoad}
                   rounded="8px"
-                  sx={{ width: '10%', borderRadius: '18px' }}
+                  sx={{width: '10%', borderRadius: '18px'}}
                   image={
                     employee.image &&
                     employee.image.image &&
                     employee.image.image
                   }
                 />
-                <Heading as="h3" pt="2" css={{ textAlign: 'center' }}>
+                <Heading as="h3" pt="2" css={{textAlign: 'center'}}>
                   {employee.name}
                 </Heading>
                 <span

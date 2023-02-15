@@ -5,9 +5,9 @@ import Container from '../components/container'
 
 import serializer from '../helpers/serializers'
 
-import { Box, Flex, Grid, Heading } from 'theme-ui'
+import {Box, Flex, Grid, Heading} from 'theme-ui'
 
-const Testimonial = ({ body, name, company }) => {
+const Testimonial = ({body, name, company}) => {
   return (
     <Flex
       backgroundColor={'background'}
@@ -19,12 +19,12 @@ const Testimonial = ({ body, name, company }) => {
       }}
     >
       {body && (
-        <BlockContent blocks={body} serializers={serializer} hardBreak />
+        <BlockContent blocks={body} serializers={serializer} hardBreak/>
       )}
 
-      <Box sx={{ mt: 5 }}>
+      <Box sx={{mt: 5}}>
         {name && (
-          <Heading sx={{ mb: company ? 1 : 0 }} variant="h6">
+          <Heading sx={{mb: company ? 1 : 0}} variant="h6">
             {name}
           </Heading>
         )}
@@ -40,16 +40,17 @@ const Testimonial = ({ body, name, company }) => {
 }
 
 export default function flex({
-  heroColors,
-  heading,
-  testimonials,
-  headingSize,
-}) {
+                               heroColors,
+                               heading,
+                               testimonials,
+                               headingSize,
+                             }) {
   const content =
     testimonials &&
     testimonials.map(testimonial => {
       return (
         <Testimonial
+          key={testimonial._id}
           name={testimonial.name}
           company={testimonial.company}
           body={testimonial.blockContent}
@@ -73,7 +74,7 @@ export default function flex({
             variant={headingSize ?? 'h1'}
             as={headingSize ?? 'h1'}
             color={heroColors?.theme?.text}
-            sx={{ mb: 5, textAlign: 'center' }}
+            sx={{mb: 5, textAlign: 'center'}}
           >
             {heading}
           </Heading>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Box } from 'theme-ui'
+import {Grid, Box} from 'theme-ui'
 import Container from '../components/container'
 
 import BlockContent from '@sanity/block-content-to-react'
@@ -37,7 +37,7 @@ export default function grid(props) {
           {props.container &&
             props.rows &&
             props.rows.map(info => (
-              <Container>
+              <Container key={info._id}>
                 <Box
                   key={info._key}
                   sx={{

@@ -79,6 +79,7 @@ function Summary({
 
           {summaryStructure.map((summaryItem, summaryItemIndex) => (
             <Box
+              key={summaryItem._id}
               sx={{
                 pl: `${(SUMMARY_TAGS.indexOf(summaryItem.tagName) - lowestIndex.current) * 32}px`,
                 mt: 2,
