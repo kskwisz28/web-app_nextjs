@@ -1,19 +1,4 @@
-import apolloClient from "@/apollo-client";
-import {gql} from "@apollo/client";
-import {
-  IMAGE_FRAGMENT,
-  IMAGEASSET_FRAGMENT,
-  IMAGECROP_FRAGMENT,
-  IMAGEHOTSPOT_FRAGMENT,
-  IMAGEMETADATA_FRAGMENT,
-  IMAGEPALETTE_FRAGMENT,
-  IMAGEPALETTESWATCH_FRAGMENT,
-  LANGUAGE_FRAGMENT,
-  LANGUAGETEXT_FRAGMENT,
-  LOCALEIMAGE_FRAGMENT,
-  NAVIGATION_FRAGMENT,
-  OPENGRAPH_FRAGMENT,
-} from "@/helpers/content";
+import {client} from "@/apollo-client";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import Layout from '@/components/layout'
 import {Box, Heading, Flex, Text} from 'theme-ui'
@@ -36,8 +21,8 @@ export default function ResellerList(props) {
       headerBg="rgba(255,255,255,.6)"
       logoDark
       headerColor="dark"
-      navMenu={props.allNavigationMenu}
-      siteSettings={props.allSiteSettings[0]}
+      navMenu={props.navigation}
+      siteSettings={props.settings}
     >
       <Container containersize="read">
         <Image
@@ -91,56 +76,22 @@ export default function ResellerList(props) {
   )
 }
 
-export async function getStaticProps({params, locale}) {
-  const {data} = await apolloClient.query({
-    query: gql`
-    ${LANGUAGE_FRAGMENT}
-    ${LANGUAGETEXT_FRAGMENT}
-    ${OPENGRAPH_FRAGMENT}
-    ${IMAGEPALETTESWATCH_FRAGMENT}
-    ${IMAGEPALETTE_FRAGMENT}
-    ${IMAGEMETADATA_FRAGMENT}
-    ${IMAGEASSET_FRAGMENT}
-    ${IMAGECROP_FRAGMENT}
-    ${IMAGEHOTSPOT_FRAGMENT}
-    ${LOCALEIMAGE_FRAGMENT}
-    ${IMAGE_FRAGMENT}
-    ${NAVIGATION_FRAGMENT}
-    query PageReseller($language: String) {
- allReseller(where: { language: { eq: $language } }) {
-  _id
-  slug {
-   current
-  }
-  language
-  companyName
-  companyCity
-  companyAddress
-  companyEmail
-  companyWebsite
-  contactName
-  location {lat lng alt}
-  logo {...SanityImage}
-  openGraph {...SanityOpenGraph}
- }
- allNavigationMenu {
-  ...SanityNavigationMenu
- }
- allSiteSettings {
-  ...SanitySiteSettings
- }
-}
-  `,
-    variables: {
-      language: locale
-    }
-  });
+export async function getStaticProps({locale}) {
+  const data = await client.fetch(`
+    {
+      "resellers": *[_type == "reseller" && language == $language],
+      "navigation": *[_type == "navigationMenu"],
+      "settings": *[_type == "siteSettings"][0],
+     }
+  `, {
+    language: locale
+  })
   return {
     props: {
       ...(await serverSideTranslations(locale)),
-      page: data.allReseller,
-      allNavigationMenu: data.allNavigationMenu,
-      allSiteSettings: data.allSiteSettings,
+      page: data.resellers,
+      navigation: data.navigation,
+      settings: data.settings,
     },
   }
 }
