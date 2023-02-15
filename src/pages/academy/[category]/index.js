@@ -1,18 +1,4 @@
-import apolloClient from "@/apollo-client";
-import {gql} from "@apollo/client";
-import {
-  IMAGE_FRAGMENT,
-  IMAGEASSET_FRAGMENT,
-  IMAGECROP_FRAGMENT,
-  IMAGEHOTSPOT_FRAGMENT,
-  IMAGEMETADATA_FRAGMENT,
-  IMAGEPALETTE_FRAGMENT,
-  IMAGEPALETTESWATCH_FRAGMENT,
-  LANGUAGE_FRAGMENT,
-  LANGUAGETEXT_FRAGMENT,
-  LOCALEIMAGE_FRAGMENT,
-  NAVIGATION_FRAGMENT,
-} from "@/helpers/content";
+import {client} from "@/apollo-client";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import Layout from '@/components/layout'
 import {useTranslation} from "next-i18next";
@@ -33,8 +19,8 @@ export default function ResellerList(props) {
       headerBg="rgba(255,255,255,.6)"
       logoDark
       headerColor="dark"
-      navMenu={props.allNavigationMenu}
-      siteSettings={props.allSiteSettings[0]}
+      navMenu={props.navigation}
+      siteSettings={props.settings}
     >
       <Breadcrumbs
         links={[
@@ -81,7 +67,7 @@ export default function ResellerList(props) {
           <Divider sx={{my: 4, color: '#FAF8F7'}}/>
 
           <Grid gap={4} columns={[1, null, null, null, 2]}>
-            {!!category?.academies &&
+            {category.academies &&
               category.academies
                 .filter(
                   academy =>
@@ -108,20 +94,8 @@ export default function ResellerList(props) {
 }
 
 export async function getStaticPaths() {
-  const {data} = await apolloClient.query({
-    query: gql`
-    query Page {
-     allAcademyCategory {
-      slug {
-       current
-      }
-      language
-     }
-    }
-  `,
-  });
-
-  const paths = data.allAcademyCategory.filter(page => page.slug.current).map(page => ({
+  const data = await client.fetch('*[_type == "academyCategory"]{slug, language}')
+  const paths = data.filter(page => page.slug.current).map(page => ({
     locale: page.language,
     params: {
       category: page.slug.current
@@ -134,69 +108,23 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({params, locale}) {
-  const {data} = await apolloClient.query({
-    query: gql`
-    ${LANGUAGE_FRAGMENT}
-    ${LANGUAGETEXT_FRAGMENT}
-    ${IMAGEPALETTESWATCH_FRAGMENT}
-    ${IMAGEPALETTE_FRAGMENT}
-    ${IMAGEMETADATA_FRAGMENT}
-    ${IMAGEASSET_FRAGMENT}
-    ${IMAGECROP_FRAGMENT}
-    ${IMAGEHOTSPOT_FRAGMENT}
-    ${LOCALEIMAGE_FRAGMENT}
-    ${IMAGE_FRAGMENT}
-    ${NAVIGATION_FRAGMENT}
-    query PageReseller($category: String, $language: String) {
-     allAcademyCategory(where: { slug: {current: {eq: $category}}, language: { eq: $language } }) {
-      _id
-      slug {
-       current
-      }
-      language
-      title
-      order
-      description
-      icon {
-       name
-       icon
-       provider
-      }
-      iconColor {
-       theme {
-        value
-       }
-      }
-      academies {
-       _id
-       title
-       excerpt
-       slug {
-        current
-       }
-       language
-       readTime
-      }
-     }
-     allNavigationMenu {
-      ...SanityNavigationMenu
-     }
-     allSiteSettings {
-      ...SanitySiteSettings
-     }
-    }
-  `,
-    variables: {
-      category: params.category,
-      language: locale
-    }
-  });
+  const data = await client.fetch('{' +
+    '"page": *[_type == "academyCategory" && slug.current == $slug && language == $language][0] {' +
+    '...,' +
+    'academies[]->,' +
+    '},' +
+    '"navigation": *[_type == "navigationMenu"],' +
+    '"settings": *[_type == "siteSettings"][0],' +
+    '}', {
+    slug: params.category,
+    language: locale
+  })
   return {
     props: {
       ...(await serverSideTranslations(locale)),
-      page: data.allAcademyCategory[0],
-      allNavigationMenu: data.allNavigationMenu,
-      allSiteSettings: data.allSiteSettings,
+      page: data.page,
+      navigation: data.navigation,
+      settings: data.settings,
     },
   }
 }

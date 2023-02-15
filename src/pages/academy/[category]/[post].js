@@ -1,4 +1,4 @@
-import apolloClient from "@/apollo-client";
+import apolloClient, {client} from "@/apollo-client";
 import {gql} from "@apollo/client";
 import {
   IMAGE_FRAGMENT,
@@ -195,7 +195,7 @@ const Article = forwardRef(({academy, academyIndex}, contentRef) => {
         }}
       >
         <BlockContent
-          blocks={academy.bodyRaw}
+          blocks={academy.body}
           serializers={serializer}
           hardBreak
         />
@@ -262,8 +262,8 @@ export default function ResellerList({academy, category, academyIndex, previousA
       headerBg="rgba(255,255,255,.6)"
       logoDark
       headerColor="dark"
-      navMenu={props.allNavigationMenu}
-      siteSettings={props.allSiteSettings[0]}
+      navMenu={props.navigation}
+      siteSettings={props.settings}
     >
       <Breadcrumbs
         links={[
@@ -320,25 +320,9 @@ export default function ResellerList({academy, category, academyIndex, previousA
 }
 
 export async function getStaticPaths() {
-  const {data} = await apolloClient.query({
-    query: gql`
-    query Page {
-     allAcademyCategory {
-      slug {
-       current
-      }
-      language
-      academies {
-        slug {
-          current
-        }
-      }
-     }
-    }
-  `,
-  });
+  const data = await client.fetch('*[_type == "academyCategory"]{slug, language, academies[]-> {slug}}')
 
-  const paths = data.allAcademyCategory.filter(page => page.slug.current).reduce(
+  const paths = data.filter(page => page.slug.current).reduce(
     (acc, category) => acc.concat(category.academies.filter(page => page.slug.current).map(post => ({
       locale: category.language,
       params: {
@@ -355,101 +339,18 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({params, locale}) {
-  const {data} = await apolloClient.query({
-    query: gql`
-    ${LANGUAGE_FRAGMENT}
-    ${LANGUAGETEXT_FRAGMENT}
-    ${IMAGEPALETTESWATCH_FRAGMENT}
-    ${IMAGEPALETTE_FRAGMENT}
-    ${IMAGEMETADATA_FRAGMENT}
-    ${IMAGEASSET_FRAGMENT}
-    ${IMAGECROP_FRAGMENT}
-    ${IMAGEHOTSPOT_FRAGMENT}
-    ${LOCALEIMAGE_FRAGMENT}
-    ${OPENGRAPH_FRAGMENT}
-    ${IMAGE_FRAGMENT}
-    ${NAVIGATION_FRAGMENT}
-    query PageReseller($category: String, $language: String) {
-     allAcademyCategory(
-  where: { slug: { current: { eq: $category } }, language: { eq: $language } }
- ) {
-  _id
-  slug {
-   current
-  }
-  language
-  language
-  title
-  order
-  description
-  icon {
-   name
-   icon
-   provider
-  }
-  iconColor {
-   theme {
-    value
-   }
-  }
-  academies {
-   _id
-   title
-   alternativePages {
-    slug {
-     current
-    }
-   }
-   author {
-    bioRaw
-    image {
-     ...SanityImage
-    }
-    name
-    slug {
-     current
-    }
-   }
-   bgHeader {
-    colorSelection {
-     title
-     value
-    }
-   }
-   bodyRaw
-   colorHeader
-   containerSize
-   disableTitle
-   excerpt
-   slug {
-    current
-   }
-   language
-   readTime
-   publishedAt
-   openGraph {
-    ...SanityOpenGraph
-   }
-   mainImage {
-    ...SanityImage
-   }
-   imageAlt
-  }
- }
-     allNavigationMenu {
-      ...SanityNavigationMenu
-     }
-     allSiteSettings {
-      ...SanitySiteSettings
-     }
-    }
-  `,
-    variables: {
-      category: params.category,
-      language: locale
-    }
-  });
-  const category = data.allAcademyCategory[0]
+  const data = await client.fetch('{' +
+    '"page": *[_type == "academyCategory" && slug.current == $slug && language == $language][0] {' +
+    '...,' +
+    'academies[]->,' +
+    '},' +
+    '"navigation": *[_type == "navigationMenu"],' +
+    '"settings": *[_type == "siteSettings"][0],' +
+    '}', {
+    slug: params.category,
+    language: locale
+  })
+  const category = data.page
   const academyIndex = category.academies.findIndex(academy => academy.slug.current === params.post)
   const academy = category.academies[academyIndex]
   const previousAcademy = academyIndex > 0 ? {
@@ -468,8 +369,8 @@ export async function getStaticProps({params, locale}) {
       academyIndex: academyIndex + 1,
       previousAcademy,
       nextAcademy,
-      allNavigationMenu: data.allNavigationMenu,
-      allSiteSettings: data.allSiteSettings,
+      navigation: data.navigation,
+      settings: data.settings,
     },
   }
 }
