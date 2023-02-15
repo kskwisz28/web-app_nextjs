@@ -1,28 +1,4 @@
-import apolloClient from "@/apollo-client";
-import {gql} from "@apollo/client";
-import {
-  COLOR_FRAGMENT,
-  CONTENT_FRAGMENT,
-  CONTENTELEMENTS_FRAGMENT,
-  HEROCOLORS_FRAGMENT,
-  IMAGE_FRAGMENT,
-  IMAGEASSET_FRAGMENT,
-  IMAGECROP_FRAGMENT,
-  IMAGEHOTSPOT_FRAGMENT,
-  IMAGEMETADATA_FRAGMENT,
-  IMAGEPALETTE_FRAGMENT,
-  IMAGEPALETTESWATCH_FRAGMENT, INFOTEXT_FRAGMENT,
-  LANGUAGE_FRAGMENT,
-  LANGUAGETEXT_FRAGMENT,
-  LOCALEIMAGE_FRAGMENT,
-  MAINIMAGE_FRAGMENT,
-  NAVIGATION_FRAGMENT,
-  OPENGRAPH_FRAGMENT,
-  PADDING_FRAGMENT, PRICINGPLANITEMS_FRAGMENT,
-  SIMPLEILLUSTRATION_FRAGMENT,
-  STARTHERO_FRAGMENT,
-  STARTTABITEMS_FRAGMENT,
-} from "@/helpers/content";
+import {client} from "@/apollo-client";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import Layout from '@/components/layout'
 import {useTranslation} from "next-i18next";
@@ -44,7 +20,6 @@ import serializer from '@/helpers/serializers'
 
 export default function ResellerList(props) {
   const {t} = useTranslation('common')
-  const router = useRouter()
   const context = useThemeUI()
   const {theme} = context
   const post = props.page
@@ -62,8 +37,8 @@ export default function ResellerList(props) {
       headerBg="rgba(255,255,255,.6)"
       logoDark
       headerColor="dark"
-      navMenu={props.allNavigationMenu}
-      siteSettings={props.allSiteSettings[0]}
+      navMenu={props.navigation}
+      siteSettings={props.settings}
     >
       <Box sx={{pb: 4}}>
         <article>
@@ -175,9 +150,9 @@ export default function ResellerList(props) {
               {content &&
                 <PageBuilder content={content}/>
               }
-              {post.bodyRaw && (
+              {post.body && (
                 <BlockContent
-                  blocks={post.bodyRaw}
+                  blocks={post.body}
                   serializers={serializer}
                   hardBreak
                 />
@@ -191,31 +166,9 @@ export default function ResellerList(props) {
 }
 
 export async function getStaticPaths() {
-  const {data} = await apolloClient.query({
-    query: gql`
-  query Page {
-    allPost
-    {
-      _id
-      slug
-      {
-        current
-      }
-      language
-      alternativePages
-      {
-        language
-        slug
-        {
-          current
-        }
-      }
-    }
-  }
-  `,
-  });
+  const data = await client.fetch('*[_type == "post"]{slug, language}')
 
-  const paths = data.allPost.filter(page => page.slug.current).map(page => ({
+  const paths = data.filter(page => page.slug.current).map(page => ({
     locale: page.language,
     params: {
       post: page.slug.current
@@ -227,137 +180,30 @@ export async function getStaticPaths() {
   }
 }
 
-/*
-
-   ${LANGUAGE_FRAGMENT}
-    ${LANGUAGETEXT_FRAGMENT}
-  ${IMAGEPALETTESWATCH_FRAGMENT}
-  ${IMAGEPALETTE_FRAGMENT}
-  ${IMAGEMETADATA_FRAGMENT}
-  ${IMAGEASSET_FRAGMENT}
-  ${IMAGECROP_FRAGMENT}
-  ${IMAGEHOTSPOT_FRAGMENT}
-  ${OPENGRAPH_FRAGMENT}
-  ${COLOR_FRAGMENT}
-  ${MAINIMAGE_FRAGMENT}
-  ${SIMPLEILLUSTRATION_FRAGMENT}
-  ${LOCALEIMAGE_FRAGMENT}
-  ${IMAGE_FRAGMENT}
-  ${PADDING_FRAGMENT}
-  ${STARTTABITEMS_FRAGMENT}
-  ${HEROCOLORS_FRAGMENT}
-  ${STARTHERO_FRAGMENT}
-  ${PRICINGPLANITEMS_FRAGMENT}
-  ${INFOTEXT_FRAGMENT}
-  ${NAVIGATION_FRAGMENT}
-  ${CONTENTELEMENTS_FRAGMENT}
- */
-
-/*
-
-    ${LANGUAGE_FRAGMENT}
-    ${LANGUAGETEXT_FRAGMENT}
-  ${IMAGEMETADATA_FRAGMENT}
-  ${IMAGEPALETTE_FRAGMENT}
-  ${IMAGEPALETTESWATCH_FRAGMENT}
-  ${IMAGEASSET_FRAGMENT}
-  ${IMAGECROP_FRAGMENT}
-  ${IMAGEHOTSPOT_FRAGMENT}
-  ${IMAGE_FRAGMENT}
-  ${LOCALEIMAGE_FRAGMENT}
-  ${NAVIGATION_FRAGMENT}
-  ${OPENGRAPH_FRAGMENT}
- */
-
 export async function getStaticProps({params, locale}) {
-  const {data} = await apolloClient.query({
-    query: gql`
-  ${LANGUAGE_FRAGMENT}
-    ${LANGUAGETEXT_FRAGMENT}
-  ${IMAGEMETADATA_FRAGMENT}
-  ${IMAGEPALETTE_FRAGMENT}
-  ${IMAGEPALETTESWATCH_FRAGMENT}
-  ${IMAGEASSET_FRAGMENT}
-  ${IMAGECROP_FRAGMENT}
-  ${IMAGEHOTSPOT_FRAGMENT}
-  ${IMAGE_FRAGMENT}
-  ${LOCALEIMAGE_FRAGMENT}
-  ${NAVIGATION_FRAGMENT}
-  ${OPENGRAPH_FRAGMENT}
-  query PageReseller($slug: String, $language: String) {
-    allPost(
-  where: { slug: { current: { eq: $slug } }, language: { eq: $language } }
- ) {
-  _id
-  alternativePages {
-   slug {
-    current
-   }
-  }
-  slug {
-   current
-  }
-  author {
-   name
-   slug {
-    current
-   }
-   bioRaw
-   image {
-    ...SanityImage
-   }
-  }
-  bgHeader {
-   colorSelection {
-    title
-    value
-   }
-  }
-  bodyRaw
-  content {
-   ... on Editor {
-    _key
-    _type
-    blockContentRaw
-   }
-  }
-  categories {
-   title
-   language
-   description
-   slug {
-    current
-   }
-  }
-  colorHeader
-  containerSize
-  disableTitle
-  excerpt
-  imageAlt
-  language
-  mainImage {
-   ...SanityImage
-  }
-  openGraph {
-   ...SanityOpenGraph
-  }
-  publishedAt
- }
-      allNavigationMenu {...SanityNavigationMenu}
-      allSiteSettings {...SanitySiteSettings}
-  }
-  `,
-    variables: {
-      slug: params.post,
-      language: locale
+  const data = await client.fetch(`
+    {
+      "page": *[_type == "post" && slug.current == $slug && language == $language][0] {
+        ...,
+        author-> {
+          ...,
+          image {..., asset->},
+        },
+        categories[]->
+      },
+      "navigation": *[_type == "navigationMenu"],
+      "settings": *[_type == "siteSettings"][0],
     }
-  });
+  `, {
+    slug: params.post,
+    language: locale
+  })
   return {
     props: {
       ...(await serverSideTranslations(locale)),
-      page: data.allPost[0],
-      allNavigationMenu: data.allNavigationMenu,
-      allSiteSettings: data.allSiteSettings,
+      page: data.page,
+      navigation: data.navigation,
+      settings: data.settings,
     },
   }
 }

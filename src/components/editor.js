@@ -8,7 +8,7 @@ export default function editor(props) {
         <div>
             <BlockContent
                 key={props._key}
-                blocks={props.blockContentRaw}
+                blocks={props.blockContent}
                 serializers={serializer}
                 hardBreak
             />

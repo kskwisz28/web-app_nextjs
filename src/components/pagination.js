@@ -1,12 +1,11 @@
 import React from 'react'
 
-import { Link } from 'gatsby'
+import {Flex, Button} from 'theme-ui'
+import {useTranslation} from 'react-i18next'
+import Link from "next/link";
 
-import { Flex, Button } from 'theme-ui'
-import { useTranslation } from 'react-i18next'
-
-export default function Pagination({ totalCount, currentPage }) {
-  const { t, i18n } = useTranslation('common')
+export default function Pagination({totalCount, currentPage}) {
+  const {t, i18n} = useTranslation('common')
 
   const totalPages = Math.ceil(totalCount / 10)
   const nextPage = currentPage + 1
@@ -15,7 +14,7 @@ export default function Pagination({ totalCount, currentPage }) {
   return (
     <Flex
       py={5}
-      css={{ justifyContent: 'space-between', alignItems: 'center' }}
+      css={{justifyContent: 'space-between', alignItems: 'center'}}
     >
       <div>
         {prevPage > 0 && (
@@ -26,15 +25,15 @@ export default function Pagination({ totalCount, currentPage }) {
             }}
             variant="cta"
             disabled={prevPage <= 0 ? 'true' : null}
-            to={
+            href={
               prevPage === 1
                 ? '/' + i18n.language + '/' + t('common:postSlug')
                 : '/' +
-                  i18n.language +
-                  '/' +
-                  t('common:postSlug') +
-                  '/' +
-                  prevPage
+                i18n.language +
+                '/' +
+                t('common:postSlug') +
+                '/' +
+                prevPage
             }
           >
             <Button variant="cta">{t('common:prevPage')}</Button>
@@ -50,7 +49,7 @@ export default function Pagination({ totalCount, currentPage }) {
               display: nextPage > totalPages ? 'none' : 'block',
             }}
             disabled={nextPage > totalPages ? 'true' : null}
-            to={'/' + i18n.language + '/' + t('common:blog') + '/' + nextPage}
+            href={'/' + i18n.language + '/' + t('common:blog') + '/' + nextPage}
           >
             <Button variant="cta">{t('common:nextPage')}</Button>
           </Link>

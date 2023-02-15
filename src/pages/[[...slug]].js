@@ -22,7 +22,6 @@ export default function PageDefault(props) {
   </>
 
    */
-  console.log(props.page)
 
   const contentJSX = <BlockContent
     blocks={content || body}

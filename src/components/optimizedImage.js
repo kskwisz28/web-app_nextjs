@@ -29,7 +29,6 @@ export default function OptimizedImage({
     } else {
       url = image.asset.url
     }
-    console.log('sx', imageSx, style, className)
     !noLazyLoad &&
     (img = (
       <React.Fragment>
