@@ -179,8 +179,8 @@ export async function getStaticPaths() {
   }
 }
 
-export async function getStaticProps({params, locale}) {
-  const data = await client.fetch(`
+export async function getStaticProps({params, locale, defaultLocale}) {
+  let data = await client.fetch(`
     {
       "page": *[_type == "post" && slug.current == $slug && language == $language][0] {
         ...,
@@ -197,6 +197,30 @@ export async function getStaticProps({params, locale}) {
     slug: params.post,
     language: locale
   })
+  if (!data.page) {
+    if (locale === defaultLocale) {
+      data = await client.fetch(`
+    {
+      "page": *[_type == "post" && slug.current == $slug && language == null][0] {
+        ...,
+        author-> {
+          ...,
+          image {..., asset->},
+        },
+        categories[]->
+      },
+      "navigation": *[_type == "navigationMenu"],
+      "settings": *[_type == "siteSettings"][0],
+    }
+  `, {
+        slug: params.post,
+      })
+    } else {
+      return {
+        notFound: true,
+      }
+    }
+  }
   return {
     props: {
       ...(await serverSideTranslations(locale)),
