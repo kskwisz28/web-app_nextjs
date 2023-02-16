@@ -1,7 +1,7 @@
-import React, { useState, useRef } from 'react'
-import { useForm } from 'react-hook-form'
+import React, {useState, useRef} from 'react'
+import {useForm} from 'react-hook-form'
 import axios from 'axios'
-import { Box, Input, Textarea, Button, Text } from 'theme-ui'
+import {Box, Input, Textarea, Button, Text} from 'theme-ui'
 
 import ReCAPTCHA from 'react-google-recaptcha'
 
@@ -19,7 +19,16 @@ export default function FormReseller(props) {
     })
   }
 
-  const { register, handleSubmit, errors } = useForm()
+  const {register, handleSubmit, formState: {errors}} = useForm({
+    defaultValues: {
+      company_name: 'Företagsnamn',
+      url: 'Webbplats',
+      name: 'Fullständigt namn (kontaktperson)',
+      phonenumber: 'Telefon',
+      email: 'Epost',
+      message: 'Meddelande',
+    }
+  })
 
   const onSubmit = data => {
     sendEmail()
@@ -51,7 +60,7 @@ export default function FormReseller(props) {
   }
 
   return (
-    <Box py={3} css={{ maxWidth: '500px', minWidth: '50%' }}>
+    <Box py={3} css={{maxWidth: '500px', minWidth: '50%'}}>
       {qbResponseErrors && (
         <Text
           color="white"
@@ -59,7 +68,7 @@ export default function FormReseller(props) {
           my={2}
           py={2}
           bg="red"
-          css={{ borderRadius: '4px', textAlign: 'center' }}
+          css={{borderRadius: '4px', textAlign: 'center'}}
         >
           {qbResponseErrors}
         </Text>
@@ -71,7 +80,7 @@ export default function FormReseller(props) {
           px={2}
           py={2}
           bg="green"
-          css={{ borderRadius: '4px', textAlign: 'center' }}
+          css={{borderRadius: '4px', textAlign: 'center'}}
         >
           {qbResponseSuccess}
         </Text>
@@ -96,7 +105,7 @@ export default function FormReseller(props) {
             },
           }}
           name="company_name"
-          ref={register({ required: true })}
+          {...register('company_name', {required: true})}
           onChange={updateInput}
           value={formData.company_name || ''}
         />
@@ -119,7 +128,7 @@ export default function FormReseller(props) {
             },
           }}
           name="url"
-          ref={register({ required: true })}
+          {...register('url', {required: true})}
           onChange={updateInput}
           value={formData?.url || ''}
         />
@@ -142,7 +151,7 @@ export default function FormReseller(props) {
             },
           }}
           name="name"
-          ref={register({ required: true })}
+          {...register('name', {required: true})}
           onChange={updateInput}
           value={formData.name || ''}
         />
@@ -165,11 +174,11 @@ export default function FormReseller(props) {
             },
           }}
           name="phonenumber"
-          ref={register({ required: true })}
+          {...register('phonenumber', {required: true})}
           onChange={updateInput}
           value={formData.phonenumber || ''}
         />
-        {errors.example && <small>Vänligen fyll i namn</small>}
+        {errors.phonenumber && <small>Vänligen fyll i namn</small>}
         <Input
           placeholder={'Epost'}
           sx={{
@@ -189,11 +198,11 @@ export default function FormReseller(props) {
             },
           }}
           name="email"
-          ref={register({ required: true })}
+          {...register('email', {required: true})}
           onChange={updateInput}
           value={formData.email || ''}
         />
-        {errors.example && <small>Vänligen fyll i e-post adress</small>}
+        {errors.email && <small>Vänligen fyll i e-post adress</small>}
         <Textarea
           placeholder={'Beskriv din verksamhet kort (bransch, inriktning)'}
           sx={{
@@ -212,11 +221,11 @@ export default function FormReseller(props) {
             },
           }}
           name="message"
-          ref={register({ required: true })}
+          {...register('message', {required: true})}
           onChange={updateInput}
           value={formData.message || ''}
         />
-        {errors.exampleRequired && <small>Vänligen fyll i meddelandet</small>}
+        {errors.message && <small>Vänligen fyll i meddelandet</small>}
         <Box py={3}>
           <ReCAPTCHA
             ref={recaptchaRef}
@@ -229,7 +238,7 @@ export default function FormReseller(props) {
           my={3}
           // onClick={formValidation}
           variant="buttons.primary"
-          sx={{ maxWidth: '240px', width: '100%', display: 'block' }}
+          sx={{maxWidth: '240px', width: '100%', display: 'block'}}
         >
           {props.buttonText}
         </Button>

@@ -23,7 +23,6 @@ export default function ResellerList(props) {
   const context = useThemeUI()
   const {theme} = context
   const post = props.page
-  const {content} = post
 
   const authorImage = post?.author?.image?.asset?.url
 
@@ -147,8 +146,8 @@ export default function ResellerList(props) {
             )}
 
             <Box py={3}>
-              {content &&
-                <PageBuilder content={content}/>
+              {post.content &&
+                <PageBuilder content={post.content}/>
               }
               {post.body && (
                 <BlockContent
