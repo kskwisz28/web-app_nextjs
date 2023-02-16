@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 
 import Container from '../components/container'
 import {Box} from 'theme-ui'
@@ -7,6 +7,18 @@ import {Tab} from '@headlessui/react'
 import StartHero from './startHero'
 
 export default function StartTab(props) {
+  // This is ONLY to prevent hydration mismatch between server and client
+  // which is a BUG in @headlessui tab
+  const [rendered, setRendered] = useState(false)
+
+  useEffect(() => {
+    setRendered(true)
+  }, [])
+
+  if (!rendered) {
+    return null
+  }
+
   return (
     <Box
       sx={{
