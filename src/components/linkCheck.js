@@ -11,7 +11,7 @@ const LinkCheck = props => {
   ) {
     return (
       <Link href={props.to} passHref legacyBehavior>
-        <Themed.a {...props} target={props.blank ? '_blank' : ''}>
+        <Themed.a {...props} target={props.blank ? '_blank' : undefined}>
           {props.children}
         </Themed.a>
       </Link>

@@ -105,7 +105,7 @@ export default function textWithImage({
               as="a"
               mt={3}
               href={button1Url}
-              target={button1OpenNewTab && '_blank'}
+              target={button1OpenNewTab ? '_blank' : undefined}
               variant="buttons.primary"
               sx={{
                 background: heroColors?.theme?.buttonBackground,

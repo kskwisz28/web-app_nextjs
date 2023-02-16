@@ -25,7 +25,7 @@ const Thumbnail = ({heading, image, body, hoverShadow, url, openNewTab}) => {
       {url && (
         <Link
           href={url}
-          target={openNewTab && '_blank'}
+          target={openNewTab ? '_blank' : undefined}
           sx={{'::before': {content: '""', position: 'absolute', inset: 0}}}
         />
       )}

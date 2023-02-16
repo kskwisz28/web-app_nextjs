@@ -104,7 +104,7 @@ export default function InfoText(props) {
               <Box pt={4} pb={1}>
                 <Link
                   href={props.buttonUrl}
-                  target={props.buttonOpenNewTab && '_blank'}
+                  target={props.buttonOpenNewTab ? '_blank' : undefined}
                 >
                   <Button
                     variant={
@@ -125,7 +125,7 @@ export default function InfoText(props) {
               <Box pt={4} pb={1} px={3}>
                 <Link
                   href={props.buttonSecondUrl}
-                  target={props.buttonSecondOpenNewTab && '_blank'}
+                  target={props.buttonSecondOpenNewTab ? '_blank' : undefined}
                 >
                   <Button
                     variant={

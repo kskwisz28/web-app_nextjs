@@ -88,7 +88,7 @@ export default function flex({
               <Button
                 as="a"
                 href={button1Url}
-                target={button1OpenNewTab && '_blank'}
+                target={button1OpenNewTab ? '_blank' : undefined}
                 variant="buttons.primary"
                 sx={{
                   background: heroColors?.theme?.buttonBackground,
@@ -104,7 +104,7 @@ export default function flex({
               <Button
                 as="a"
                 href={button2Url}
-                target={button2OpenNewTab && '_blank'}
+                target={button2OpenNewTab ? '_blank' : undefined}
                 variant="buttons.outlineWhite"
                 sx={{
                   background: heroColors?.theme?.button2Background,
