@@ -1,9 +1,7 @@
 import styled from '@emotion/styled'
-import { Button, Text, Heading, Flex, Box, Link } from 'theme-ui'
+import {Button, Text, Heading, Flex, Box, Link} from 'theme-ui'
 
-import Container from '../components/container'
-
-import { jsx } from 'theme-ui'
+import Container from '@/components/container'
 
 import BlockContent from '@sanity/block-content-to-react'
 import serializer from '../helpers/serializers'
@@ -13,7 +11,7 @@ const Wrapper = styled.div`
 `
 
 export default function InfoText(props) {
-  const modifiedBg = props?.colorBg?.hex == "#2d3947"  ? "#362f4a" : props?.colorBg?.hex
+  const modifiedBg = props?.colorBg?.hex === "#2d3947" ? "#362f4a" : props?.colorBg?.hex
 
   return (
     <Box
@@ -39,9 +37,9 @@ export default function InfoText(props) {
                 fontWeight: '600',
               }}
             >
-              <Flex variant="box.label" css={{ alignItems: 'center' }}>
+              <Flex variant="box.label" css={{alignItems: 'center'}}>
                 {props.topIcon && (
-                  <div sx={{ pr: 1 }}>{props.topIcon ? props.topIcon : ''}</div>
+                  <div sx={{pr: 1}}>{props.topIcon ? props.topIcon : ''}</div>
                 )}
                 {props.topLine}
               </Flex>
@@ -80,7 +78,7 @@ export default function InfoText(props) {
               variant={props.textVariant ? props.textVariant : 'default'}
               mx={props.centered ? 'auto' : ''}
               my={0}
-              sx={{ maxWidth: 'read', fontSize: '16px !important' }}
+              sx={{maxWidth: 'read', fontSize: '16px !important'}}
               color={props.colorDesc ? props.colorDesc.hex : 'text'}
             >
               {props.description}
@@ -91,7 +89,7 @@ export default function InfoText(props) {
               variant={props.textVariant ? props.textVariant : 'default'}
               mx={props.centered ? 'auto' : ''}
               my={0}
-              sx={{ maxWidth: 'read', fontSize: '16px !important' }}
+              sx={{maxWidth: 'read', fontSize: '16px !important'}}
               color={props.colorDesc ? props.colorDesc.hex : 'text'}
             >
               <BlockContent
@@ -101,7 +99,7 @@ export default function InfoText(props) {
               />
             </Text>
           )}
-          <Flex css={{ justifyContent: props.centered ? 'center' : 'start' }}>
+          <Flex css={{justifyContent: props.centered ? 'center' : 'start'}}>
             {props.buttonText && (
               <Box pt={4} pb={1}>
                 <Link

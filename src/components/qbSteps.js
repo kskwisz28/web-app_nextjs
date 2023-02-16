@@ -87,7 +87,7 @@ export default function QBSteps(props) {
                   position: 'relative',
                 }}
               >
-                <InfoSection noPadding {...info} />
+                <InfoSection {...info} />
               </Box>
             ))}
         </Box>

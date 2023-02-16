@@ -124,7 +124,6 @@ export default function InfoSection(props) {
               sx={{
                 width: ['100%', null, '50%'],
                 py: 4,
-                px: props.noPadding ? 0 : 3,
               }}
             >
               <InfoText {...props.info}>
