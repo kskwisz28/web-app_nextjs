@@ -10,11 +10,18 @@ export default function PageDefault(props) {
   const {content, body} = props.page
   const wrapIntoContainer = props.page && props.page.containerSize && props.page.containerSize !== 'fullwidth'
 
-  const contentJSX = <BlockContent
-    blocks={content || body}
-    serializers={serializer}
-    hardBreak
-  />
+  const contentJSX = <>
+    <BlockContent
+      blocks={content}
+      serializers={serializer}
+      hardBreak
+    />
+    <BlockContent
+      blocks={body}
+      serializers={serializer}
+      hardBreak
+    />
+  </>
   return (
     <Layout
       headerBg={props?.data?.sanityPage?.menuBg?.hex ? props.data.sanityPage.menuBg.hex : 'aubergine'}

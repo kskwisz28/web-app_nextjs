@@ -110,7 +110,7 @@ export default function AccordionList({heroColors, heading, accordionItems, head
             <AccordionItem
               key={accordionItem._key}
               title={accordionItem.heading}
-              content={accordionItem.blockContentRaw}
+              content={accordionItem.blockContent}
               heroColors={heroColors}
               isOpen={openIndex === itemIndex}
               itemIndex={itemIndex}

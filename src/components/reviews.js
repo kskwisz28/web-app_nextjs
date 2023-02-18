@@ -1,5 +1,5 @@
-
-import { jsx, Image, Box, Flex } from 'theme-ui'
+import {Box, Flex} from 'theme-ui'
+import Image from 'next/image'
 
 import useScript from '../hooks/useExternalScript'
 
@@ -24,9 +24,9 @@ export default function Reviews(props) {
         <InfoText
           {...props.info}
           headlineAfterIcon={
-            <Box sx={{ display: ['none', null, null, 'block'] }}>
+            <Box sx={{display: ['none', null, null, 'block']}}>
               <Image
-                sx={{ maxHeight: '50px', mx: 2 }}
+                sx={{maxHeight: '50px', maxWidth: '50px', width: '100%', height: 'auto', mx: 2}}
                 src={Love}
                 alt="Heart icon"
               />
@@ -43,12 +43,12 @@ export default function Reviews(props) {
             alignItems: 'center',
           }}
         >
-          <Flex sx={{ alignItems: 'center', flexWrap: 'wrap' }}>
-            <Box sx={{ textAlign: 'center', width: ['100%', null, 'auto'] }}>
+          <Flex sx={{alignItems: 'center', flexWrap: 'wrap'}}>
+            <Box sx={{textAlign: 'center', width: ['100%', null, 'auto']}}>
               {props.reviewsText}
             </Box>
             <Flex
-              sx={{ alignItems: 'center', textAlign: 'center', mx: 'auto' }}
+              sx={{alignItems: 'center', textAlign: 'center', mx: 'auto'}}
             >
               <a
                 href="https://se.trustpilot.com/review/quickbutik.com"
@@ -60,7 +60,7 @@ export default function Reviews(props) {
                   pt={1}
                   src={Trustpilot}
                   alt="Trustpilot logo"
-                  css={{ width: '6rem' }}
+                  css={{width: '6rem', height: 'auto'}}
                 />
               </a>
               &
@@ -74,7 +74,7 @@ export default function Reviews(props) {
                   pt={2}
                   src={Facebook}
                   alt="Trustpilot logo"
-                  css={{ width: '5rem' }}
+                  css={{width: '5rem', height: 'auto'}}
                 />
               </a>
             </Flex>

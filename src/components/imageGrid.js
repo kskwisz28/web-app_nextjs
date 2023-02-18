@@ -5,6 +5,7 @@ import Container from '../components/container'
 import {Grid, Flex, Box, Heading, Image, Link} from 'theme-ui'
 import BlockContent from '@sanity/block-content-to-react'
 import serializer from '../helpers/serializers'
+import OptimizedImage from "@/components/optimizedImage";
 
 const GridImage = ({image, hoverShadow, url, openNewTab}) => {
   return (
@@ -33,11 +34,8 @@ const GridImage = ({image, hoverShadow, url, openNewTab}) => {
       )}
 
       {image && (
-        <Image
-          src={image?.image?.asset?.url}
-          sx={{
-            objectFit: 'cover',
-          }}
+        <OptimizedImage
+          image={image.image}
         />
       )}
     </Flex>

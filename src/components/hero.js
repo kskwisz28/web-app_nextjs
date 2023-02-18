@@ -94,8 +94,7 @@ export default function flex({
               justifyContent: reverse ? 'flex-end' : 'flex-start',
               alignSelf: transparentImage ? [null, null, null, null, 'end'] : '',
               flex: 1,
-              position: 'relative',
-              height: '543px',
+              position: "relative"
             }}
           >
             <OptimizedImage

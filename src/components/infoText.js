@@ -12,6 +12,7 @@ const Wrapper = styled.div`
 
 export default function InfoText(props) {
   const modifiedBg = props?.colorBg?.hex === "#2d3947" ? "#362f4a" : props?.colorBg?.hex
+  console.log(props)
 
   return (
     <Box
