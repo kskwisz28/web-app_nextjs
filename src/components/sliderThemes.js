@@ -11,7 +11,7 @@ import MockupCanvas from "@/images/mockup-canvas.jpg"
 import MockupDefined from "@/images/mockup-defined.jpg"
 
 export default function SliderThemes(props) {
-  const gatsbyImages = [
+  const sliderImages = [
     {
       img: MockupNova,
       alt: 'Design theme Nova',
@@ -102,7 +102,7 @@ export default function SliderThemes(props) {
           slidesDesktop={2.2}
           slidesTablet={2.2}
           slidesMobile={1.2}
-          gatsbyImages={gatsbyImages}
+          gatsbyImages={sliderImages}
         />
       </Box>
     </Flex>

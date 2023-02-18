@@ -80,15 +80,10 @@ export default function IntegrationsBasic(props) {
             {props.integrationPicker?.map(item => (
               <Flex
                 key={item._id}
-                sx={{
-                  position: 'relative',
-                  width: '100px',
-                  height: '100px'
-                }}
               >
                 <OptimizedImage
                   image={item.logo}
-                  imgMaxHeight={'30px'}
+                  height="30px"
                 />
               </Flex>
             ))}

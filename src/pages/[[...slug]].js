@@ -3,25 +3,12 @@ import Layout from "@/components/layout";
 import {client} from "@/sanity-client";
 import serializer from '@/helpers/serializers'
 import Container from '@/components/container'
-import PageBuilder from '@/components/pageBuilder'
 import BlockContent from '@sanity/block-content-to-react'
 import {isHomepage} from "@/helpers/general";
 
 export default function PageDefault(props) {
   const {content, body} = props.page
   const wrapIntoContainer = props.page && props.page.containerSize && props.page.containerSize !== 'fullwidth'
-
-  /*
-  const contentJSX = <>
-    {content && <PageBuilder content={content}/>}
-    {bodyRaw && <BlockContent
-      blocks={bodyRaw}
-      serializers={serializer}
-      hardBreak
-    />}
-  </>
-
-   */
 
   const contentJSX = <BlockContent
     blocks={content || body}
@@ -81,15 +68,15 @@ export async function getStaticProps({params, locale}) {
   const slug = params.slug ? params.slug[0] : `startpage-${locale}`
   const data = await client.fetch('{' +
     '"page": *[_type == "page" && slug.current == $slug && language == $language][0] {' +
-      '...,' +
-      'alternativePages[]->,' +
-      'content[] {' +
-        '...,' +
-        '_type == "integrationsBasic" => {' +
-          '...,' +
-          'integrationPicker[]->' +
-        '}' +
-      '}' +
+    '...,' +
+    'alternativePages[]->,' +
+    'content[] {' +
+    '...,' +
+    '_type == "integrationsBasic" => {' +
+    '...,' +
+    'integrationPicker[]->' +
+    '}' +
+    '}' +
     '},' +
     '"navigation": *[_type == "navigationMenu"],' +
     '"settings": *[_type == "siteSettings"][0],' +

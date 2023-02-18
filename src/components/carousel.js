@@ -130,7 +130,7 @@ const Carousel = props => {
                 <EditorWrap windowText={src.windowText}>
                   <Image
                     src={src.img}
-                    style={{width: '100%'}}
+                    style={{width: '100%', height: 'auto'}}
                     alt={src.alt}
                     {...src.props}
                   ></Image>

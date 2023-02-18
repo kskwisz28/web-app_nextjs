@@ -49,7 +49,7 @@ export default function AnimatedSwitch(props) {
         className="switch"
         role="button"
         tabIndex={0}
-        ariaLabel="Switch button for effects"
+        aria-label="Switch button for effects"
         data-ison={isOn}
         onMouseDown={toggleSwitch}
         css={{ position: 'relative' }}

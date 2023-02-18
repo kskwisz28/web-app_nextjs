@@ -5,12 +5,7 @@ const nextConfig = {
   reactStrictMode: true,
   i18n,
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'cdn.sanity.io',
-      }
-    ]
+    domains: ['cdn.sanity.io'],
   }
 }
 

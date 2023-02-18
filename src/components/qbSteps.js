@@ -53,7 +53,7 @@ export default function QBSteps(props) {
           <Box sx={{alignItems: 'center', position: 'relative'}}>
             <Image
               p={[0, null, null, null, null, 2, 3, 4]}
-              css={{width: '100%', position: 'relative', zIndex: 5}}
+              css={{width: '100%', height: 'auto', position: 'relative', zIndex: 5}}
               src={Base}
               alt="Quickbutik base image"
             />

@@ -18,16 +18,7 @@ export default function App(props) {
         delay={100}
         backgroundColor={'rgba(0, 0, 0, 0.1)'}
         textFontSize={'16'}
-        styleOverrideForChildrenDiv={{
-          zIndex: 0,
-          backgroundColor: 'rgba(54, 47, 74,.8)',
-          display: 'flex',
-          borderRadius: '8px',
-          width: '90%',
-          left: '5%',
-          top: '5%',
-          height: '90%',
-        }}
+        styleOverrideForChildrenDiv={}
         textMainColor={'#6154F9'}
         textAlternateColorRatio={0.1}
         textAlternateColorList={['#00F000', '#00EA00', '#00E000', '#00D600']}
@@ -38,7 +29,27 @@ export default function App(props) {
         }}
       >
       */}
-        <Box>
+      <Box sx={{
+        position: 'relative',
+        minHeight: '100vh',
+        color: 'black',
+        backgroundColor: 'rgba(0, 0, 0)',
+        fontSize: '16px',
+      }}>
+        <Box sx={{
+          position: 'absolute',
+          zIndex: 0,
+          backgroundColor: 'rgba(54, 47, 74,.8)',
+          display: 'flex',
+          borderRadius: '8px',
+          width: '90%',
+          left: '5%',
+          top: '5%',
+          height: '90%',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
           <InfoSection noPadding {...props.info}>
             <Flex py={3} css={{alignItems: 'center', flexWrap: 'wrap'}}>
               {props.firstTitle && (
@@ -64,6 +75,7 @@ export default function App(props) {
             </Flex>
           </InfoSection>
         </Box>
+      </Box>
       {/*
       </MatrixCard>
       */}

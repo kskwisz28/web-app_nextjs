@@ -1,21 +1,40 @@
-import React from 'react'
+import React, {useMemo} from 'react'
+import {client} from "@/sanity-client";
 
 import Image from 'next/image'
-import imageUrlBuilder from "@sanity/image-url";
+import {useNextSanityImage} from "next-sanity-image";
 
 export default function OptimizedImage({
                                          image,
-                                         imgMaxHeight,
-                                         shadowImage,
-                                         rounded,
-                                         noLazyLoad,
-                                         cover,
-                                         heightFull,
-                                         sx,
-                                         style,
-                                         className,
-                                         imageSx,
+                                         sizes,
+                                         width,
+                                         height,
                                        }) {
+
+  const imageProps = useNextSanityImage(client, image);
+  const styles = useMemo(() => {
+    if (width) {
+      return {
+        width: width,
+        height: 'auto'
+      }
+    } else if (height) {
+      return {
+        width: 'auto',
+        height: height
+      }
+    } else {
+      return {
+        width: '100%',
+        height: 'auto'
+      }
+    }
+  }, [width, height])
+  return <Image
+    {...imageProps}
+    style={styles}
+  />
+  /*
   let img = null
   // TODO: Make images work
   if (image && image.asset) {
@@ -80,4 +99,6 @@ export default function OptimizedImage({
     ))
   }
   return img
+
+   */
 }

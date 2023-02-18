@@ -12,6 +12,7 @@ import styled from '@emotion/styled'
 import Link from "next/link";
 import imageUrlBuilder from "@sanity/image-url";
 import {useMemo} from "react";
+import OptimizedImage from "@/components/optimizedImage";
 
 const Info = styled.div`
   .infoImg {
@@ -73,11 +74,8 @@ export default function InfoSection(props) {
                   px: 2,
                 }}
               >
-                <SingleImage
-                  image={props.image && props.image.image}
-                  noLazyLoad={props.image && props.image.noLazyLoad}
-                  shadowImage={props.shadowImage}
-                  rounded={props.image && props.image.rounded ? '8px' : 0}
+                <OptimizedImage
+                  image={props.image.image}
                 />
               </Box>
             )}
