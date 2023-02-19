@@ -5,12 +5,8 @@ import Sweden from '../images/flag-sv.svg'
 import Denmark from '../images/flag-da.svg'
 import England from '../images/flag-uk.svg'
 import Image from "next/image";
-import {useThemeUI} from "theme-ui";
 
 export const CountryFlag = ({country}) => {
-  const context = useThemeUI()
-  const {theme} = context
-
   let source = England;
   switch (country) {
     case 'sv':
@@ -31,8 +27,11 @@ export const CountryFlag = ({country}) => {
       style={{
         marginLeft: '0.2rem',
         marginRight: '0.2rem',
+        width: '100%',
+        height: 'auto',
+        display: 'block',
       }}
-      width={24}
+      height={28.8}
     />
   )
 }

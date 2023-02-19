@@ -340,7 +340,7 @@ export default function Footer(props) {
                 </Link>
               )}
 
-              {!SwedishAltExists && !i18n.language === 'sv' && (
+              {!SwedishAltExists && i18n.language !== 'sv' && (
                 <a href="https://quickbutik.com/sv">
                   <CountryFlag country={'sv'}/>
                 </a>
@@ -356,6 +356,7 @@ export default function Footer(props) {
                       href={PathCheck(link.path)}
                       hrefLang={link.language}
                       locale={link.language}
+                      sx={{mx: '0.2rem'}}
                     >
                       <CountryFlag country={link.language}/>
                     </Link>,
