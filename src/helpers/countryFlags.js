@@ -25,8 +25,6 @@ export const CountryFlag = ({country}) => {
       src={source}
       alt="flag"
       style={{
-        marginLeft: '0.2rem',
-        marginRight: '0.2rem',
         width: '100%',
         height: 'auto',
         display: 'block',

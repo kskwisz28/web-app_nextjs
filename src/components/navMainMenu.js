@@ -5,6 +5,7 @@ import NavItems from './navItems'
 
 import {jsx, Flex, Button, Link} from 'theme-ui'
 import {useRouter} from "next/router";
+import useClickOutside from "@/hooks/useClickOutside";
 
 const NavCTA = styled.div`
   @media (max-width: 1050px) {
@@ -26,6 +27,8 @@ const StyledBurger = styled.div`
   width: 1.8rem;
   height: 1.8rem;
   cursor: pointer;
+  position: relative;
+
   &:hover {
     div {
       &:nth-of-type(2) {
@@ -33,6 +36,7 @@ const StyledBurger = styled.div`
       }
     }
   }
+
   z-index: 20;
   display: none;
 
@@ -48,17 +52,18 @@ const StyledBurger = styled.div`
     border-radius: 10px;
     transform-origin: 1px;
     transition: all 0.3s linear;
-    background-color: ${({open, headerColor}) =>
-  open ? '#ffffff' : headerColor};
+    background-color: ${({open, headerColor}) => open ? '#ffffff' : headerColor};
 
     &:nth-of-type(1) {
       transform: ${({open}) => (open ? 'rotate(45deg)' : 'rotate(0)')};
     }
+
     &:nth-of-type(2) {
       transform: ${({open}) => (open ? 'translateX(100%)' : 'translateX(0)')};
       opacity: ${({open}) => (open ? 0 : 1)};
       width: 75%;
     }
+
     &:nth-of-type(3) {
       transform: ${({open}) => (open ? 'rotate(-45deg)' : 'rotate(0)')};
     }
@@ -69,13 +74,21 @@ export default function NavMainMenu(props) {
   const [open, setOpen] = useState(false)
 
   const {locale} = useRouter()
+  const clickRef = React.useRef()
+
+  useClickOutside(clickRef, () => setOpen(false))
 
   return (
-    <React.Fragment>
+    <div ref={clickRef} sx={{
+      flex: '1 1 0',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+    }}>
       <StyledBurger
         {...props}
         open={open}
-        onClick={() => setOpen(!open)}
+        onClick={() => setOpen(prev => !prev)}
         aria-label="Toggle menu"
       >
         <div sx={{backgroundColor: open ? 'white' : props.headerColor}}/>
@@ -86,7 +99,6 @@ export default function NavMainMenu(props) {
         siteSettings={props.siteSettings}
         navMenu={props.navMenu}
         open={open}
-        onClickOutside={() => open && setOpen(!open)}
         headerColor={props.headerColor}
       />
 
@@ -99,23 +111,23 @@ export default function NavMainMenu(props) {
             href={
               props.siteSettings &&
               props.siteSettings.headerButtonUrl &&
-              props.siteSettings.headerButtonUrl?.[locale]
+              props.siteSettings.headerButtonUrl[locale]
             }
           >
             <Button py={2} variant="buttons.kiwi">
               {props.siteSettings &&
                 props.siteSettings.headerButtonText &&
-                props.siteSettings.headerButtonText?.[locale]}
+                props.siteSettings.headerButtonText[locale]}
             </Button>
           </Link>
 
-          <a href={props?.siteSettings?.headerSecondButtonUrl?.[locale]}>
+          <a href={props.siteSettings.headerSecondButtonUrl[locale]}>
             <Button bg="transparent" css={{border: 'none'}}>
-              <IconUser color={props.headerColor == 'dark' ? '#362F4A' : 'white'}/>
+              <IconUser color={props.headerColor === 'dark' ? '#362F4A' : 'white'}/>
             </Button>
           </a>
         </Flex>
       </NavCTA>
-    </React.Fragment>
+    </div>
   )
 }

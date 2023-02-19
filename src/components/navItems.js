@@ -12,24 +12,28 @@ import {jsx, Button} from 'theme-ui'
 import {useRouter} from "next/router";
 
 const Ul = styled.ul`
-  background-color: none;
+  background-color: transparent;
   list-style: none;
   display: flex;
   align-items: center;
-  list-style: none;
   text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+
   li {
     z-index: 99;
     font-weight: 600;
     font-size: 17px;
     padding: 18px 10px;
+
     a {
       text-decoration: none;
     }
   }
+
   @media (max-width: 1050px) {
     background: rgba(0, 0, 0, 0.9);
-    backdropfilter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
     display: flex;
     flex-flow: column nowrap;
     position: fixed;
@@ -51,18 +55,13 @@ export default function NavItems({
                                    open,
                                    navMenu,
                                    headerColor,
-                                   onClickOutside,
-                                   children,
                                    siteSettings,
                                  }) {
-  const clickRef = React.useRef()
-
-  useClickOutside(clickRef, onClickOutside)
 
   const {locale} = useRouter()
 
   return (
-    <Ul open={open} ref={clickRef}>
+    <Ul open={open}>
       {navMenu?.menuItems[locale] &&
         navMenu.menuItems[locale].map(items => (
           <li key={items._key} sx={{borderColor: 'primary'}}>
