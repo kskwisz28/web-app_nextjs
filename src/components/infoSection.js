@@ -1,22 +1,22 @@
-import { Link } from 'gatsby'
+import {Link} from 'gatsby'
 
-import { getFluidGatsbyImage } from 'gatsby-source-sanity'
-import clientConfig from '../../client-config'
-import { GatsbyImage } from "gatsby-plugin-image";
+import {getFluidGatsbyImage} from 'gatsby-source-sanity'
+import {GatsbyImage} from "gatsby-plugin-image";
 import EditorWrap from './editorWrap'
 
 import InfoText from './infoText'
 
 
-import { jsx, Flex, Box, Button, Image } from 'theme-ui'
+import {jsx, Flex, Box, Button, Image} from 'theme-ui'
 import Container from './container'
 
 import styled from '@emotion/styled'
+import {client} from "@/sanity-client";
 
 const Info = styled.div`
   .infoImg {
     box-shadow: ${p =>
-      p.shadowImage ? '0px 32px 32px 0px rgba(0,0,0,.05)' : ''};
+  p.shadowImage ? '0px 32px 32px 0px rgba(0,0,0,.05)' : ''};
   }
 `
 
@@ -25,16 +25,16 @@ const maybeImage = image => {
   if (image && image.disabled !== true && image.image && image.image.asset) {
     const fluidProps = getFluidGatsbyImage(
       image.image.asset._ref,
-      { maxWidth: 960 },
-      clientConfig.sanity
+      {maxWidth: 960},
+      client
     )
 
     img = (
-      <Flex sx={{ width: ['100%', null, '50%'] }}>
+      <Flex sx={{width: ['100%', null, '50%']}}>
         <Image
           src={fluidProps.src}
           alt={image.image.alt}
-          sx={{ p: 4 }}
+          sx={{p: 4}}
           className="infoImg"
         />
       </Flex>
@@ -51,7 +51,7 @@ export default function InfoSection(props) {
   const img = maybeImage(props.image)
   return (
     <Info shadowImage={props.shadowImage}>
-      <Box sx={{ bg: modifiedBg ? modifiedBg : '', py: 4 }}>
+      <Box sx={{bg: modifiedBg ? modifiedBg : '', py: 4}}>
         <Container>
           <Flex
             sx={{
@@ -64,9 +64,9 @@ export default function InfoSection(props) {
             {img}
 
             {props.illustration && (
-              <Flex sx={{ width: ['100%', null, '50%'] }}>
+              <Flex sx={{width: ['100%', null, '50%']}}>
                 <Image
-                  sx={{ width: '100%' }}
+                  sx={{width: '100%'}}
                   src={props.illustration}
                   className="infoImg"
                 ></Image>
@@ -74,14 +74,14 @@ export default function InfoSection(props) {
             )}
 
             {props.illustrationEditor && (
-              <Flex sx={{ width: ['100%', null, '50%'], p: 4 }}>
-                <div className="infoImg" css={{ width: '100%' }}>
+              <Flex sx={{width: ['100%', null, '50%'], p: 4}}>
+                <div className="infoImg" css={{width: '100%'}}>
                   <EditorWrap
-                    css={{ width: '100%' }}
+                    css={{width: '100%'}}
                     windowText={props.windowText}
                   >
                     <Image
-                      sx={{ width: '100%' }}
+                      sx={{width: '100%'}}
                       src={props.illustrationEditor}
                     ></Image>
                   </EditorWrap>
@@ -90,16 +90,16 @@ export default function InfoSection(props) {
             )}
 
             {props.gatsbyImage && (
-              <Flex sx={{ width: ['100%', null, '50%'] }}>
+              <Flex sx={{width: ['100%', null, '50%']}}>
                 <GatsbyImage
                   image={props.gatsbyImage}
-                  css={{ width: '100%' }}
+                  css={{width: '100%'}}
                   className="infoImg"
-                  alt={props.gasbyImageAlt} />
+                  alt={props.gasbyImageAlt}/>
               </Flex>
             )}
 
-            <Flex sx={{ width: ['100%', null, '50%'], p: 4 }}>
+            <Flex sx={{width: ['100%', null, '50%'], p: 4}}>
               <InfoText {...props}>
                 {props.buttonText && (
                   <Link to={props.buttonUrl ? props.buttonUrl : '/'}>

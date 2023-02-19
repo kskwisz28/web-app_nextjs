@@ -1,37 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Helmet from 'react-helmet'
-import { useStaticQuery, graphql } from 'gatsby'
 
-import { useTranslation } from 'react-i18next'
-
-import { imageUrlFor } from '../../src/helpers/image-url'
-import { buildImageObj } from '../../src/helpers/general'
+import {imageUrlFor} from '../../src/helpers/image-url'
+import {buildImageObj} from '../../src/helpers/general'
+import {useTranslation} from "next-i18next";
+import Head from 'next/head'
+import site from "@/config";
 
 export default function SEO({
-  description,
-  meta,
-  ogTitle,
-  ogDescription,
-  ogImage,
-  ogUrl,
-  type,
-}) {
-  const { i18n } = useTranslation('common')
-
-  const { site } = useStaticQuery(
-    graphql`
-      query {
-        site {
-          siteMetadata {
-            title
-            description
-            author
-          }
-        }
-      }
-    `
-  )
+                              description,
+                              meta,
+                              ogTitle,
+                              ogDescription,
+                              ogImage,
+                              ogUrl,
+                              type,
+                            }) {
+  const {i18n} = useTranslation('common')
 
   const metaImage = ogImage?.asset?.url
 
@@ -40,6 +25,13 @@ export default function SEO({
 
   const contentType = type ? type : 'website'
 
+  return (
+    <Head>
+      <title>{ogTitle} | {site.siteMetadata.title}</title>
+    </Head>
+  )
+
+  /*
   return (
     <Helmet
       lang={i18n.language}
@@ -112,6 +104,8 @@ export default function SEO({
       ].concat(meta)}
     />
   )
+
+   */
 }
 
 SEO.defaultProps = {

@@ -5,10 +5,14 @@ import serializer from '@/helpers/serializers'
 import Container from '@/components/container'
 import BlockContent from '@sanity/block-content-to-react'
 import {isHomepage} from "@/helpers/general";
+import Seo from '@/components/seo'
+import {PathCheck} from '@/helpers/pathCheck'
 
 export default function PageDefault(props) {
   const {content, body} = props.page
   const wrapIntoContainer = props.page && props.page.containerSize && props.page.containerSize !== 'fullwidth'
+  const defaultMeta = props.settings.openGraphDefault
+  const ogMeta = props.page.openGraph
 
   const contentJSX = <>
     <BlockContent
@@ -29,6 +33,28 @@ export default function PageDefault(props) {
       navMenu={props.navigation}
       siteSettings={props.settings}
     >
+      <Seo
+        title={props.page.title ? props.page.title : ''}
+        ogTitle={
+          ogMeta && ogMeta.title ? ogMeta.title : props.page.title
+        }
+        ogUrl={
+          `${props.meta.siteMetadata?.siteUrl}/${PathCheck(props.page.language + '/' + props.page.slug.current)}`
+        }
+        ogTest={
+          `${PathCheck(props.page.language + '/' + props.page.slug.current)}`
+        }
+        ogDescription={
+          ogMeta && ogMeta.description
+            ? ogMeta.description
+            : defaultMeta && defaultMeta.description && defaultMeta.description
+        }
+        ogImage={
+          ogMeta && ogMeta.image
+            ? ogMeta.image
+            : defaultMeta && defaultMeta.image && defaultMeta.image
+        }
+      />
       {wrapIntoContainer ? (
         <Container
           containersize={
@@ -73,21 +99,24 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({params, locale}) {
   const slug = params.slug ? params.slug[0] : `startpage-${locale}`
-  const data = await client.fetch('{' +
-    '"page": *[_type == "page" && slug.current == $slug && language == $language][0] {' +
-    '...,' +
-    'alternativePages[]->,' +
-    'content[] {' +
-    '...,' +
-    '_type == "integrationsBasic" => {' +
-    '...,' +
-    'integrationPicker[]->' +
-    '}' +
-    '}' +
-    '},' +
-    '"navigation": *[_type == "navigationMenu"],' +
-    '"settings": *[_type == "siteSettings"][0],' +
-    '}', {
+  const data = await client.fetch(`
+    {
+      "page": *[_type == "page" && slug.current == $slug && language == $language][0] {
+        ...,
+        alternativePages[]->,
+        content[] {
+          ...,
+          _type == "integrationsBasic" => {
+            ...,
+            integrationPicker[]->
+          },
+        },
+      },
+      "navigation": *[_type == "navigationMenu"],
+      "settings": *[_type == "siteSettings"][0],
+      "meta": *[_type == "siteMetadata"][0],
+    }
+  `, {
     slug, language: locale
   })
   return {
@@ -96,6 +125,7 @@ export async function getStaticProps({params, locale}) {
       page: data.page,
       navigation: data.navigation,
       settings: data.settings,
+      meta: data.meta,
     },
   }
 }

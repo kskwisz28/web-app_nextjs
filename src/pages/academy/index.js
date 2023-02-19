@@ -77,7 +77,10 @@ function AcademyHero() {
         <Text variant="normal">{t('mainDescription')}</Text>
       </Flex>
       <Flex sx={{flex: 1}}>
-        <Image src={Academy} sx={{objectFit: 'contain'}}/>
+        <Image
+          src={Academy}
+          sx={{objectFit: 'contain', width: '100%', height: 'auto',}}
+        />
       </Flex>
     </Flex>
   )
