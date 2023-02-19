@@ -5,6 +5,7 @@ import {Box, Heading, Flex, Text, Grid} from 'theme-ui'
 import Image from 'next/image'
 
 import Container from '@/components/container'
+import Seo from "@/components/seo";
 
 import Academy from '@/images/academy.png'
 import AcademyCard from '@/components/academyCard'
@@ -23,6 +24,7 @@ export default function ResellerList(props) {
       navMenu={props.navigation}
       siteSettings={props.settings}
     >
+      <Seo ogTitle="Quickbutik Academy" />
       <Box bg="marble" sx={{minHeight: 900}}>
         <Container sx={{py: [4, null, null, 6]}}>
           <AcademyHero/>

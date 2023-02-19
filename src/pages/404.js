@@ -53,7 +53,6 @@ export async function getStaticProps({locale}) {
     {
       "navigation": *[_type == "navigationMenu"],
       "settings": *[_type == "siteSettings"][0],
-      "meta": *[_type == "siteMetadata"][0],
     }
   `, {
     language: locale
@@ -63,7 +62,6 @@ export async function getStaticProps({locale}) {
       ...(await serverSideTranslations(locale)),
       navigation: data.navigation,
       settings: data.settings,
-      meta: data.meta,
     },
   }
 }

@@ -8,6 +8,7 @@ import Container from '@/components/container'
 
 import BlogSidebar from '@/components/blogSidebar'
 import CardPost from '@/components/cardPost'
+import Seo from "@/components/seo";
 
 export default function ResellerList(props) {
   const categoriesMenu =
@@ -23,7 +24,7 @@ export default function ResellerList(props) {
       navMenu={props.navigation}
       siteSettings={props.settings}
     >
-
+      <Seo ogTitle="Blogg"/>
       <Box bg="light300">
         <Container sx={{py: 4}}>
           <Grid gap={4} columns={[1, null, null, '2fr 1fr']}>

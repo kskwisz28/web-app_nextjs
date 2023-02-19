@@ -7,6 +7,7 @@ import {Box, Divider, Flex, Grid, Heading, Text} from 'theme-ui'
 import AcademyCard from '@/components/academyCard'
 import Container from '@/components/container'
 import {useRouter} from "next/router";
+import Seo from "@/components/seo";
 
 export default function ResellerList(props) {
   const {t} = useTranslation('academy')
@@ -22,6 +23,7 @@ export default function ResellerList(props) {
       navMenu={props.navigation}
       siteSettings={props.settings}
     >
+      <Seo ogTitle={`${category.title} - Quickbutik Academy`} />
       <Breadcrumbs
         links={[
           {title: t('home'), href: `/${router.locale}/academy`},

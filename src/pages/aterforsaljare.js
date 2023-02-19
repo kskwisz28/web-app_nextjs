@@ -13,9 +13,14 @@ import ResellerImage from '../images/qb-reseller.svg'
 import MapsLocations from '@/components/mapsLocations'
 import ResellerInfo from '@/components/resellerInfo'
 import CompanyInfoBox from '@/components/companyInfoBox'
+import Seo from "@/components/seo";
+import site from "@/config";
+import {PathCheck} from "@/helpers/pathCheck";
 
 export default function ResellerList(props) {
   const resellers = props.page
+  const defaultMeta = props.settings.openGraphDefault
+  const ogMeta = props.page.openGraph
   return (
     <Layout
       headerBg="rgba(255,255,255,.6)"
@@ -24,13 +29,11 @@ export default function ResellerList(props) {
       navMenu={props.navigation}
       siteSettings={props.settings}
     >
+      <Seo title="Återförsäljare"/>
       <Container containersize="read">
         <Image
-          mx="auto"
-          pb={3}
-          pt={5}
           src={ResellerImage}
-          sx={{maxWidth: '8rem', display: 'block'}}
+          sx={{maxWidth: '8rem', display: 'block', mx: 'auto', pb: '3', pt: '5'}}
         />
         <Heading as="h1" pt={2} css={{textAlign: 'center'}}>
           Hitta din lokala återförsäljare

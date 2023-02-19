@@ -17,6 +17,9 @@ import MainImage from '@/components/mainImage'
 import LinkCustom from '@/components/linkCustom'
 import {BiNews} from 'react-icons/bi'
 import serializer from '@/helpers/serializers'
+import Seo from "@/components/seo";
+import site from "@/config";
+import OptimizedImage from "@/components/optimizedImage";
 
 export default function ResellerList(props) {
   const {t} = useTranslation('common')
@@ -24,7 +27,8 @@ export default function ResellerList(props) {
   const {theme} = context
   const post = props.page
 
-  const authorImage = post?.author?.image?.asset?.url
+  const defaultMeta = props.settings.openGraphDefault
+  const ogMeta = post && post.openGraph
 
   const CategoryLink = styled(LinkCustom)`
     color: ${theme.colors.primary600};
@@ -39,6 +43,23 @@ export default function ResellerList(props) {
       navMenu={props.navigation}
       siteSettings={props.settings}
     >
+      <Seo
+        title={post.title ? post.title : ''}
+        ogTitle={ogMeta && ogMeta.title ? ogMeta.title : post.title}
+        ogDescription={
+          ogMeta && ogMeta.description
+            ? ogMeta.description
+            : defaultMeta && defaultMeta.description && defaultMeta
+        }
+        ogUrl={
+          `${site.siteMetadata?.siteUrl}/${post.language}/${post.slug.current}`
+        }
+        ogImage={
+          ogMeta && ogMeta.image
+            ? ogMeta.image
+            : defaultMeta && defaultMeta.image && defaultMeta.image
+        }
+      />
       <Box sx={{pb: 4}}>
         <article>
           <Box
@@ -83,17 +104,19 @@ export default function ResellerList(props) {
                 }}
               >
                 {post.author && (
-                  <Image
-                    src={authorImage}
-                    alt={'author ' + post.author && post.author.name}
-                    fill
+                  <Box
                     sx={{
                       borderRadius: '50%',
                       maxHeight: '2rem',
-                      // mx: 'auto',
-                      // display: 'block',
+                      overflow: 'hidden',
                     }}
-                  />
+                  >
+                    <OptimizedImage
+                      image={post.author.image}
+                      alt={'author ' + post.author && post.author.name}
+                      width={32}
+                    />
+                  </Box>
                 )}
                 <Box p={2}>
                   <Box css={{textAlign: post.author ? 'left' : 'center'}}>

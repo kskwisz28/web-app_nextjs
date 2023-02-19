@@ -7,6 +7,7 @@ import BlockContent from '@sanity/block-content-to-react'
 import {isHomepage} from "@/helpers/general";
 import Seo from '@/components/seo'
 import {PathCheck} from '@/helpers/pathCheck'
+import site from "@/config";
 
 export default function PageDefault(props) {
   const {content, body} = props.page
@@ -28,7 +29,7 @@ export default function PageDefault(props) {
   </>
   return (
     <Layout
-      headerBg={props?.data?.sanityPage?.menuBg?.hex ? props.data.sanityPage.menuBg.hex : 'aubergine'}
+      headerBg={props.page.menuBg ? props.page.menuBg.hex : 'aubergine'}
       headerColor="white"
       navMenu={props.navigation}
       siteSettings={props.settings}
@@ -39,7 +40,7 @@ export default function PageDefault(props) {
           ogMeta && ogMeta.title ? ogMeta.title : props.page.title
         }
         ogUrl={
-          `${props.meta.siteMetadata?.siteUrl}/${PathCheck(props.page.language + '/' + props.page.slug.current)}`
+          `${site.siteMetadata?.siteUrl}/${PathCheck(props.page.language + '/' + props.page.slug.current)}`
         }
         ogTest={
           `${PathCheck(props.page.language + '/' + props.page.slug.current)}`
@@ -114,7 +115,6 @@ export async function getStaticProps({params, locale}) {
       },
       "navigation": *[_type == "navigationMenu"],
       "settings": *[_type == "siteSettings"][0],
-      "meta": *[_type == "siteMetadata"][0],
     }
   `, {
     slug, language: locale
@@ -125,7 +125,6 @@ export async function getStaticProps({params, locale}) {
       page: data.page,
       navigation: data.navigation,
       settings: data.settings,
-      meta: data.meta,
     },
   }
 }

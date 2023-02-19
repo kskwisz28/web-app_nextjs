@@ -12,6 +12,7 @@ import Image from "next/image";
 import BlockContent from '@sanity/block-content-to-react'
 import serializer from '@/helpers/serializers'
 import {slugify} from '@/helpers/slugify'
+import Seo from "@/components/seo";
 
 
 const SUMMARY_TAGS = ['H1', 'H2', 'H3', 'H4', 'H5']
@@ -203,6 +204,9 @@ export default function ResellerList({academy, category, academyIndex, previousA
   const [activeIndex, setActiveIndex] = useState(null)
   const [summaryStructure, setSummaryStructure] = useState([])
 
+  const ogMeta = academy.openGraph
+  const defaultMeta = props.settings.openGraphDefault
+
   useEffect(() => {
     const articleContent = contentRef?.current?.children[0]
 
@@ -252,6 +256,14 @@ export default function ResellerList({academy, category, academyIndex, previousA
       navMenu={props.navigation}
       siteSettings={props.settings}
     >
+      <Seo
+        title={academy?.title}
+        ogTitle={ogMeta?.title || academy.title}
+        ogDescription={
+          ogMeta?.description || academy.excerpt || defaultMeta?.description
+        }
+        ogImage={ogMeta?.image || defaultMeta?.image}
+      />
       <Breadcrumbs
         links={[
           {title: t('home'), href: `/${language}/academy`},

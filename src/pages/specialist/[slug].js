@@ -12,6 +12,7 @@ import DivUpper from '@/components/divTop'
 import DivBottom from '@/components/divBottom'
 
 import Certified from '@/images/qb-certified.svg'
+import Seo from "@/components/seo";
 
 export default function Specialist(props) {
   const defaultMeta =
@@ -29,6 +30,24 @@ export default function Specialist(props) {
       navMenu={props.navigation}
       siteSettings={props.settings}
     >
+      <Seo
+        title={props.page.companyName ? props.page.companyName : ''}
+        ogTitle={
+          ogMeta && ogMeta.title
+            ? ogMeta.title
+            : props.page.companyName
+        }
+        ogDescription={
+          ogMeta && ogMeta.description
+            ? ogMeta.description
+            : defaultMeta && defaultMeta.description && defaultMeta.description
+        }
+        ogImage={
+          ogMeta && ogMeta.image
+            ? ogMeta.image
+            : defaultMeta && defaultMeta.image && defaultMeta.image
+        }
+      />
       <Container>
         {specialist.logo && (
           <Box pt={4}>

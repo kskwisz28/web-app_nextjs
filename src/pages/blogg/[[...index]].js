@@ -7,6 +7,7 @@ import CardPost from "@/components/cardPost";
 import BlogSidebar from "@/components/blogSidebar";
 
 import Pagination from '@/components/pagination'
+import Seo from "@/components/seo";
 
 const POSTS_PER_PAGE = 10
 
@@ -24,7 +25,7 @@ export default function ResellerList(props) {
       navMenu={props.navigation}
       siteSettings={props.settings}
     >
-
+      <Seo ogTitle="Blogg"/>
       <Box bg="light300">
         <Container sx={{py: 4}}>
           <Grid gap={4} columns={[1, null, null, '2fr 1fr']}>
