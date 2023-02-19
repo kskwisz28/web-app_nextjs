@@ -10,6 +10,9 @@ const nextConfig = {
   },
   sentry: {
     hideSourceMaps: true,
+    disableServerWebpackPlugin: true,
+    disableClientWebpackPlugin: true,
+    release: 'quickbutik:latest',
   }
 }
 

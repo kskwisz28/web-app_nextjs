@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "PORT=3001 next dev",
     "build": "next build",
-    "start": "next start",
+    "postbuild": "next-sitemap",
+    "start": "PORT=3001 next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -33,6 +34,7 @@
     "next-i18next": "^13.1.4",
     "next-sanity": "^4.1.2",
     "next-sanity-image": "^5.0.0",
+    "next-sitemap": "^3.1.52",
     "npm": "^9.4.1",
     "react": "18.2.0",
     "react-accessible-accordion": "^5.0.0",
