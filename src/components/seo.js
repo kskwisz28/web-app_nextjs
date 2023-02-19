@@ -16,7 +16,7 @@ export default function SEO({
                               type,
                             }) {
 
-  const metaImage = ogImage ? (ogImage.asset.url || imageUrlFor(buildImageObj(ogImage)).width(1200).url()) : null
+  const metaImage = ogImage ? ((ogImage.asset && ogImage.asset.url) || imageUrlFor(ogImage).width(1200).url()) : null
 
   const contentType = type ? type : 'website'
 
