@@ -60,7 +60,7 @@ export default function Navbar(props) {
               height: '100%',
             }}
           >
-            <Flex css={{}} py={2}>
+            <Flex css={{}} py={2} style={{alignItems: 'center'}}>
               <LinkCheck
                 to={'/' + i18n.language}
                 effect="fade"
@@ -78,7 +78,6 @@ export default function Navbar(props) {
                 border: 'none',
                 width: '100%',
                 height: '100%',
-                marginTop: '8px',
                 marginLeft: '8px',
                 padding: 0
               }}>
