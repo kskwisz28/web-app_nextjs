@@ -24,7 +24,7 @@ export default function SEO({
     <Head>
       {ogTitle && (
         <>
-          <title>{ogTitle} | {site.siteMetadata.title}</title>
+          <title>{`${ogTitle} | ${site.siteMetadata.title}`}</title>
           <meta name="title" content={ogTitle}/>
           <meta property="og:title" content={ogTitle}/>
           <meta property="twitter:title" content={ogTitle}/>
