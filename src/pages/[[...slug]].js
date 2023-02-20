@@ -14,7 +14,6 @@ export default function PageDefault(props) {
   const wrapIntoContainer = props.page && props.page.containerSize && props.page.containerSize !== 'fullwidth'
   const defaultMeta = props.settings.openGraphDefault
   const ogMeta = props.page.openGraph
-  console.log(ogMeta)
 
   const contentJSX = <>
     <BlockContent
