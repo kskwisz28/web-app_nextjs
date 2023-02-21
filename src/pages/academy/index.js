@@ -24,7 +24,7 @@ export default function ResellerList(props) {
       navMenu={props.navigation}
       siteSettings={props.settings}
     >
-      <Seo ogTitle="Quickbutik Academy" />
+      <Seo ogTitle="Quickbutik Academy"/>
       <Box bg="marble" sx={{minHeight: 900}}>
         <Container sx={{py: [4, null, null, 6]}}>
           <AcademyHero/>
@@ -37,25 +37,23 @@ export default function ResellerList(props) {
               filter: 'drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.05));',
             }}
           >
-            {sortedCategories.map(category => {
-              return (
-                <AcademyCard
-                  key={category._id}
-                  title={category.title}
-                  description={category.description}
-                  link={`/${category.language}/academy/${category.slug.current}`}
-                  linkText={`${t('goTo')} →`}
-                  icon={category.icon?.icon}
-                  themeColor={category.iconColor?.theme?.value}
-                  readTime={
-                    category.academies?.reduce(
-                      (p, academy) => p + academy?.readTime || 0,
-                      0
-                    ) || null
-                  }
-                />
-              )
-            })}
+            {sortedCategories.map(category => (
+              <AcademyCard
+                key={category._id}
+                title={category.title}
+                description={category.description}
+                link={`/${category.language}/academy/${category.slug.current}`}
+                linkText={`${t('goTo')} →`}
+                icon={category.icon?.icon}
+                themeColor={category.iconColor?.theme?.value}
+                readTime={
+                  category.academies.reduce(
+                    (p, academy) => p + academy.readTime || 0,
+                    0
+                  ) || null
+                }
+              />
+            ))}
           </Grid>
         </Container>
       </Box>
@@ -88,12 +86,16 @@ function AcademyHero() {
   )
 }
 
-export async function getStaticProps({params, locale}) {
-  const data = await client.fetch('{' +
-    '"categories": *[_type == "academyCategory" && language == $language],' +
-    '"navigation": *[_type == "navigationMenu"],' +
-    '"settings": *[_type == "siteSettings"][0],' +
-    '}', {
+export async function getStaticProps({locale}) {
+  const data = await client.fetch(`
+  {
+    "categories": *[_type == "academyCategory" && language == $language] {
+      ...,
+      academies[]->
+    },
+    "navigation": *[_type == "navigationMenu"],
+    "settings": *[_type == "siteSettings"][0], 
+  }`, {
     language: locale
   })
   return {
