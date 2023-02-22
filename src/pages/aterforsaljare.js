@@ -14,22 +14,42 @@ import MapsLocations from '@/components/mapsLocations'
 import ResellerInfo from '@/components/resellerInfo'
 import CompanyInfoBox from '@/components/companyInfoBox'
 import Seo from "@/components/seo";
-import site from "@/config";
-import {PathCheck} from "@/helpers/pathCheck";
+import {PreviewSuspense} from "next-sanity/preview";
+import ExitFromPreview from "@/components/ExitFromPreview";
+import {groq} from "next-sanity";
+import {usePreview} from "@/lib/sanity.preview";
 
-export default function ResellerList(props) {
-  const resellers = props.page
-  const defaultMeta = props.settings.openGraphDefault
-  const ogMeta = props.page.openGraph
+export default function PageOrPreview({preview, ...props}) {
+  return preview ? (
+    <PreviewSuspense fallback="Loading...">
+      <PreviewPage query={query} queryParams={props.queryParams}/>
+    </PreviewSuspense>
+  ) : (
+    <Page {...props}/>
+  );
+}
+
+function PreviewPage({query, queryParams}) {
+  const data = usePreview(null, query, queryParams);
+
+  return (
+    <>
+      <Page {...data}/>
+      <ExitFromPreview/>
+    </>
+  );
+}
+
+function Page({page, settings, navigation}) {
   return (
     <Layout
       headerBg="rgba(255,255,255,.6)"
       logoDark
       headerColor="dark"
-      navMenu={props.navigation}
-      siteSettings={props.settings}
+      navMenu={navigation}
+      siteSettings={settings}
     >
-      <Seo title="Återförsäljare"/>
+      <Seo ogTitle="Återförsäljare"/>
       <Container containersize="read">
         <Image
           src={ResellerImage}
@@ -47,7 +67,7 @@ export default function ResellerList(props) {
       </Container>
 
       <Box py={4}>
-        <MapsLocations items={resellers}/>
+        <MapsLocations items={page}/>
       </Box>
 
       <Container sx={{py: 5}}>
@@ -55,7 +75,7 @@ export default function ResellerList(props) {
           Återförsäljare
         </Heading>
         <Flex css={{flexWrap: 'wrap'}}>
-          {resellers.map(r => (
+          {page.map(r => (
             <Box
               key={r._id}
               p={2}
@@ -79,22 +99,33 @@ export default function ResellerList(props) {
   )
 }
 
-export async function getStaticProps({locale}) {
-  const data = await client.fetch(`
+const query = groq`
     {
-      "resellers": *[_type == "reseller" && language == $language],
+      "page": *[_type == "reseller" && language == $language],
       "navigation": *[_type == "navigationMenu"],
       "settings": *[_type == "siteSettings"][0],
      }
-  `, {
-    language: locale
-  })
+  `
+
+export async function getStaticProps({locale, preview = false}) {
+  const queryParams = {language: locale}
+
+  if (preview) {
+    return {
+      props: {
+        ...(await serverSideTranslations(locale)),
+        preview,
+        queryParams
+      }
+    }
+  }
+  const data = await client.fetch(query, queryParams)
   return {
     props: {
       ...(await serverSideTranslations(locale)),
-      page: data.resellers,
-      navigation: data.navigation,
-      settings: data.settings,
+      preview,
+      queryParams: {},
+      ...data,
     },
   }
 }

@@ -8,7 +8,6 @@ import site from "@/config";
 
 export default function SEO({
                               description,
-                              meta,
                               ogTitle,
                               ogDescription,
                               ogImage,

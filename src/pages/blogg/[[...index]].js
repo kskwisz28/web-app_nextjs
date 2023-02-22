@@ -1,29 +1,56 @@
 import {client} from "@/sanity-client";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import Layout from '@/components/layout'
-import {Box, Divider, Flex, Grid, Heading, Text, useThemeUI} from 'theme-ui'
+import {Box, Grid} from 'theme-ui'
 import Container from '@/components/container'
 import CardPost from "@/components/cardPost";
 import BlogSidebar from "@/components/blogSidebar";
 
 import Pagination from '@/components/pagination'
 import Seo from "@/components/seo";
+import ExitFromPreview from "@/components/ExitFromPreview";
+import {usePreview} from "@/lib/sanity.preview";
+import {PreviewSuspense} from "next-sanity/preview";
+import {groq} from "next-sanity";
 
 const POSTS_PER_PAGE = 10
 
-export default function ResellerList(props) {
-  const categoriesMenu =
-    props.navigation &&
-    props.navigation.filter(
-      menus => menus.menuPlacement === 'blogCategories'
-    )
+export default function PageOrPreview({preview, ...props}) {
+  return preview ? (
+    <PreviewSuspense fallback="Loading...">
+      <PreviewPage query={query} queryParams={props.queryParams}/>
+    </PreviewSuspense>
+  ) : (
+    <Page {...props}/>
+  );
+}
+
+function PreviewPage({query, queryParams}) {
+  const data = usePreview(null, query, queryParams);
+  const index = queryParams.start / POSTS_PER_PAGE
+
+  return (
+    <>
+      <Page {...data} pagination={{
+        total: data.total,
+        current: index === 0 ? 1 : index
+      }}/>
+      <ExitFromPreview/>
+    </>
+  );
+}
+
+function Page({posts, pagination, navigation, settings}) {
+  const categoriesMenu = navigation.filter(
+    menus => menus.menuPlacement === 'blogCategories'
+  )
   return (
     <Layout
       headerBg="rgba(255,255,255,.6)"
       logoDark
       headerColor="dark"
-      navMenu={props.navigation}
-      siteSettings={props.settings}
+      navMenu={navigation}
+      siteSettings={settings}
     >
       <Seo ogTitle="Blogg"/>
       <Box bg="light300">
@@ -31,7 +58,7 @@ export default function ResellerList(props) {
           <Grid gap={4} columns={[1, null, null, '2fr 1fr']}>
             <div className="blog-posts">
               <ul>
-                {props.posts?.map(
+                {posts.map(
                   node =>
                     node.slug && (
                       <Box
@@ -56,8 +83,8 @@ export default function ResellerList(props) {
               </ul>
               <Box px={4}>
                 <Pagination
-                  currentPage={props.pagination.current}
-                  totalCount={props.pagination.total}
+                  currentPage={pagination.current}
+                  totalCount={pagination.total}
                 />
               </Box>
             </div>
@@ -91,20 +118,33 @@ export async function getStaticPaths() {
   }
 }
 
-export async function getStaticProps({params, locale}) {
-  const index = Number(params.index ? params.index[0] : 0)
-  const data = await client.fetch(`
+const query = groq`
     {
       "posts": *[_type == "post" && language == $language] | order(publishedAt desc) [$start...$end],
       "total": count(*[_type == "post" && language == $language]),
       "navigation": *[_type == "navigationMenu"],
       "settings": *[_type == "siteSettings"][0],
     }
-  `, {
+  `
+
+export async function getStaticProps({params, locale, preview = false}) {
+  const index = Number(params.index ? params.index[0] : 0)
+  const queryParams = {
     start: POSTS_PER_PAGE * index,
     end: POSTS_PER_PAGE * (index + 1) - 1,
     language: locale
-  })
+  }
+
+  if (preview) {
+    return {
+      props: {
+        ...(await serverSideTranslations(locale)),
+        preview,
+        queryParams
+      }
+    }
+  }
+  const data = await client.fetch(query, queryParams)
   return {
     props: {
       ...(await serverSideTranslations(locale)),

@@ -8,26 +8,50 @@ import AcademyCard from '@/components/academyCard'
 import Container from '@/components/container'
 import {useRouter} from "next/router";
 import Seo from "@/components/seo";
+import {usePreview} from "@/lib/sanity.preview";
+import {PreviewSuspense} from "next-sanity/preview";
+import ExitFromPreview from "@/components/ExitFromPreview";
+import {groq} from "next-sanity";
 
-export default function ResellerList(props) {
+export default function PageOrPreview({preview, ...props}) {
+  return preview ? (
+    <PreviewSuspense fallback="Loading...">
+      <PreviewPage query={query} queryParams={props.queryParams}/>
+    </PreviewSuspense>
+  ) : (
+    <Page {...props}/>
+  );
+}
+
+function PreviewPage({query, queryParams}) {
+  const data = usePreview(null, query, queryParams);
+
+  return (
+    <>
+      <Page {...data}/>
+      <ExitFromPreview/>
+    </>
+  );
+}
+
+function Page({page, settings, navigation}) {
   const {t} = useTranslation('academy')
   const router = useRouter()
 
-  const category = props.page
-  const categoryColor = category?.iconColor?.theme?.value
+  const categoryColor = page.iconColor?.theme?.value
   return (
     <Layout
       headerBg="rgba(255,255,255,.6)"
       logoDark
       headerColor="dark"
-      navMenu={props.navigation}
-      siteSettings={props.settings}
+      navMenu={navigation}
+      siteSettings={settings}
     >
-      <Seo ogTitle={`${category.title} - Quickbutik Academy`} />
+      <Seo ogTitle={`${page.title} - Quickbutik Academy`}/>
       <Breadcrumbs
         links={[
           {title: t('home'), href: `/${router.locale}/academy`},
-          {title: category.title},
+          {title: page.title},
         ]}
         t={t}
       />
@@ -55,34 +79,34 @@ export default function ResellerList(props) {
                   },
                 }}
                 dangerouslySetInnerHTML={{
-                  __html: category?.icon?.icon,
+                  __html: page.icon?.icon,
                 }}
               />
             </Box>
 
             <Flex sx={{flexDirection: 'column', justifyContent: 'center'}}>
-              <Heading>{category.title}</Heading>
-              <Text sx={{mt: 2}}>{category.description}</Text>
+              <Heading>{page.title}</Heading>
+              <Text sx={{mt: 2}}>{page.description}</Text>
             </Flex>
           </Flex>
 
           <Divider sx={{my: 4, color: '#FAF8F7'}}/>
 
           <Grid gap={4} columns={[1, null, null, null, 2]}>
-            {category.academies &&
-              category.academies
+            {page.academies &&
+              page.academies
                 .filter(
                   academy =>
-                    !!academy?.title &&
-                    !!academy?.slug?.current &&
-                    !!category?.slug?.current
+                    !!academy.title &&
+                    !!academy.slug?.current &&
+                    !!page.slug?.current
                 )
                 .map((academy, academyIndex) => (
                   <AcademyCard
                     key={academy._key}
                     title={`${t('course')} ${academyIndex + 1}`}
                     description={academy.title}
-                    link={`/${category.language}/academy/${category.slug.current}/${academy.slug.current}`}
+                    link={`/${page.language}/academy/${page.slug.current}/${academy.slug.current}`}
                     linkText={`${t('beginCourse')} →`}
                     readTime={academy?.readTime}
                     t={t}
@@ -109,24 +133,37 @@ export async function getStaticPaths() {
   }
 }
 
-export async function getStaticProps({params, locale}) {
-  const data = await client.fetch('{' +
-    '"page": *[_type == "academyCategory" && slug.current == $slug && language == $language][0] {' +
-    '...,' +
-    'academies[]->,' +
-    '},' +
-    '"navigation": *[_type == "navigationMenu"],' +
-    '"settings": *[_type == "siteSettings"][0],' +
-    '}', {
-    slug: params.category,
-    language: locale
-  })
+const query = groq`
+  {
+    "page": *[_type == "academyCategory" && slug.current == $slug && language == $language][0] {
+      ...,
+      academies[]->
+    },
+    "navigation": *[_type == "navigationMenu"],
+    "settings": *[_type == "siteSettings"][0],
+  }
+  `
+
+export async function getStaticProps({params, locale, preview = false}) {
+  const queryParams = {slug: params.category, language: locale}
+
+  if (preview) {
+    return {
+      props: {
+        ...(await serverSideTranslations(locale)),
+        preview,
+        queryParams
+      }
+    }
+  }
+  const data = await client.fetch(query, queryParams)
   return {
     props: {
       ...(await serverSideTranslations(locale)),
-      page: data.page,
-      navigation: data.navigation,
-      settings: data.settings,
+      preview,
+      queryParams: {},
+      ...data,
     },
   }
 }
+

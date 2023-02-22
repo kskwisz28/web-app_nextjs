@@ -1,28 +1,49 @@
 import {client} from "@/sanity-client";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import Layout from '@/components/layout'
-import {useTranslation} from "next-i18next";
-import {Breadcrumbs} from '@/components/breadcrumbs'
-import {Box, Divider, Flex, Grid, Heading, Text, useThemeUI} from 'theme-ui'
+import {Box, Grid} from 'theme-ui'
 import Container from '@/components/container'
 
 import BlogSidebar from '@/components/blogSidebar'
 import CardPost from '@/components/cardPost'
 import Seo from "@/components/seo";
+import {PreviewSuspense} from "next-sanity/preview";
+import {usePreview} from "@/lib/sanity.preview";
+import ExitFromPreview from "@/components/ExitFromPreview";
+import {groq} from "next-sanity";
 
-export default function ResellerList(props) {
-  const categoriesMenu =
-    props.navigation &&
-    props.navigation.filter(
-      menus => menus.menuPlacement === 'blogCategories'
-    )
+export default function PageOrPreview({preview, ...props}) {
+  return preview ? (
+    <PreviewSuspense fallback="Loading...">
+      <PreviewPage query={query} queryParams={props.queryParams}/>
+    </PreviewSuspense>
+  ) : (
+    <Page {...props}/>
+  );
+}
+
+function PreviewPage({query, queryParams}) {
+  const data = usePreview(null, query, queryParams);
+
+  return (
+    <>
+      <Page {...data}/>
+      <ExitFromPreview/>
+    </>
+  );
+}
+
+function Page({page, navigation, settings}) {
+  const categoriesMenu = navigation.filter(
+    menus => menus.menuPlacement === 'blogCategories'
+  )
   return (
     <Layout
       headerBg="rgba(255,255,255,.6)"
       logoDark
       headerColor="dark"
-      navMenu={props.navigation}
-      siteSettings={props.settings}
+      navMenu={navigation}
+      siteSettings={settings}
     >
       <Seo ogTitle="Blogg"/>
       <Box bg="light300">
@@ -30,7 +51,7 @@ export default function ResellerList(props) {
           <Grid gap={4} columns={[1, null, null, '2fr 1fr']}>
             <div className="blog-posts">
               <ul>
-                {props.posts?.map(
+                {page.posts.map(
                   node =>
                     node.slug && (
                       <Box
@@ -77,25 +98,36 @@ export async function getStaticPaths() {
   }
 }
 
-export async function getStaticProps({params, locale}) {
-  const data = await client.fetch(`
+const query = groq`
     {
-      "category": *[_type == "category" && slug.current == $slug && language == $language][0] {
+      "page": *[_type == "category" && slug.current == $slug && language == $language][0] {
         "posts": *[_type=='post' && references(^._id)]
       },
       "navigation": *[_type == "navigationMenu"],
       "settings": *[_type == "siteSettings"][0],
      }
-  `, {
-    slug: params.category,
-    language: locale
-  })
+  `
+
+export async function getStaticProps({params, locale, preview = false}) {
+  const queryParams = {slug: params.category, language: locale}
+
+  if (preview) {
+    return {
+      props: {
+        ...(await serverSideTranslations(locale)),
+        preview,
+        queryParams
+      }
+    }
+  }
+
+  const data = await client.fetch(query, queryParams)
   return {
     props: {
       ...(await serverSideTranslations(locale)),
-      posts: data.category.posts,
-      navigation: data.navigation,
-      settings: data.settings,
+      preview,
+      queryParams: {},
+      ...data,
     },
   }
 }

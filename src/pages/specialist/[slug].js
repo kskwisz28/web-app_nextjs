@@ -13,29 +13,51 @@ import DivBottom from '@/components/divBottom'
 
 import Certified from '@/images/qb-certified.svg'
 import Seo from "@/components/seo";
+import {PreviewSuspense} from "next-sanity/preview";
+import {usePreview} from "@/lib/sanity.preview";
+import ExitFromPreview from "@/components/ExitFromPreview";
+import {groq} from "next-sanity";
 
-export default function Specialist(props) {
-  const defaultMeta =
-    props.settings &&
-    props.settings.openGraphDefault
-  const ogMeta =
-    props.page && props.page.openGraph
-  const specialist = props.page
+export default function PageOrPreview({preview, ...props}) {
+  return preview ? (
+    <PreviewSuspense fallback="Loading...">
+      <PreviewPage query={query} queryParams={props.queryParams}/>
+    </PreviewSuspense>
+  ) : (
+    <Page {...props}/>
+  );
+}
+
+function PreviewPage({query, queryParams}) {
+  const data = usePreview(null, query, queryParams);
+
+  return (
+    <>
+      <Page {...data}/>
+      <ExitFromPreview/>
+    </>
+  );
+}
+
+
+function Page({page, navigation, settings}) {
+  const defaultMeta = settings.openGraphDefault
+  const ogMeta = page.openGraph
 
   return (
     <Layout
       headerBg="rgba(255,255,255,.6)"
       logoDark
       headerColor="dark"
-      navMenu={props.navigation}
-      siteSettings={props.settings}
+      navMenu={navigation}
+      siteSettings={settings}
     >
       <Seo
-        title={props.page.companyName ? props.page.companyName : ''}
+        title={page.companyName ? page.companyName : ''}
         ogTitle={
           ogMeta && ogMeta.title
             ? ogMeta.title
-            : props.page.companyName
+            : page.companyName
         }
         ogDescription={
           ogMeta && ogMeta.description
@@ -49,18 +71,18 @@ export default function Specialist(props) {
         }
       />
       <Container>
-        {specialist.logo && (
+        {page.logo && (
           <Box pt={4}>
             <MainImage
               centered
               maxWidth="10rem"
-              mainImage={specialist.logo}
-              altText={'company' + specialist.title + ' logo'}
+              mainImage={page.logo}
+              altText={'company' + page.title + ' logo'}
             />
           </Box>
         )}
         <Heading as="h1" pt={2} css={{textAlign: 'center'}}>
-          {specialist.companyName} uppfyller kraven för Certifierad Specialist.
+          {page.companyName} uppfyller kraven för Certifierad Specialist.
         </Heading>
       </Container>
       <Container>
@@ -111,20 +133,19 @@ export default function Specialist(props) {
         <Flex css={{justifyContent: 'space-around', flexWrap: 'wrap'}}>
           <Box>
             <Heading as="h3" pt={4}>
-              {specialist.companyName} är certifierade specialister inom:
+              {page.companyName} är certifierade specialister inom:
             </Heading>
-            {specialist.rows &&
-              specialist.rows.map(item => (
-                <Item key={item._key}>{item.title}</Item>
-              ))}
+            {page.rows && page.rows.map(item => (
+              <Item key={item._key}>{item.title}</Item>
+            ))}
           </Box>
           <Box>
             <Heading pt={4} as="h3">
               Vem kommer du i kontakt med?
             </Heading>
             <Flex>
-              {specialist.specialistContact &&
-                specialist.specialistContact.map(item => (
+              {page.specialistContact &&
+                page.specialistContact.map(item => (
                   <Box p={2} key={item._key}>
                     <MainImage
                       maxWidth="4rem"
@@ -138,8 +159,8 @@ export default function Specialist(props) {
             <Heading pt={2} as="h3">
               Företagsinformation
             </Heading>
-            <Box>{specialist.companyAddress}</Box>
-            <Box>{specialist.companyCity}</Box>
+            <Box>{page.companyAddress}</Box>
+            <Box>{page.companyCity}</Box>
           </Box>
         </Flex>
       </Container>
@@ -172,7 +193,7 @@ export default function Specialist(props) {
             <li>Företaget svarar inom 48 timmar (vardagar).</li>
           </ul>
           <Heading as="h3" pt={4}>
-            Hur kan jag anlita {specialist.companyName}?
+            Hur kan jag anlita {page.companyName}?
           </Heading>
           <Text>
             Det gör du direkt i din Quickbutik-kontrollpanel. Du kan här skapa
@@ -201,21 +222,33 @@ export async function getStaticPaths() {
   }
 }
 
-export async function getStaticProps({params, locale}) {
-  const data = await client.fetch('{' +
-    '"page": *[_type == "specialist" && slug.current == $slug && language == $language][0],' +
-    '"navigation": *[_type == "navigationMenu"],' +
-    '"settings": *[_type == "siteSettings"][0],' +
-    '}', {
-    slug: params.slug,
-    language: locale
-  })
+const query = groq`
+  {
+    "page": *[_type == "specialist" && slug.current == $slug && language == $language][0],
+    "navigation": *[_type == "navigationMenu"],
+    "settings": *[_type == "siteSettings"][0],
+  }
+  `
+
+export async function getStaticProps({params, locale, preview = false}) {
+  const queryParams = {slug: params.slug, language: locale}
+
+  if (preview) {
+    return {
+      props: {
+        ...(await serverSideTranslations(locale)),
+        preview,
+        queryParams
+      }
+    }
+  }
+  const data = await client.fetch(query, queryParams)
   return {
     props: {
       ...(await serverSideTranslations(locale)),
-      page: data.page,
-      navigation: data.navigation,
-      settings: data.settings,
+      preview,
+      queryParams: {},
+      ...data,
     },
   }
 }

@@ -8,12 +8,37 @@ import {isHomepage} from "@/helpers/general";
 import Seo from '@/components/seo'
 import {PathCheck} from '@/helpers/pathCheck'
 import site from "@/config";
+import {groq} from "next-sanity";
+import {PreviewSuspense} from "next-sanity/preview";
+import {usePreview} from "@/lib/sanity.preview";
+import ExitFromPreview from "@/components/ExitFromPreview";
 
-export default function PageDefault(props) {
-  const {content, body} = props.page
-  const wrapIntoContainer = props.page && props.page.containerSize && props.page.containerSize !== 'fullwidth'
-  const defaultMeta = props.settings.openGraphDefault
-  const ogMeta = props.page.openGraph
+export default function PageOrPreview({preview, ...props}) {
+  return preview ? (
+    <PreviewSuspense fallback="Loading...">
+      <PreviewPage query={query} queryParams={props.queryParams}/>
+    </PreviewSuspense>
+  ) : (
+    <Page {...props}/>
+  );
+}
+
+function PreviewPage({query, queryParams}) {
+  const data = usePreview(null, query, queryParams);
+
+  return (
+    <>
+      <Page {...data}/>
+      <ExitFromPreview/>
+    </>
+  );
+}
+
+function Page({page, navigation, settings}) {
+  const {content, body} = page
+  const wrapIntoContainer = page && page.containerSize && page.containerSize !== 'fullwidth'
+  const defaultMeta = settings.openGraphDefault
+  const ogMeta = page.openGraph
 
   const contentJSX = <>
     <BlockContent
@@ -29,21 +54,21 @@ export default function PageDefault(props) {
   </>
   return (
     <Layout
-      headerBg={props.page.menuBg ? props.page.menuBg.hex : 'aubergine'}
+      headerBg={page.menuBg ? page.menuBg.hex : 'aubergine'}
       headerColor="white"
-      navMenu={props.navigation}
-      siteSettings={props.settings}
+      navMenu={navigation}
+      siteSettings={settings}
     >
       <Seo
-        title={props.page.title ? props.page.title : ''}
+        title={page.title ? page.title : ''}
         ogTitle={
-          ogMeta && ogMeta.title ? ogMeta.title : props.page.title
+          ogMeta && ogMeta.title ? ogMeta.title : page.title
         }
         ogUrl={
-          `${site.siteMetadata?.siteUrl}/${PathCheck(props.page.language + '/' + props.page.slug.current)}`
+          `${site.siteMetadata?.siteUrl}/${PathCheck(page.language + '/' + page.slug.current)}`
         }
         ogTest={
-          `${PathCheck(props.page.language + '/' + props.page.slug.current)}`
+          `${PathCheck(page.language + '/' + page.slug.current)}`
         }
         ogDescription={
           ogMeta && ogMeta.description
@@ -59,7 +84,7 @@ export default function PageDefault(props) {
       {wrapIntoContainer ? (
         <Container
           containersize={
-            props.page.containerSize
+            page.containerSize
           }
         >
           <div
@@ -98,9 +123,7 @@ export async function getStaticPaths() {
   }
 }
 
-export async function getStaticProps({params, locale}) {
-  const slug = params.slug ? params.slug[0] : `startpage-${locale}`
-  const data = await client.fetch(`
+const query = groq`
     {
       "page": *[_type == "page" && slug.current == $slug && language == $language][0] {
         ...,
@@ -120,15 +143,29 @@ export async function getStaticProps({params, locale}) {
       "navigation": *[_type == "navigationMenu"],
       "settings": *[_type == "siteSettings"][0],
     }
-  `, {
-    slug, language: locale
-  })
+  `
+
+export async function getStaticProps({params, locale, preview = false}) {
+  const slug = params.slug ? params.slug[0] : `startpage-${locale}`
+  const queryParams = {slug, language: locale}
+
+  if (preview) {
+    return {
+      props: {
+        ...(await serverSideTranslations(locale)),
+        preview,
+        queryParams
+      }
+    }
+  }
+
+  const data = await client.fetch(query, queryParams)
   return {
     props: {
       ...(await serverSideTranslations(locale)),
-      page: data.page,
-      navigation: data.navigation,
-      settings: data.settings,
+      preview,
+      queryParams: {},
+      ...data,
     },
   }
 }

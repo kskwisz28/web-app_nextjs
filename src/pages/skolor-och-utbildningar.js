@@ -11,16 +11,40 @@ import MapsLocations from '@/components/mapsLocations'
 import EducationInfoBox from '@/components/educationInfoBox'
 import EducationInfo from '@/components/educationInfo'
 import CTABoxRegister from '@/components/ctaBoxButtons'
+import {usePreview} from "@/lib/sanity.preview";
+import {PreviewSuspense} from "next-sanity/preview";
+import ExitFromPreview from "@/components/ExitFromPreview";
+import {groq} from "next-sanity";
 
-export default function ResellerList(props) {
-  const educations = props.page
+export default function PageOrPreview({preview, ...props}) {
+  return preview ? (
+    <PreviewSuspense fallback="Loading...">
+      <PreviewPage query={query} queryParams={props.queryParams}/>
+    </PreviewSuspense>
+  ) : (
+    <Page {...props}/>
+  );
+}
+
+function PreviewPage({query, queryParams}) {
+  const data = usePreview(null, query, queryParams);
+
+  return (
+    <>
+      <Page {...data}/>
+      <ExitFromPreview/>
+    </>
+  );
+}
+
+function Page({page, navigation, settings}) {
   return (
     <Layout
       headerBg="rgba(255,255,255,.6)"
       logoDark
       headerColor="dark"
-      navMenu={props.navigation}
-      siteSettings={props.settings}
+      navMenu={navigation}
+      siteSettings={settings}
     >
       <Container containersize="read">
         <Heading as="h1" pt={4} css={{fontSize: '3em', textAlign: 'center'}}>
@@ -33,12 +57,12 @@ export default function ResellerList(props) {
       </Container>
 
       <Box py={4}>
-        <MapsLocations items={educations}/>
+        <MapsLocations items={page}/>
       </Box>
 
       <Container sx={{py: 5}}>
         <Flex css={{flexWrap: 'wrap'}}>
-          {educations.map(r => (
+          {page.map(r => (
             <Box
               key={r._id}
               p={2}
@@ -82,22 +106,36 @@ export default function ResellerList(props) {
   )
 }
 
-export async function getStaticProps({params, locale}) {
-  const data = await client.fetch(`
+const query = groq`
     {
-      "educations": *[_type == "education" && language == $language],
+      "page": *[_type == "education" && language == $language],
       "navigation": *[_type == "navigationMenu"],
       "settings": *[_type == "siteSettings"][0],
      }
-  `, {
+  `
+
+export async function getStaticProps({locale, preview = false}) {
+  const queryParams = {language: locale}
+
+  if (preview) {
+    return {
+      props: {
+        ...(await serverSideTranslations(locale)),
+        preview,
+        queryParams
+      }
+    }
+  }
+
+  const data = await client.fetch(query, {
     language: locale
   })
   return {
     props: {
       ...(await serverSideTranslations(locale)),
-      page: data.educations,
-      navigation: data.navigation,
-      settings: data.settings,
+      preview,
+      queryParams: {},
+      ...data,
     },
   }
 }

@@ -11,18 +11,43 @@ import Academy from '@/images/academy.png'
 import AcademyCard from '@/components/academyCard'
 import {useTranslation} from "next-i18next";
 import {useMemo} from "react";
+import {PreviewSuspense} from "next-sanity/preview";
+import {usePreview} from "@/lib/sanity.preview";
+import ExitFromPreview from "@/components/ExitFromPreview";
+import {groq} from "next-sanity";
 
-export default function ResellerList(props) {
+export default function PageOrPreview({preview, ...props}) {
+  return preview ? (
+    <PreviewSuspense fallback="Loading...">
+      <PreviewPage query={query} queryParams={props.queryParams}/>
+    </PreviewSuspense>
+  ) : (
+    <Page {...props}/>
+  );
+}
+
+function PreviewPage({query, queryParams}) {
+  const data = usePreview(null, query, queryParams);
+
+  return (
+    <>
+      <Page {...data}/>
+      <ExitFromPreview/>
+    </>
+  );
+}
+
+function Page({categories, navigation, settings}) {
   const {t} = useTranslation('academy')
-  const sortedCategories = useMemo(() => Array.from(props.categories).sort((a, b) => a.order - b.order),
-    [props.categories])
+  const sortedCategories = useMemo(() => Array.from(categories).sort((a, b) => a.order - b.order),
+    [categories])
   return (
     <Layout
       headerBg="rgba(255,255,255,.6)"
       logoDark
       headerColor="dark"
-      navMenu={props.navigation}
-      siteSettings={props.settings}
+      navMenu={navigation}
+      siteSettings={settings}
     >
       <Seo ogTitle="Quickbutik Academy"/>
       <Box bg="marble" sx={{minHeight: 900}}>
@@ -86,8 +111,7 @@ function AcademyHero() {
   )
 }
 
-export async function getStaticProps({locale}) {
-  const data = await client.fetch(`
+const query = groq`
   {
     "categories": *[_type == "academyCategory" && language == $language] {
       ...,
@@ -95,15 +119,27 @@ export async function getStaticProps({locale}) {
     },
     "navigation": *[_type == "navigationMenu"],
     "settings": *[_type == "siteSettings"][0], 
-  }`, {
-    language: locale
-  })
+  }`
+
+export async function getStaticProps({locale, preview = false}) {
+  const queryParams = {language: locale}
+
+  if (preview) {
+    return {
+      props: {
+        ...(await serverSideTranslations(locale)),
+        preview,
+        queryParams
+      }
+    }
+  }
+  const data = await client.fetch(query, queryParams)
   return {
     props: {
       ...(await serverSideTranslations(locale)),
-      categories: data.categories,
-      navigation: data.navigation,
-      settings: data.settings,
+      preview,
+      queryParams: {},
+      ...data,
     },
   }
 }

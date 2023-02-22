@@ -2,14 +2,9 @@ import {client} from "@/sanity-client";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import Layout from '@/components/layout'
 import {useTranslation} from "next-i18next";
-import {Breadcrumbs} from '@/components/breadcrumbs'
-import {Box, Divider, Flex, Grid, Heading, Text, useThemeUI} from 'theme-ui'
-import AcademyCard from '@/components/academyCard'
+import {Box, Flex, Heading, Text, useThemeUI} from 'theme-ui'
 import Container from '@/components/container'
-import {useRouter} from "next/router";
 import styled from '@emotion/styled'
-import PropTypes from 'prop-types'
-import Image from 'next/image'
 import BlockContent from '@sanity/block-content-to-react'
 import PageBuilder from '@/components/pageBuilder'
 
@@ -20,39 +15,62 @@ import serializer from '@/helpers/serializers'
 import Seo from "@/components/seo";
 import site from "@/config";
 import OptimizedImage from "@/components/optimizedImage";
+import ExitFromPreview from "@/components/ExitFromPreview";
+import {PreviewSuspense} from "next-sanity/preview";
+import {usePreview} from "@/lib/sanity.preview";
+import {groq} from "next-sanity";
 
-export default function ResellerList(props) {
+export default function PageOrPreview({preview, ...props}) {
+  return preview ? (
+    <PreviewSuspense fallback="Loading...">
+      <PreviewPage query={query} queryParams={props.queryParams}/>
+    </PreviewSuspense>
+  ) : (
+    <Page {...props}/>
+  );
+}
+
+function PreviewPage({query, queryParams}) {
+  const data = usePreview(null, query, queryParams);
+
+  return (
+    <>
+      <Page {...data}/>
+      <ExitFromPreview/>
+    </>
+  );
+}
+
+
+function Page({page, navigation, settings}) {
   const {t} = useTranslation('common')
   const context = useThemeUI()
   const {theme} = context
-  const post = props.page
 
-  const defaultMeta = props.settings.openGraphDefault
-  const ogMeta = post && post.openGraph
+  const defaultMeta = settings.openGraphDefault
+  const ogMeta = page.openGraph
 
   const CategoryLink = styled(LinkCustom)`
     color: ${theme.colors.primary600};
-    &:hover {
-    }
-    `
+  `
   return (
     <Layout
       headerBg="rgba(255,255,255,.6)"
       logoDark
       headerColor="dark"
-      navMenu={props.navigation}
-      siteSettings={props.settings}
+      navMenu={navigation}
+      siteSettings={settings}
     >
       <Seo
-        title={post.title ? post.title : ''}
-        ogTitle={ogMeta && ogMeta.title ? ogMeta.title : post.title}
+        title={page.title ? page.title : ''}
+        ogTitle={ogMeta && ogMeta.title ? ogMeta.title : page.title}
         ogDescription={
           ogMeta && ogMeta.description
             ? ogMeta.description
             : defaultMeta && defaultMeta.description && defaultMeta
         }
         ogUrl={
-          `${site.siteMetadata?.siteUrl}/${post.language}/${post.slug.current}`
+          `${site.siteMetadata?.siteUrl}/${page.language}/${page.slug.current}`
         }
         ogImage={
           ogMeta && ogMeta.image
@@ -64,13 +82,13 @@ export default function ResellerList(props) {
         <article>
           <Box
             bg={
-              post.bgHeader
-                ? post.bgHeader.colorSelection &&
-                post.bgHeader.colorSelection.value
+              page.bgHeader
+                ? page.bgHeader.colorSelection &&
+                page.bgHeader.colorSelection.value
                 : '#0e1b25'
             }
           >
-            {post.mainImage && (
+            {page.mainImage && (
               <Box
                 sx={{
                   pt: 4,
@@ -82,8 +100,8 @@ export default function ResellerList(props) {
                   centered
                   bottomIn
                   shadowed
-                  mainImage={post.mainImage}
-                  altText={post && post.imageAlt}
+                  mainImage={page.mainImage}
+                  altText={page.imageAlt}
                 />
               </Box>
             )}
@@ -103,7 +121,7 @@ export default function ResellerList(props) {
                   alignItems: 'center',
                 }}
               >
-                {post.author && (
+                {page.author && (
                   <Box
                     sx={{
                       borderRadius: '50%',
@@ -112,22 +130,22 @@ export default function ResellerList(props) {
                     }}
                   >
                     <OptimizedImage
-                      image={post.author.image}
-                      alt={'author ' + post.author && post.author.name}
+                      image={page.author.image}
+                      alt={'author ' + page.author && page.author.name}
                       width={32}
                     />
                   </Box>
                 )}
                 <Box p={2}>
-                  <Box css={{textAlign: post.author ? 'left' : 'center'}}>
-                    {post && post.author && post.author.name}
+                  <Box css={{textAlign: page.author ? 'left' : 'center'}}>
+                    {page.author && page.author.name}
                   </Box>
-                  {post && post.publishedAt && (
+                  {page.publishedAt && (
                     <Text
                       variant="lead"
                       sx={{color: 'dark300', textAlign: 'center'}}
                     >
-                      {post.publishedAt}
+                      {page.publishedAt}
                     </Text>
                   )}
                 </Box>
@@ -147,8 +165,8 @@ export default function ResellerList(props) {
                   </Flex>
                 </LinkCustom>
 
-                {post.categories &&
-                  post.categories.map(category => (
+                {page.categories &&
+                  page.categories.map(category => (
                     <CategoryLink
                       key={category._key}
                       to=""
@@ -162,19 +180,19 @@ export default function ResellerList(props) {
               </Flex>
             </Flex>
 
-            {!post.disableTitle && (
+            {!page.disableTitle && (
               <Heading as="h1" variant="text.h3">
-                {post.title}
+                {page.title}
               </Heading>
             )}
 
             <Box py={3}>
-              {post.content &&
-                <PageBuilder content={post.content}/>
+              {page.content &&
+                <PageBuilder content={page.content}/>
               }
-              {post.body && (
+              {page.body && (
                 <BlockContent
-                  blocks={post.body}
+                  blocks={page.body}
                   serializers={serializer}
                   hardBreak
                 />
@@ -202,8 +220,7 @@ export async function getStaticPaths() {
   }
 }
 
-export async function getStaticProps({params, locale, defaultLocale}) {
-  let data = await client.fetch(`
+const query = groq`
     {
       "page": *[_type == "post" && slug.current == $slug && language == $language][0] {
         ...,
@@ -216,27 +233,27 @@ export async function getStaticProps({params, locale, defaultLocale}) {
       "navigation": *[_type == "navigationMenu"],
       "settings": *[_type == "siteSettings"][0],
     }
-  `, {
-    slug: params.post,
-    language: locale
-  })
+  `
+
+export async function getStaticProps({params, locale, defaultLocale, preview = false}) {
+  const queryParams = {slug: params.post, language: locale}
+
+  if (preview) {
+    return {
+      props: {
+        ...(await serverSideTranslations(locale)),
+        preview,
+        queryParams
+      }
+    }
+  }
+
+  let data = await client.fetch(query, queryParams)
   if (!data.page) {
     if (locale === defaultLocale) {
-      data = await client.fetch(`
-    {
-      "page": *[_type == "post" && slug.current == $slug && language == null][0] {
-        ...,
-        author-> {
-          ...,
-          image {..., asset->},
-        },
-        categories[]->
-      },
-      "navigation": *[_type == "navigationMenu"],
-      "settings": *[_type == "siteSettings"][0],
-    }
-  `, {
-        slug: params.post,
+      data = await client.fetch(query, {
+        ...queryParams,
+        language: null
       })
     } else {
       return {
@@ -247,9 +264,9 @@ export async function getStaticProps({params, locale, defaultLocale}) {
   return {
     props: {
       ...(await serverSideTranslations(locale)),
-      page: data.page,
-      navigation: data.navigation,
-      settings: data.settings,
+      preview,
+      queryParams: {},
+      ...data,
     },
   }
 }

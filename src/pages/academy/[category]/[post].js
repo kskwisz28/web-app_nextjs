@@ -13,6 +13,157 @@ import BlockContent from '@sanity/block-content-to-react'
 import serializer from '@/helpers/serializers'
 import {slugify} from '@/helpers/slugify'
 import Seo from "@/components/seo";
+import ExitFromPreview from "@/components/ExitFromPreview";
+import {PreviewSuspense} from "next-sanity/preview";
+import {usePreview} from "@/lib/sanity.preview";
+import {groq} from "next-sanity";
+
+export default function PageOrPreview({preview, ...props}) {
+  return preview ? (
+    <PreviewSuspense fallback="Loading...">
+      <PreviewPage query={query} queryParams={props.queryParams}/>
+    </PreviewSuspense>
+  ) : (
+    <Page {...props}/>
+  );
+}
+
+function PreviewPage({query, queryParams: {post_slug, queryParams}}) {
+  const data = usePreview(null, query, queryParams);
+  const props = generateProps(data, post_slug)
+
+  return (
+    <>
+      <Page {...props}/>
+      <ExitFromPreview/>
+    </>
+  );
+}
+
+function Page({page, category, academyIndex, previousAcademy, nextAcademy, settings, navigation}) {
+  const {t} = useTranslation('academy')
+  const router = useRouter()
+  const language = router.locale
+
+  const contentRef = useRef(null)
+  const lowestIndex = useRef(0)
+
+  const [activeIndex, setActiveIndex] = useState(null)
+  const [summaryStructure, setSummaryStructure] = useState([])
+
+  const ogMeta = page.openGraph
+  const defaultMeta = settings.openGraphDefault
+
+  useEffect(() => {
+    const articleContent = contentRef?.current?.children[0]
+
+    const summary = []
+
+    // Extract all tags that are present in SUMMARY_TAGS array from academy body
+    if (contentRef?.current && articleContent) {
+      Array.from(articleContent.children).forEach(item => {
+        if (SUMMARY_TAGS.includes(item.tagName)) {
+          summary.push(item)
+        }
+      })
+    }
+
+    // Used to subtract indent for example if no H1 tags are present in body H2 is the first indent level
+    lowestIndex.current = Math.min(
+      ...summary.map(summaryItem => SUMMARY_TAGS.indexOf(summaryItem.tagName))
+    )
+
+    setSummaryStructure(summary)
+
+    window.addEventListener('scroll', () => handleOnScroll(summary))
+
+    return () =>
+      window.removeEventListener('scroll', () => handleOnScroll(summary))
+  }, [contentRef])
+
+  const handleOnScroll = useThrottle(summary => {
+    let lowest = null
+
+    summary.forEach((summaryItem, summaryItemIndex) => {
+      const {top} = summaryItem.getBoundingClientRect()
+
+      if (top < 100) {
+        lowest = summaryItemIndex
+      }
+    })
+
+    setActiveIndex(lowest)
+  }, 100)
+
+  return (
+    <Layout
+      headerBg="rgba(255,255,255,.6)"
+      logoDark
+      headerColor="dark"
+      navMenu={navigation}
+      siteSettings={settings}
+    >
+      <Seo
+        title={page?.title}
+        ogTitle={ogMeta?.title || page.title}
+        ogDescription={
+          ogMeta?.description || page.excerpt || defaultMeta?.description
+        }
+        ogImage={ogMeta?.image || defaultMeta?.image}
+      />
+      <Breadcrumbs
+        links={[
+          {title: t('home'), href: `/${language}/academy`},
+          {title: category.title, href: `/${language}/academy/${category.slug.current}`},
+          {title: page.title},
+        ]}
+      />
+
+      <Box sx={{backgroundColor: 'marble', pt: 4, pb: 6}}>
+        <Container>
+          <Flex sx={{gap: 4}}>
+            <Box
+              sx={{
+                flex: 4,
+                display: ['none', null, null, null, 'block'],
+              }}
+            >
+              <Summary
+                {...{
+                  academyIndex,
+                  academy: page,
+                  summaryStructure,
+                  previousAcademy,
+                  nextAcademy,
+                  lowestIndex,
+                  activeIndex,
+                }}
+              />
+            </Box>
+
+            <Flex
+              backgroundColor="white"
+              sx={{
+                flex: 6,
+                py: [4, null, null, null, 5],
+                px: [4, null, null, 5, 6],
+                borderRadius: 6,
+                filter: 'drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.05))',
+                flexDirection: 'column',
+              }}
+            >
+              <Article
+                academy={page}
+                academyIndex={academyIndex}
+                ref={contentRef}
+              />
+            </Flex>
+          </Flex>
+        </Container>
+      </Box>
+    </Layout>
+  )
+}
 
 
 const SUMMARY_TAGS = ['H1', 'H2', 'H3', 'H4', 'H5']
@@ -193,131 +344,6 @@ const Article = forwardRef(({academy, academyIndex}, contentRef) => {
 })
 Article.displayName = 'Article'
 
-export default function ResellerList({academy, category, academyIndex, previousAcademy, nextAcademy, ...props}) {
-  const {t} = useTranslation('academy')
-  const router = useRouter()
-  const language = router.locale
-
-  const contentRef = useRef(null)
-  const lowestIndex = useRef(0)
-
-  const [activeIndex, setActiveIndex] = useState(null)
-  const [summaryStructure, setSummaryStructure] = useState([])
-
-  const ogMeta = academy.openGraph
-  const defaultMeta = props.settings.openGraphDefault
-
-  useEffect(() => {
-    const articleContent = contentRef?.current?.children[0]
-
-    const summary = []
-
-    // Extract all tags that are present in SUMMARY_TAGS array from academy body
-    if (contentRef?.current && articleContent) {
-      Array.from(articleContent.children).forEach(item => {
-        if (SUMMARY_TAGS.includes(item.tagName)) {
-          summary.push(item)
-        }
-      })
-    }
-
-    // Used to subtract indent for example if no H1 tags are present in body H2 is the first indent level
-    lowestIndex.current = Math.min(
-      ...summary.map(summaryItem => SUMMARY_TAGS.indexOf(summaryItem.tagName))
-    )
-
-    setSummaryStructure(summary)
-
-    window.addEventListener('scroll', () => handleOnScroll(summary))
-
-    return () =>
-      window.removeEventListener('scroll', () => handleOnScroll(summary))
-  }, [contentRef])
-
-  const handleOnScroll = useThrottle(summary => {
-    let lowest = null
-
-    summary.forEach((summaryItem, summaryItemIndex) => {
-      const {top} = summaryItem.getBoundingClientRect()
-
-      if (top < 100) {
-        lowest = summaryItemIndex
-      }
-    })
-
-    setActiveIndex(lowest)
-  }, 100)
-
-  return (
-    <Layout
-      headerBg="rgba(255,255,255,.6)"
-      logoDark
-      headerColor="dark"
-      navMenu={props.navigation}
-      siteSettings={props.settings}
-    >
-      <Seo
-        title={academy?.title}
-        ogTitle={ogMeta?.title || academy.title}
-        ogDescription={
-          ogMeta?.description || academy.excerpt || defaultMeta?.description
-        }
-        ogImage={ogMeta?.image || defaultMeta?.image}
-      />
-      <Breadcrumbs
-        links={[
-          {title: t('home'), href: `/${language}/academy`},
-          {title: category.title, href: `/${language}/academy/${category.slug.current}`},
-          {title: academy.title},
-        ]}
-      />
-
-      <Box sx={{backgroundColor: 'marble', pt: 4, pb: 6}}>
-        <Container>
-          <Flex sx={{gap: 4}}>
-            <Box
-              sx={{
-                flex: 4,
-                display: ['none', null, null, null, 'block'],
-              }}
-            >
-              <Summary
-                {...{
-                  academyIndex,
-                  academy,
-                  summaryStructure,
-                  previousAcademy,
-                  nextAcademy,
-                  lowestIndex,
-                  activeIndex,
-                }}
-              />
-            </Box>
-
-            <Flex
-              backgroundColor="white"
-              sx={{
-                flex: 6,
-                py: [4, null, null, null, 5],
-                px: [4, null, null, 5, 6],
-                borderRadius: 6,
-                filter: 'drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.05))',
-                flexDirection: 'column',
-              }}
-            >
-              <Article
-                academy={academy}
-                academyIndex={academyIndex}
-                ref={contentRef}
-              />
-            </Flex>
-          </Flex>
-        </Container>
-      </Box>
-    </Layout>
-  )
-}
-
 export async function getStaticPaths() {
   const data = await client.fetch('*[_type == "academyCategory"]{slug, language, academies[]-> {slug}}')
 
@@ -337,20 +363,19 @@ export async function getStaticPaths() {
   }
 }
 
-export async function getStaticProps({params, locale}) {
-  const data = await client.fetch('{' +
-    '"page": *[_type == "academyCategory" && slug.current == $slug && language == $language][0] {' +
-    '...,' +
-    'academies[]->,' +
-    '},' +
-    '"navigation": *[_type == "navigationMenu"],' +
-    '"settings": *[_type == "siteSettings"][0],' +
-    '}', {
-    slug: params.category,
-    language: locale
-  })
-  const category = data.page
-  const academyIndex = category.academies.findIndex(academy => academy.slug.current === params.post)
+const query = groq`
+  {
+    "category": *[_type == "academyCategory" && slug.current == $slug && language == $language][0] {
+      ...,
+      academies[]->,
+    },
+    "navigation": *[_type == "navigationMenu"],
+    "settings": *[_type == "siteSettings"][0],
+  }
+  `
+
+function generateProps({category, settings, navigation}, post_slug) {
+  const academyIndex = category.academies.findIndex(academy => academy.slug.current === post_slug)
   const academy = category.academies[academyIndex]
   const previousAcademy = academyIndex > 0 ? {
     title: category.academies[academyIndex - 1].title,
@@ -360,16 +385,41 @@ export async function getStaticProps({params, locale}) {
     title: category.academies[academyIndex + 1].title,
     path: category.academies[academyIndex + 1].slug.current
   } : null
+
+  return {
+    category,
+    academyIndex: academyIndex + 1,
+    page: academy,
+    previousAcademy,
+    nextAcademy,
+    settings,
+    navigation,
+  }
+}
+
+export async function getStaticProps({params, locale, preview = false}) {
+  const queryParams = {slug: params.category, language: locale}
+
+  if (preview) {
+    return {
+      props: {
+        ...(await serverSideTranslations(locale)),
+        preview,
+        queryParams: {
+          ...queryParams,
+          post_slug: params.post,
+        }
+      }
+    }
+  }
+
+  const data = await client.fetch(query, queryParams)
   return {
     props: {
       ...(await serverSideTranslations(locale)),
-      category,
-      academy,
-      academyIndex: academyIndex + 1,
-      previousAcademy,
-      nextAcademy,
-      navigation: data.navigation,
-      settings: data.settings,
+      preview,
+      queryParams: {},
+      ...generateProps(data, params.post)
     },
   }
 }
