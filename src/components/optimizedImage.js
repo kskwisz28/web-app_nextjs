@@ -9,6 +9,7 @@ export default function OptimizedImage({
                                          sizes,
                                          width,
                                          height,
+                                         style,
                                        }) {
 
   const imageProps = useNextSanityImage(client, image);
@@ -16,17 +17,20 @@ export default function OptimizedImage({
     if (width) {
       return {
         width: width,
-        height: 'auto'
+        height: 'auto',
+        ...style,
       }
     } else if (height) {
       return {
         width: 'auto',
-        height: height
+        height: height,
+        ...style,
       }
     } else {
       return {
         width: '100%',
-        height: 'auto'
+        height: 'auto',
+        ...style,
       }
     }
   }, [width, height])

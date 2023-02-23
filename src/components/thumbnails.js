@@ -3,9 +3,10 @@ import React from 'react'
 import BlockContent from '@sanity/block-content-to-react'
 import Container from '../components/container'
 
-import {Flex, Box, Heading, Image, Grid, Link} from 'theme-ui'
+import {Flex, Box, Heading, Grid, Link} from 'theme-ui'
 
 import serializer from '../helpers/serializers'
+import OptimizedImage from "@/components/optimizedImage";
 
 const Thumbnail = ({heading, image, body, hoverShadow, url, openNewTab}) => {
   return (
@@ -31,9 +32,9 @@ const Thumbnail = ({heading, image, body, hoverShadow, url, openNewTab}) => {
       )}
 
       {image && (
-        <Image
-          src={image?.image?.asset?.url}
-          sx={{
+        <OptimizedImage
+          image={image.image}
+          style={{
             aspectRatio: '1.7778',
             objectFit: 'cover',
           }}
