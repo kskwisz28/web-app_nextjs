@@ -1,7 +1,7 @@
 import React from 'react'
 import DateTimeDisplay from './DateTimeDisplay'
 
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 import { jsx, Flex, Box } from 'theme-ui'
 
 

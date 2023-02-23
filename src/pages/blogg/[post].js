@@ -152,7 +152,7 @@ function Page({page, navigation, settings}) {
               </Flex>
               <Flex sx={{fontSize: '0.8rem'}}>
                 <LinkCustom
-                  to={'/' + t('common:lang') + '/' + t('common:blog')}
+                  to={'/' + t('lang') + '/' + t('blog')}
                 >
                   <Flex
                     sx={{
@@ -161,7 +161,7 @@ function Page({page, navigation, settings}) {
                       mr: 2,
                     }}
                   >
-                    <BiNews/> <Box pl={1}>{t('common:Blog')}</Box>
+                    <BiNews/> <Box pl={1}>{t('Blog')}</Box>
                   </Flex>
                 </LinkCustom>
 

@@ -2,7 +2,7 @@ import React, {useState, useRef} from 'react'
 import {useForm} from 'react-hook-form'
 import axios from 'axios'
 import {Box, Input, Textarea, Button, Text} from 'theme-ui'
-import {useTranslation} from 'react-i18next'
+import {useTranslation} from 'next-i18next'
 import ReCAPTCHA from 'react-google-recaptcha'
 
 export default function FormContact(props) {

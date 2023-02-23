@@ -2,9 +2,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {Box, Heading, Text, Button, Flex} from 'theme-ui'
 
-import {useTranslation} from 'react-i18next'
-
 import MainImage from '../components/mainImage'
+import {useTranslation} from "next-i18next";
 
 export default function CardPost({node}) {
   const {t} = useTranslation('common')
@@ -185,7 +184,7 @@ export default function CardPost({node}) {
                 },
               }}
             >
-              {t('common:readMore')}
+              {t('readMore')}
             </Button>
           </Flex>
         </Box>

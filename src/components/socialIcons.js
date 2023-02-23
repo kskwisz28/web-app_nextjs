@@ -1,5 +1,3 @@
-
-
 import {
   FaFacebook,
   FaInstagram,
@@ -7,37 +5,38 @@ import {
   FaTwitter,
   FaLinkedin,
 } from 'react-icons/fa'
-import { jsx, useThemeUI, Box } from 'theme-ui'
+import {useThemeUI, Box} from 'theme-ui'
 import styled from '@emotion/styled'
 
-import { useTranslation } from 'react-i18next'
+import {useTranslation} from 'next-i18next'
 
 export default function SocialIcons(props) {
-  const { t } = useTranslation('common')
+  const {t} = useTranslation('common')
   const context = useThemeUI()
-  const { theme } = context
+  const {theme} = context
   const SocialIconLink = styled.a`
     color: ${theme.colors.dark400};
     padding-right: 1rem;
     font-size: 1.5rem;
+
     &:hover {
       color: ${theme.colors.primary};
       transition: 0.3s ease-out;
     }
   `
   const SocialIcon = props => {
-    let { social } = props
+    let {social} = props
     switch (social) {
       case 'Facebook':
-        return <FaFacebook />
+        return <FaFacebook/>
       case 'Instagram':
-        return <FaInstagram />
+        return <FaInstagram/>
       case 'Youtube':
-        return <FaYoutube />
+        return <FaYoutube/>
       case 'Twitter':
-        return <FaTwitter />
+        return <FaTwitter/>
       case 'Linkedin':
-        return <FaLinkedin />
+        return <FaLinkedin/>
       default:
         return null
     }
@@ -52,41 +51,41 @@ export default function SocialIcons(props) {
         textAlign: props.centered ? 'center' : '',
       }}
     >
-      
+
       <SocialIconLink
         href={t('facebook', "https://www.facebook.com/quickbutik/")}
         aria-label={'Facebook icon'}
         target="_blank"
       >
-        <SocialIcon social={'Facebook'} />
+        <SocialIcon social={'Facebook'}/>
       </SocialIconLink>
       <SocialIconLink
         href={t('youtube', 'https://www.youtube.com/channel/UC__wDPuQUprzdbrR1LpI5RA')}
         aria-label={'Youtube icon'}
         target="_blank"
       >
-        <SocialIcon social={'Youtube'} />
+        <SocialIcon social={'Youtube'}/>
       </SocialIconLink>
       <SocialIconLink
         href={t('instagram', 'https://instagram.com/quickbutiksverige')}
         aria-label={'Instagram icon'}
         target="_blank"
       >
-        <SocialIcon social={'Instagram'} />
+        <SocialIcon social={'Instagram'}/>
       </SocialIconLink>
       <SocialIconLink
         href={t('twitter', 'https://twitter.com/quickbutik')}
         aria-label={'Twitter icon'}
         target="_blank"
       >
-        <SocialIcon social={'Twitter'} />
+        <SocialIcon social={'Twitter'}/>
       </SocialIconLink>
       <SocialIconLink
         href={t('linkedin', 'https://www.linkedin.com/company/quickbutik/?originalSubdomain=se')}
         aria-label={'LinkedIn icon'}
         target="_blank"
       >
-        <SocialIcon social={'Linkedin'} />
+        <SocialIcon social={'Linkedin'}/>
       </SocialIconLink>
     </Box>
   )

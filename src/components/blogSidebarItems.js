@@ -4,7 +4,7 @@ import SocialIcons from '../components/socialIcons'
 import styled from '@emotion/styled'
 import LinkCustom from '../components/linkCustom'
 
-import {useTranslation} from 'react-i18next'
+import {useTranslation} from 'next-i18next'
 import {useRouter} from "next/router";
 
 export default function BlogSidebarItems({categoriesMenu}) {
