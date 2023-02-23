@@ -73,6 +73,7 @@ import OptimizedImage from '../components/optimizedImage'
 import StartTab from "@/components/startTab";
 import IntegrationsBasic from "@/components/integrationsBasic";
 import SliderGeneral from "@/components/sliderGeneral";
+import Editor from "@/components/editor";
 
 const serializers = {
   listItem: props => (
@@ -148,6 +149,7 @@ const serializers = {
     button: ({node}) => {
       return <Button {...node} />
     },
+    editor: ({node}) => <Editor {...node}/>,
     code: ({node = {}}) => {
       const {code, language} = node
       if (!code) {

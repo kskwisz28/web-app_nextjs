@@ -112,7 +112,7 @@ export async function getStaticPaths() {
     }
     if (!isHomepage(page.slug.current)) {
       path.params = {
-        slug: [page.slug.current]
+        slug: page.slug.current.split('/'),
       }
     }
     return path
@@ -146,7 +146,7 @@ const query = groq`
   `
 
 export async function getStaticProps({params, locale, preview = false}) {
-  const slug = params.slug ? params.slug[0] : `startpage-${locale}`
+  const slug = params.slug ? params.slug.join("/") : `startpage-${locale}`
   const queryParams = {slug, language: locale}
 
   if (preview) {
