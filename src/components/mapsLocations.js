@@ -27,6 +27,7 @@ import styled from '@emotion/styled'
 
 import MapStyles from '../helpers/mapStyles'
 import CompanyInfoBox from './companyInfoBox'
+import {Combobox} from "@headlessui/react";
 
 const SearchBox = styled.div`
   top: 1rem;
@@ -34,9 +35,12 @@ const SearchBox = styled.div`
   max-width: 600px;
   width: 600px;
   z-index: 99;
+  position: relative;
+
   &[data-reach-combobox-popover] {
     z-index: 9999;
   }
+
   input {
     padding: 0.8rem;
     border-radius: 8px;
@@ -45,6 +49,18 @@ const SearchBox = styled.div`
     box-shadow: 0 8px 16px -4px rgb(0 0 0 / 20%);
     width: 100%;
   }
+`
+
+const List = styled.ul`
+  border-radius: 6px;
+  position: absolute;
+  width: calc(100% - 2rem);
+  background-color: #fff;
+`
+
+const ListItem = styled.li`
+  padding: .2rem .3rem;
+  font-weight: bold;
 `
 
 const libraries = ['places']
@@ -65,6 +81,7 @@ const center = {
 }
 
 export default function MapsLocations(props) {
+  console.log('maps', props)
   const {isLoaded, loadError} = useLoadScript({
     googleMapsApiKey: 'AIzaSyDm0rHOlBnr5QZNpLgCBRey_lxlsSY53-M',
     libraries,
@@ -122,26 +139,7 @@ export default function MapsLocations(props) {
         options={options}
         onLoad={onMapLoad}
       >
-        {props.items.map(marker => (
-          <Marker
-            key={marker.companyName}
-            position={{
-              lat: marker.location && marker.location.lat,
-              lng: marker.location && marker.location.lng,
-            }}
-            icon={{
-              url: ResellerImage,
-              scaledSize: new window.google.maps.Size(20, 20),
-              origin: new window.google.maps.Point(0, 0),
-              anchor: new window.google.maps.Point(10, 10),
-            }}
-            onClick={() => {
-              setSelected(marker)
-            }}
-          >
-            Test
-          </Marker>
-        ))}
+        <Marker position={{lat: -34.397, lng: 150.644}}/>
 
         {selected ? (
           <InfoWindow
@@ -196,7 +194,7 @@ function Search({panTo}) {
   const {
     ready,
     value,
-    suggestions: {status, data},
+    suggestions: {loading, status, data},
     setValue,
     // clearSuggestions,
   } = usePlacesAutocomplete({
@@ -225,7 +223,24 @@ function Search({panTo}) {
 
   return (
     <SearchBox>
-      REQUIRES REPLACEMENT FOR REACHUI/COMBOBOX
+      <Combobox value={value} onChange={handleSelect}>
+        <Flex className="searchContent">
+          <Combobox.Input
+            onChange={handleInput}
+            disabled={!ready}
+            placeholder="Sök plats..."
+          />
+        </Flex>
+        {!loading && status === 'OK' && (
+          <Combobox.Options as={List}>
+            {data.map(({place_id, description}) => (
+              <Combobox.Option key={place_id} value={description} as={ListItem}>
+                {description}
+              </Combobox.Option>
+            ))}
+          </Combobox.Options>
+        )}
+      </Combobox>
     </SearchBox>
   )
 }
