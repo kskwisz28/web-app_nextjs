@@ -4,6 +4,7 @@ import theme from "@/gatsby-plugin-theme-ui/index"
 import {createContext, useEffect, useMemo} from "react";
 import {isHomepage} from "@/helpers/general";
 import {IntercomProvider} from "react-use-intercom";
+import Head from "next/head";
 
 export const AlternateLinksContext = createContext([])
 
@@ -44,6 +45,9 @@ function App({Component, pageProps}) {
     >
       <IntercomProvider autoBoot={true} appId={INTERCOM_APP_ID}>
         <ThemeProvider theme={theme}>
+          <Head>
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+          </Head>
           <Component {...pageProps} />
         </ThemeProvider>
       </IntercomProvider>
