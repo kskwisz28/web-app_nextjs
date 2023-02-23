@@ -21,7 +21,6 @@ import {Flex, Button} from 'theme-ui'
 import Image from 'next/image'
 
 import qbLogoDark from '../images/qb-logo-black.svg'
-import ResellerImage from '../images/qb-app.svg'
 
 import styled from '@emotion/styled'
 
@@ -138,7 +137,26 @@ export default function MapsLocations(props) {
         options={options}
         onLoad={onMapLoad}
       >
-        <Marker position={{lat: -34.397, lng: 150.644}}/>
+        {props.items.map(marker => (
+          <Marker
+            key={marker.companyName}
+            position={{
+              lat: marker.location && marker.location.lat,
+              lng: marker.location && marker.location.lng,
+            }}
+            icon={{
+              url: '/qb-app.svg',
+              scaledSize: new window.google.maps.Size(20, 20),
+              origin: new window.google.maps.Point(0, 0),
+              anchor: new window.google.maps.Point(10, 10),
+            }}
+            onClick={() => {
+              setSelected(marker)
+            }}
+          >
+            Test
+          </Marker>
+        ))}
 
         {selected ? (
           <InfoWindow
