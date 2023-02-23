@@ -41,16 +41,16 @@ function Page({page, navigation, settings}) {
   const ogMeta = page.openGraph
 
   const contentJSX = <>
-    <BlockContent
+    {content && <BlockContent
       blocks={content}
       serializers={serializer}
       hardBreak
-    />
-    <BlockContent
+    />}
+    {body && <BlockContent
       blocks={body}
       serializers={serializer}
       hardBreak
-    />
+    />}
   </>
   return (
     <Layout
