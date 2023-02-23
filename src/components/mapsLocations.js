@@ -81,7 +81,6 @@ const center = {
 }
 
 export default function MapsLocations(props) {
-  console.log('maps', props)
   const {isLoaded, loadError} = useLoadScript({
     googleMapsApiKey: 'AIzaSyDm0rHOlBnr5QZNpLgCBRey_lxlsSY53-M',
     libraries,

@@ -4,6 +4,7 @@ import {Box, Heading, Text, Button, Flex} from 'theme-ui'
 
 import MainImage from '../components/mainImage'
 import {useTranslation} from "next-i18next";
+import OptimizedImage from "@/components/optimizedImage";
 
 export default function CardPost({node}) {
   const {t} = useTranslation('common')
@@ -150,16 +151,20 @@ export default function CardPost({node}) {
                     },
                   }}
                 >
-                  <Image
-                    src={node?.author?.image?.asset?.url}
-                    p={1}
-                    alt={'author ' + node.author && node.author.name}
+                  <Box
                     sx={{
                       borderRadius: '50%',
-                      maxHeight: '40px',
-                      mr: 1,
+                      maxHeight: '2rem',
+                      overflow: 'hidden',
+                      margin: '4px 8px 4px 4px',
                     }}
-                  />
+                  >
+                    <OptimizedImage
+                      image={node.author.image}
+                      alt={'author ' + node.author && node.author.name}
+                      width={32}
+                    />
+                  </Box>
 
                   <Box
                     color="dark"

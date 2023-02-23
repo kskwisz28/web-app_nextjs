@@ -97,7 +97,7 @@ function Page({posts, pagination, navigation, settings}) {
 }
 
 export async function getStaticPaths() {
-  const data = await client.fetch('*[_type == "post"]{slug, language}')
+  const data = await client.fetch('*[_type == "post"]{language}')
 
   const locales = ['sv', 'no', 'da', 'en']
   let paths = []
@@ -120,7 +120,11 @@ export async function getStaticPaths() {
 
 const query = groq`
     {
-      "posts": *[_type == "post" && language == $language] | order(publishedAt desc) [$start...$end],
+      "posts": *[_type == "post" && language == $language] | order(publishedAt desc)[$start...$end] {
+        ...,
+        author->,
+        categories[]->,
+      },
       "total": count(*[_type == "post" && language == $language]),
       "navigation": *[_type == "navigationMenu"],
       "settings": *[_type == "siteSettings"][0],
@@ -128,10 +132,10 @@ const query = groq`
   `
 
 export async function getStaticProps({params, locale, preview = false}) {
-  const index = Number(params.index ? params.index[0] : 0)
+  const index = Number(params.index ? params.index[0] - 1 : 0)
   const queryParams = {
     start: POSTS_PER_PAGE * index,
-    end: POSTS_PER_PAGE * (index + 1) - 1,
+    end: POSTS_PER_PAGE * (index + 1),
     language: locale
   }
 
@@ -151,7 +155,7 @@ export async function getStaticProps({params, locale, preview = false}) {
       posts: data.posts,
       pagination: {
         total: data.total,
-        current: index === 0 ? 1 : index
+        current: index === 0 ? 1 : index + 1
       },
       navigation: data.navigation,
       settings: data.settings,

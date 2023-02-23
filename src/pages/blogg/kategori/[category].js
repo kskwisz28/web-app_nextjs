@@ -101,7 +101,11 @@ export async function getStaticPaths() {
 const query = groq`
     {
       "page": *[_type == "category" && slug.current == $slug && language == $language][0] {
-        "posts": *[_type=='post' && references(^._id)]
+        "posts": *[_type=='post' && references(^._id)] {
+          ...,
+          author->,
+          categories[]->,
+        }
       },
       "navigation": *[_type == "navigationMenu"],
       "settings": *[_type == "siteSettings"][0],

@@ -10,6 +10,7 @@ export default function OptimizedImage({
                                          width,
                                          height,
                                          style,
+                                         alt,
                                        }) {
 
   const imageProps = useNextSanityImage(client, image);
@@ -37,6 +38,7 @@ export default function OptimizedImage({
   return <Image
     {...imageProps}
     style={styles}
+    alt={alt}
   />
   /*
   let img = null
