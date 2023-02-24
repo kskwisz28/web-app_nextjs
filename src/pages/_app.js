@@ -75,6 +75,9 @@ function App({Component, pageProps}) {
         <ThemeProvider theme={theme}>
           <Head>
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+            <meta name="theme-color" content="#6154F9"/>
+            <link rel="icon" href="/favicon.png" type="image/png"/>
+            <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
           </Head>
           <Script
             id="fb-pixel"
