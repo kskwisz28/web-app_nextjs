@@ -6,6 +6,10 @@ import {isHomepage} from "@/helpers/general";
 import {IntercomProvider} from "react-use-intercom";
 import Head from "next/head";
 
+import 'vanilla-cookieconsent/dist/cookieconsent'
+import 'vanilla-cookieconsent/dist/cookieconsent.css'
+import {setCookieConsent} from "@/lib/cookieConsent";
+
 export const AlternateLinksContext = createContext([])
 
 function App({Component, pageProps}) {
@@ -36,6 +40,10 @@ function App({Component, pageProps}) {
       s.parentNode.insertBefore(wf, s);
     })(document);
   })
+
+  useEffect(() => {
+    setCookieConsent()
+  }, [])
 
   const INTERCOM_APP_ID = 'pjlmfkmx'
 

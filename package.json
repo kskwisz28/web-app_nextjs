@@ -53,6 +53,7 @@
     "react-use-intercom": "^3.0.2",
     "react-youtube": "^10.1.0",
     "theme-ui": "^0.15.4",
-    "use-places-autocomplete": "^4.0.0"
+    "use-places-autocomplete": "^4.0.0",
+    "vanilla-cookieconsent": "^2.8.9"
   }
 }
