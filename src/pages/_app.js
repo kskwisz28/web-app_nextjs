@@ -13,6 +13,7 @@ import 'vanilla-cookieconsent/dist/cookieconsent.css'
 import {setCookieConsent} from "@/lib/cookieConsent";
 import Script from "next/script";
 import {GoogleAnalytics} from "nextjs-google-analytics";
+import {useRouter} from "next/router";
 
 export const AlternateLinksContext = createContext([])
 
@@ -48,7 +49,6 @@ function App({Component, pageProps}) {
   useEffect(() => {
     setCookieConsent()
   }, [])
-
 
   const router = useRouter()
   useEffect(() => {
