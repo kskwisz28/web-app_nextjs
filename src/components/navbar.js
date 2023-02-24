@@ -8,7 +8,7 @@ import {Flex, Link, Heading, Box, Button, Grid, Text} from 'theme-ui'
 import qbLogoWhite from '../images/quickbutik-white.svg'
 import qbLogoDark from '../images/quickbutik-black.svg'
 
-import {CountryFlag} from '../helpers/countryFlags'
+import {CountryFlag} from '@/helpers/countryFlags'
 import {Dialog} from '@headlessui/react'
 import {useTranslation} from "next-i18next";
 import Image from "next/image";

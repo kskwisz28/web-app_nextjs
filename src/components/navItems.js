@@ -39,6 +39,7 @@ const Ul = styled.ul`
     position: fixed;
     z-index: 9;
     transform: ${({open}) => (open ? 'translateX(0)' : 'translateX(100%)')};
+    visibility: ${({open}) => (open ? 'visible' : 'hidden')};
     top: 0;
     right: 0;
     height: 100vh;
