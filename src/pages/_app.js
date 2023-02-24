@@ -12,6 +12,7 @@ import 'vanilla-cookieconsent/dist/cookieconsent'
 import 'vanilla-cookieconsent/dist/cookieconsent.css'
 import {setCookieConsent} from "@/lib/cookieConsent";
 import Script from "next/script";
+import {GoogleAnalytics} from "nextjs-google-analytics";
 
 export const AlternateLinksContext = createContext([])
 
@@ -92,6 +93,7 @@ function App({Component, pageProps}) {
           `,
             }}
           />
+          <GoogleAnalytics trackPageViews/>
           <Component {...pageProps} />
         </ThemeProvider>
       </IntercomProvider>
