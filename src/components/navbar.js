@@ -60,7 +60,7 @@ export default function Navbar(props) {
               height: '100%',
             }}
           >
-            <Flex css={{}} py={2} style={{alignItems: 'center'}}>
+            <Flex css={{}} py={2} style={{alignItems: 'center',marginRight: '-3px'}}>
               <LinkCheck
                 to={'/' + i18n.language}
                 effect="fade"
@@ -78,11 +78,12 @@ export default function Navbar(props) {
                 border: 'none',
                 width: '100%',
                 height: '100%',
-                marginLeft: '8px',
+                marginLeft: '11px',
+                marginTop: '8px',
                 padding: 0
               }}>
                 <Box sx={{maxWidth: '1.5rem'}}>
-                  <CountryFlag country={currentLanguage}/>
+                  <CountryFlag country={currentLanguage} small/>
                 </Box>
               </Button>
 
