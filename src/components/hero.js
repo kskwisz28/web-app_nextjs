@@ -35,7 +35,7 @@ export default function flex({
                                videoControls
                              }) {
 
-  const hasImage = image && image.image
+  const hasImage = image && image.image && image.image.asset
 
   function reverseFullWidthCheck(reverse, fullWidth) {
     if (reverse && fullWidth) {
