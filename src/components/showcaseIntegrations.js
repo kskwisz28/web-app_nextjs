@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Flex, Container } from 'theme-ui'
+import {Box, Flex, Container} from 'theme-ui'
 import OptimizedImage from "@/components/optimizedImage";
 
 export default function ShowcaseIntegrations(props) {
@@ -31,6 +31,9 @@ export default function ShowcaseIntegrations(props) {
               >
                 <OptimizedImage
                   image={story.image.image}
+                  style={{
+                    maxHeight: '2rem',
+                  }}
                 />
               </Box>
             ))}
