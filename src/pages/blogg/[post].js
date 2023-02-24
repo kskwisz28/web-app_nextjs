@@ -55,9 +55,13 @@ function Page({page, navigation, settings}) {
   `
   return (
     <Layout
-      headerBg="rgba(255,255,255,.6)"
-      logoDark
-      headerColor="dark"
+      headerBg={
+        page.bgHeader
+          ? page.bgHeader.colorSelection && page.bgHeader.colorSelection.value
+          : '#0e1b25'
+      }
+      headerColor={page.colorHeader === 'dark' ? '#000000' : '#ffffff'}
+      logoDark={page.colorHeader === 'dark'}
       navMenu={navigation}
       siteSettings={settings}
     >
