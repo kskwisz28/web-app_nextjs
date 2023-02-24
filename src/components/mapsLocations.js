@@ -29,7 +29,6 @@ import CompanyInfoBox from './companyInfoBox'
 import {Combobox} from "@headlessui/react";
 
 const SearchBox = styled.div`
-  top: 1rem;
   padding: 0 1rem;
   max-width: 600px;
   width: 600px;

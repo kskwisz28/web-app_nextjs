@@ -53,7 +53,7 @@ function Page({page, settings, navigation}) {
       <Container containersize="read">
         <Image
           src={ResellerImage}
-          sx={{maxWidth: '8rem', display: 'block', mx: 'auto', pb: '3', pt: '5'}}
+          sx={{maxWidth: '8rem', display: 'block', mx: 'auto', pb: '3', pt: '5', width: '100%', height: "auto"}}
         />
         <Heading as="h1" pt={2} css={{textAlign: 'center'}}>
           Hitta din lokala återförsäljare
