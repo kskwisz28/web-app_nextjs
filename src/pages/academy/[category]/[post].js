@@ -97,9 +97,8 @@ function Page({page, category, academyIndex, previousAcademy, nextAcademy, setti
 
   return (
     <Layout
-      headerBg="rgba(255,255,255,.6)"
       logoDark
-      headerColor="dark"
+      headerColor="#000000"
       navMenu={navigation}
       siteSettings={settings}
     >
