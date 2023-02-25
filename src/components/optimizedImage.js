@@ -11,6 +11,7 @@ export default function OptimizedImage({
                                          height,
                                          style,
                                          alt,
+                                         fill = false,
                                        }) {
 
   const imageProps = useNextSanityImage(client, image);
@@ -45,9 +46,20 @@ export default function OptimizedImage({
       ...style
     }
   }, [width, height])
+
+  const props = useMemo(() => {
+    if (!fill) {
+      return imageProps
+    }
+    return {
+      loader: imageProps.loader,
+      src: imageProps.src,
+    }
+  }, [imageProps, fill])
   return <Image
-    {...imageProps}
-    style={styles}
+    {...props}
+    style={fill ? style : styles}
     alt={alt}
+    fill={fill}
   />
 }

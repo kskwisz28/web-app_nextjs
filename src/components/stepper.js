@@ -3,15 +3,16 @@ import React from 'react'
 import BlockContent from '@sanity/block-content-to-react'
 import Container from '../components/container'
 
-import { Flex, Box, Heading, Image, Grid, Text } from 'theme-ui'
+import {Flex, Box, Heading, Grid, Text} from 'theme-ui'
 
 import serializer from '../helpers/serializers'
+import OptimizedImage from "@/components/optimizedImage";
 
 const imageHeight = 225
 const circleHeight = 36
 const stepGapY = [3, null, null, 4, 0]
 
-const Step = ({ heading, image, body, heroColors, index }) => {
+const Step = ({heading, image, body, heroColors, index}) => {
   return (
     <Flex
       sx={{
@@ -30,14 +31,14 @@ const Step = ({ heading, image, body, heroColors, index }) => {
         }}
       >
         {heading && (
-          <Heading variant="h5" color={heroColors?.theme?.text} sx={{ mb: 2 }}>
+          <Heading variant="h5" color={heroColors?.theme?.text} sx={{mb: 2}}>
             {heading}
           </Heading>
         )}
 
         {body && (
-          <Box sx={{ color: heroColors?.theme?.text }}>
-            <BlockContent blocks={body} serializers={serializer} hardBreak />
+          <Box sx={{color: heroColors?.theme?.text}}>
+            <BlockContent blocks={body} serializers={serializer} hardBreak/>
           </Box>
         )}
       </Box>
@@ -45,9 +46,11 @@ const Step = ({ heading, image, body, heroColors, index }) => {
   )
 }
 
-export default function flex({ heroColors, heading, steps, headingSize }) {
+export default function flex({heroColors, heading, steps, headingSize}) {
   const backgroundColor = heroColors?.theme?.background
   const stepsMap = steps || []
+
+  console.log(steps)
 
   return (
     <Box
@@ -63,7 +66,7 @@ export default function flex({ heroColors, heading, steps, headingSize }) {
             variant={headingSize ?? 'h1'}
             as={headingSize ?? 'h1'}
             color={heroColors?.theme?.text}
-            sx={{ mb: 5, textAlign: 'center' }}
+            sx={{mb: 5, textAlign: 'center'}}
           >
             {heading}
           </Heading>
@@ -75,7 +78,7 @@ export default function flex({ heroColors, heading, steps, headingSize }) {
             margin: [null, null, null, null, 'auto'],
           }}
         >
-          <Box sx={{ position: 'relative' }}>
+          <Box sx={{position: 'relative'}}>
             <Grid
               sx={{
                 justifyContent: 'center',
@@ -93,31 +96,38 @@ export default function flex({ heroColors, heading, steps, headingSize }) {
               {/* Images Start  */}
               {stepsMap &&
                 stepsMap.map((step, stepIndex) => {
-                  return step?.image?.image?.asset?.url ? (
-                    <Box sx={{ paddingLeft: stepGapY }}>
-                      <Image
-                        src={step?.image?.image?.asset?.url}
-                        sx={{
-                          aspectRatio: '1.7778',
-                          objectFit: 'cover',
-                          height: [null, null, null, null, imageHeight],
-                          width: '100%',
-                          borderRadius: 6,
-                          gridColumn: [3, null, null, null, 'auto'],
-                          gridRow: [
-                            stepIndex * 2 + 1,
-                            null,
-                            null,
-                            null,
-                            'auto',
-                          ],
-                          marginBottom: [3, null, null, null, 4],
-                          overflow: 'hidden',
-                        }}
-                      />
+                  return step.image.image.asset ? (
+                    <Box sx={{
+                      paddingLeft: stepGapY,
+                      marginBottom: [3, null, null, null, 4],
+                    }}>
+                      <Box sx={{
+                        position: 'relative',
+                        aspectRatio: '1.7778',
+                        height: [null, null, null, null, imageHeight],
+                        width: '100%',
+                      }}>
+                        <OptimizedImage
+                          image={step.image.image}
+                          fill
+                          style={{
+                            objectFit: 'cover',
+                            borderRadius: 6,
+                            gridColumn: [3, null, null, null, 'auto'],
+                            gridRow: [
+                              stepIndex * 2 + 1,
+                              null,
+                              null,
+                              null,
+                              'auto',
+                            ],
+                            overflow: 'hidden',
+                          }}
+                        />
+                      </Box>
                     </Box>
                   ) : (
-                    <Box />
+                    <Box/>
                   )
                 })}
               {/* Images End  */}
@@ -194,7 +204,7 @@ export default function flex({ heroColors, heading, steps, headingSize }) {
                       >
                         <Text
                           color={heroColors?.theme?.text}
-                          sx={{ fontWeight: 'bold', fontSize: 20 }}
+                          sx={{fontWeight: 'bold', fontSize: 20}}
                         >
                           {stepIndex + 1}
                         </Text>
