@@ -50,8 +50,6 @@ export default function flex({heroColors, heading, steps, headingSize}) {
   const backgroundColor = heroColors?.theme?.background
   const stepsMap = steps || []
 
-  console.log(steps)
-
   return (
     <Box
       sx={{
@@ -96,7 +94,7 @@ export default function flex({heroColors, heading, steps, headingSize}) {
               {/* Images Start  */}
               {stepsMap &&
                 stepsMap.map((step, stepIndex) => {
-                  return step.image.image.asset ? (
+                  return step.image && step.image.image && step.image.image.asset ? (
                     <Box sx={{
                       paddingLeft: stepGapY,
                       marginBottom: [3, null, null, null, 4],
