@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import {imageUrlFor} from '@/helpers/image-url'
-import {buildImageObj} from '@/helpers/general'
 import Head from 'next/head'
 import site from "@/config";
 
@@ -14,7 +13,6 @@ export default function SEO({
                               ogUrl,
                               type,
                             }) {
-
   const metaImage = ogImage ? ((ogImage.asset && ogImage.asset.url) || imageUrlFor(ogImage).width(1200).url()) : null
 
   const contentType = type ? type : 'website'

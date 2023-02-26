@@ -135,10 +135,6 @@ const query = groq`
             integrationPicker[]->
           },
         },
-        openGraph {
-          ...,
-          image->
-        }
       },
       "navigation": *[_type == "navigationMenu"],
       "settings": *[_type == "siteSettings"][0],
