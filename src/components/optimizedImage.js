@@ -7,8 +7,8 @@ import {useNextSanityImage} from "next-sanity-image";
 export default function OptimizedImage({
                                          image,
                                          sizes,
-                                         width,
-                                         height,
+                                         maxWidth,
+                                         maxHeight,
                                          style,
                                          alt,
                                          fill = false,
@@ -16,36 +16,29 @@ export default function OptimizedImage({
 
   const imageProps = useNextSanityImage(client, image);
   const styles = useMemo(() => {
-    let s = {}
-    if (width) {
-      s = {
-        width: width,
-        height: 'auto',
-      }
-    } else if (height) {
-      s = {
-        width: 'auto',
-        height: height,
-      }
-    } else {
-      s = {
-        width: '100%',
-        height: 'auto',
-      }
+    let s = {
+      width: '100%',
+      height: 'auto'
     }
 
     if (imageProps.width) {
       s.maxWidth = imageProps.width
     }
+    if (maxWidth) {
+      s.maxWidth = maxWidth
+    }
     if (imageProps.height) {
       s.maxHeight = imageProps.height
+    }
+    if (maxHeight) {
+      s.maxHeight = maxHeight
     }
 
     return {
       ...s,
       ...style
     }
-  }, [width, height])
+  }, [maxWidth, maxHeight, imageProps])
 
   const props = useMemo(() => {
     if (!fill) {
