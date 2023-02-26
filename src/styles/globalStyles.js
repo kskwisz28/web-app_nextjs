@@ -15,7 +15,7 @@ const Globals = props => {
           to {
             transform: translateX(-100vw) translateZ(0);
           }
-        }
+        };
 
         @keyframes slideLeftIn {
           from {
@@ -24,13 +24,13 @@ const Globals = props => {
           to {
             transform: translateX(0) translateZ(0);
           }
-        }
+        };
 
         @keyframes slideRightOut {
           to {
             transform: translateX(100vw) translateZ(0);
           }
-        }
+        };
 
         @keyframes slideRightIn {
           from {
@@ -39,13 +39,13 @@ const Globals = props => {
           to {
             transform: translateX(0) translateZ(0);
           }
-        }
+        };
 
         @keyframes slideUpOut {
           to {
             margin-top: -100%;
           }
-        }
+        };
 
         @keyframes slideUpIn {
           from {
@@ -54,13 +54,13 @@ const Globals = props => {
           to {
             margin-top: 0;
           }
-        }
+        };
 
         @keyframes slideDownOut {
           to {
             margin-top: 100%;
           }
-        }
+        };
 
         @keyframes slideDownIn {
           from {
@@ -69,7 +69,7 @@ const Globals = props => {
           to {
             margin-top: 0;
           }
-        }
+        };
 
         @keyframes fadeIn {
           from {
@@ -78,7 +78,7 @@ const Globals = props => {
           to {
             opacity: 1;
           }
-        }
+        };
 
         @keyframes fadeOut {
           from {
@@ -87,7 +87,7 @@ const Globals = props => {
           to {
             opacity: 0;
           }
-        }
+        };
 
         @keyframes Gradient {
           0% {
@@ -99,7 +99,7 @@ const Globals = props => {
           100% {
             background-position: 0% 50%;
           }
-        }
+        };
 
         html {
           line-height: initial;
@@ -109,6 +109,7 @@ const Globals = props => {
           text-rendering: optimizeLegibility;
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
+          overflow-x: hidden;
         }
 
         :root {
