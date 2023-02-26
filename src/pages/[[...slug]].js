@@ -135,6 +135,13 @@ const query = groq`
             integrationPicker[]->
           },
         },
+        openGraph {
+           ...,
+           image {
+            _type == 'localeImage' => @->,
+            _type != 'localeImage' => @,
+           }
+        }
       },
       "navigation": *[_type == "navigationMenu"],
       "settings": *[_type == "siteSettings"][0],

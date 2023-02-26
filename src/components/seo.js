@@ -13,8 +13,14 @@ export default function SEO({
                               ogUrl,
                               type,
                             }) {
-  const metaImage = ogImage ? ((ogImage.asset && ogImage.asset.url) || imageUrlFor(ogImage).width(1200).url()) : null
-
+  let metaImage = null
+  if (ogImage && Object.keys(ogImage).length > 0) {
+    if (ogImage.asset && ogImage.asset.url) {
+      metaImage = ogImage.asset.url
+    } else {
+      metaImage = imageUrlFor(ogImage).width(1200).url()
+    }
+  }
   const contentType = type ? type : 'website'
 
   return (
