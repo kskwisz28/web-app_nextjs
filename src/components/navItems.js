@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import LinkCheck from './linkCheck'
 import styled from '@emotion/styled'
 
@@ -60,6 +60,17 @@ export default function NavItems({
                                  }) {
 
   const {locale} = useRouter()
+
+  useEffect(() => {
+    if (open) {
+      document.documentElement.classList.add('navbar-open')
+    } else {
+      document.documentElement.classList.remove('navbar-open')
+    }
+    return () => {
+      document.documentElement.classList.remove('navbar-open')
+    }
+  }, [open])
 
   return (
     <Ul open={open}>

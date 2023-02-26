@@ -9,9 +9,7 @@ const Globals = props => {
   return (
     <Global
       styles={css`
-        ${emotionNormalize}
-
-        @keyframes slideLeftOut {
+        ${emotionNormalize} @keyframes slideLeftOut {
           to {
             transform: translateX(-100vw) translateZ(0);
           }
@@ -112,6 +110,14 @@ const Globals = props => {
           overflow-x: hidden;
         }
 
+        .navbar-open {
+          overflow: hidden;
+
+          body {
+            overflow: hidden;
+          }
+        }
+
         :root {
           --nav-size: 6rem;
           --speed: 500ms;
@@ -131,7 +137,7 @@ const Globals = props => {
 
         a {
           text-decoration: none !important;
-          /* color: ${theme.colors.primary700}; */
+            /* color: ${theme.colors.primary700}; */
         }
 
         .headroom {
@@ -241,10 +247,11 @@ const Globals = props => {
             opacity: 1;
           }
         }
+
         .tl-edges {
           overflow-x: unset;
         }
-          
+
         .keen-slider {
           display: flex;
           overflow: hidden;
@@ -258,18 +265,22 @@ const Globals = props => {
           touch-action: pan-y;
           -webkit-tap-highlight-color: transparent;
         }
+
         .keen-slider__slide {
           position: relative;
           overflow: hidden;
           width: 100%;
           min-height: 100%;
         }
+
         .keen-slider[data-keen-slider-v] {
           flex-wrap: wrap;
         }
+
         .keen-slider[data-keen-slider-v] .keen-slider__slide {
           width: 100%;
         }
+
         .keen-slider[data-keen-slider-moves] * {
           pointer-events: none;
         }
