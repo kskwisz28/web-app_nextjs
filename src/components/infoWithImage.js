@@ -76,6 +76,8 @@ export default function InfoSection(props) {
               >
                 <OptimizedImage
                   image={props.image.image}
+                  maxWidth="536px"
+                  maxHeight="800px"
                 />
               </Box>
             )}
