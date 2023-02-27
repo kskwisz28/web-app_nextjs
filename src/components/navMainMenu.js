@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import styled from '@emotion/styled'
 import NavItems from './navItems'
 
@@ -73,10 +73,14 @@ const StyledBurger = styled.div`
 export default function NavMainMenu(props) {
   const [open, setOpen] = useState(false)
 
-  const {locale} = useRouter()
+  const {locale, asPath} = useRouter()
   const clickRef = React.useRef()
 
   useClickOutside(clickRef, () => setOpen(false))
+
+  useEffect(() => {
+    setOpen(false)
+  }, [asPath])
 
   return (
     <div ref={clickRef} sx={{
