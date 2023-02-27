@@ -61,6 +61,7 @@ export default function Reviews(props) {
                   src={Trustpilot}
                   alt="Trustpilot logo"
                   css={{width: '6rem', height: 'auto'}}
+                  sx={{mx: '8px', pt: '4px'}}
                 />
               </a>
               &
@@ -75,6 +76,7 @@ export default function Reviews(props) {
                   src={Facebook}
                   alt="Trustpilot logo"
                   css={{width: '5rem', height: 'auto'}}
+                  sx={{mx: '8px', pt: '8px'}}
                 />
               </a>
             </Flex>
