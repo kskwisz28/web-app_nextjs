@@ -335,13 +335,13 @@ export default function Footer(props) {
               </Text>
 
               {!SwedishAltExists && i18n.language === 'sv' && (
-                <Link href={currentUrl}>
+                <Link href={currentUrl} sx={{mx: '0.2rem'}}>
                   <CountryFlag country={'sv'}/>
                 </Link>
               )}
 
               {!SwedishAltExists && i18n.language !== 'sv' && (
-                <a href="https://quickbutik.com/sv">
+                <a href="https://quickbutik.com/sv" sx={{mx: '0.2rem'}}>
                   <CountryFlag country={'sv'}/>
                 </a>
               )}
@@ -363,25 +363,25 @@ export default function Footer(props) {
                   ])}
 
               {!NorwegianAltExists && i18n.language === 'no' && (
-                <Link href={currentUrl}>
+                <Link href={currentUrl} sx={{mx: '0.2rem'}}>
                   <CountryFlag country={'no'}/>
                 </Link>
               )}
 
               {!NorwegianAltExists && !i18n.language === 'no' && (
-                <a href="https://quickbutik.com/no">
+                <a href="https://quickbutik.com/no" sx={{mx: '0.2rem'}}>
                   <CountryFlag country={'no'}/>
                 </a>
               )}
 
               {!DanishAltExists && i18n.language === 'da' && (
-                <Link href={currentUrl}>
+                <Link href={currentUrl} sx={{mx: '0.2rem'}}>
                   <CountryFlag country={'da'}/>
                 </Link>
               )}
 
               {!DanishAltExists && !i18n.language === 'da' && (
-                <a href="https://quickbutik.com/no">
+                <a href="https://quickbutik.com/no" sx={{mx: '0.2rem'}}>
                   <CountryFlag country={'da'}/>
                 </a>
               )}
