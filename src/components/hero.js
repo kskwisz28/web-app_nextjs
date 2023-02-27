@@ -186,8 +186,14 @@ export default function flex({
 
               {button2Text && button2Arrow && (
                 <Flex>
-                  <LinkWithArrow sx={{color: heroColors?.theme?.arrowColor}} justifyLeft noSpace url={button2Url}
-                                 title={button2Text} alignStart/>
+                  <LinkWithArrow
+                    sx={{color: heroColors?.theme?.arrowColor}}
+                    justifyLeft
+                    noSpace
+                    url={button2Url}
+                    title={button2Text}
+                    alignStart
+                  />
                 </Flex>
               )}
             </Flex>

@@ -1,10 +1,9 @@
-import { Box, Button } from 'theme-ui'
-import { HiArrowRight } from 'react-icons/hi'
+import {Box, Button} from 'theme-ui'
+import {HiArrowRight} from 'react-icons/hi'
 import LinkCheck from './linkCheck'
 
-import { jsx } from 'theme-ui'
-
 export default function LinkWithArrow(props) {
+  console.log(props)
   return (
     <Box
       sx={{
@@ -23,10 +22,10 @@ export default function LinkWithArrow(props) {
             px: props.noSpace ? 0 : 2,
             mx: props.noSpace ? 0 : 'auto',
             justifyContent: props.justifyLeft ? 'start' : 'center',
-            ...props.sx
           }}
+          className={props.className}
         >
-          {props.title} {props.title && <HiArrowRight sx={{ ml: 1 }} />}
+          {props.title} {props.title && <HiArrowRight sx={{ml: 1}}/>}
         </Button>
       </LinkCheck>
     </Box>
