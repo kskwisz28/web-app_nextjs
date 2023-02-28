@@ -13,6 +13,7 @@ export default function OptimizedImage({
                                          alt,
                                          fill = false,
                                          baseOnHeight = false,
+                                         priority,
                                        }) {
 
   const imageProps = useNextSanityImage(client, image);
@@ -59,5 +60,6 @@ export default function OptimizedImage({
     style={fill ? style : styles}
     alt={alt}
     fill={fill}
+    priority={priority}
   />
 }

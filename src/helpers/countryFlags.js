@@ -6,7 +6,7 @@ import Denmark from '../images/flag-da.svg'
 import England from '../images/flag-uk.svg'
 import Image from "next/image";
 
-export const CountryFlag = ({country, small = false}) => {
+export const CountryFlag = ({country, small = false, priority}) => {
   let source = England;
   switch (country) {
     case 'sv':
@@ -28,6 +28,7 @@ export const CountryFlag = ({country, small = false}) => {
         width: small ? '24px' : '38.4px',
         height: 'auto',
       }}
+      priority={priority}
     />
   )
 }

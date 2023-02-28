@@ -99,6 +99,12 @@ const Globals = props => {
           }
         };
 
+        @supports (font: -apple-system-body) and (-webkit-appearance: none) {
+          img[loading="lazy"] {
+            clip-path: inset(0.6px)
+          }
+        }
+
         html {
           line-height: initial;
         }

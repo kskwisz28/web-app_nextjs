@@ -60,7 +60,7 @@ export default function Navbar(props) {
               height: '100%',
             }}
           >
-            <Flex css={{}} py={2} style={{alignItems: 'center',marginRight: '-3px'}}>
+            <Flex css={{}} py={2} style={{alignItems: 'center', marginRight: '-3px'}}>
               <LinkCheck
                 to={'/' + i18n.language}
                 effect="fade"
@@ -71,6 +71,7 @@ export default function Navbar(props) {
                   src={props.logoDark ? qbLogoDark : qbLogoWhite}
                   alt="Quickbutik logo"
                   height={28}
+                  priority
                 />
               </LinkCheck>
 
@@ -83,7 +84,7 @@ export default function Navbar(props) {
                 padding: 0
               }}>
                 <Box sx={{maxWidth: '1.5rem'}}>
-                  <CountryFlag country={currentLanguage} small/>
+                  <CountryFlag country={currentLanguage} small priority/>
                 </Box>
               </Button>
 

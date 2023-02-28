@@ -98,7 +98,8 @@ export default function flex({
             }}
           >
             <OptimizedImage
-              image={image?.image}
+              image={image.image}
+              priority={image.noLazyLoad}
             />
             {imageText &&
               <Heading
