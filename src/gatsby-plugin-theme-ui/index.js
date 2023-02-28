@@ -95,7 +95,6 @@ const styles = {
   root: {
     WebkitFontSmoothing: `antialiased`,
     textDecoration: `none`,
-    overflowX: `hidden`,
     fontFamily: 'body',
     fontWeight: 'body',
   },
