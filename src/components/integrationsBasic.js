@@ -88,6 +88,7 @@ export default function IntegrationsBasic(props) {
                 <OptimizedImage
                   image={item.logo}
                   maxHeight="30px"
+                  baseOnHeight
                 />
               </Flex>
             ))}

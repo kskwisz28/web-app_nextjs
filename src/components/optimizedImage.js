@@ -12,6 +12,7 @@ export default function OptimizedImage({
                                          style,
                                          alt,
                                          fill = false,
+                                         baseOnHeight = false,
                                        }) {
 
   const imageProps = useNextSanityImage(client, image);
@@ -21,6 +22,10 @@ export default function OptimizedImage({
       height: 'auto'
     }
 
+    if (baseOnHeight) {
+      s.width = 'auto'
+      s.height = '100%'
+    }
     if (imageProps.width) {
       s.maxWidth = imageProps.width
     }
