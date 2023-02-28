@@ -99,6 +99,7 @@ function Page({page, category, academyIndex, previousAcademy, nextAcademy, setti
     <Layout
       logoDark
       headerColor="#000000"
+      headerBg="rgba(255,255,255,.6)"
       navMenu={navigation}
       siteSettings={settings}
     >
@@ -193,7 +194,7 @@ function Summary({
     }
   }, [summaryStructure])
 
-  const scrollToTag = (tag, behavior = 'smooth') => {
+  const scrollToTag = (tag) => {
     const {top} = tag.getBoundingClientRect()
 
     window.scrollTo({
@@ -299,7 +300,7 @@ const Article = forwardRef(({academy, academyIndex}, contentRef) => {
       </Heading>
 
       {academy?.mainImage?.asset?.url && (
-        <Image src={academy?.mainImage?.asset?.url}/>
+        <Image src={academy?.mainImage?.asset?.url} alt=""/>
       )}
 
       {academy.excerpt && <Text>{academy.excerpt}</Text>}
