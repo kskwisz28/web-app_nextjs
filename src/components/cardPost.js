@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import {Box, Heading, Text, Button, Flex} from 'theme-ui'
 
@@ -67,7 +66,7 @@ export default function CardPost({node}) {
               )}
               {node.publishedAt && (
                 <Text px={1} variant="lead" sx={{color: 'dark300'}}>
-                  {node.publishedAt}
+                  {(new Date(node.publishedAt)).toLocaleDateString()}
                 </Text>
               )}
             </Flex>
@@ -162,7 +161,7 @@ export default function CardPost({node}) {
                     <OptimizedImage
                       image={node.author.image}
                       alt={'author ' + node.author && node.author.name}
-                      width={32}
+                      maxWidth="32px"
                     />
                   </Box>
 

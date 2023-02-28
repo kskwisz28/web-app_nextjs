@@ -136,7 +136,7 @@ function Page({page, navigation, settings}) {
                     <OptimizedImage
                       image={page.author.image}
                       alt={'author ' + page.author && page.author.name}
-                      width={32}
+                      maxWidth="32px"
                     />
                   </Box>
                 )}
@@ -149,7 +149,7 @@ function Page({page, navigation, settings}) {
                       variant="lead"
                       sx={{color: 'dark300', textAlign: 'center'}}
                     >
-                      {page.publishedAt}
+                      {(new Date(page.publishedAt)).toLocaleDateString()}
                     </Text>
                   )}
                 </Box>
