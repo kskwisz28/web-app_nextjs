@@ -1,14 +1,15 @@
-import { FaCheckCircle, FaRegEye } from 'react-icons/fa'
+import {FaCheckCircle, FaRegEye} from 'react-icons/fa'
 
 
-import { jsx, Text, Box, Button, Flex } from 'theme-ui'
+import {Text, Box, Button, Flex} from 'theme-ui'
 import InfoSection from '../components/infoWithImage'
 import Container from './container'
 import LinkCheck from './linkCheck'
 
-import SingleImage from './singleImage'
+import OptimizedImage from "@/components/optimizedImage";
 
 export default function ShowcaseTemplate(props) {
+  console.log(props.bgImage)
   return (
     <Container
       sx={{
@@ -39,11 +40,9 @@ export default function ShowcaseTemplate(props) {
             height: '100%',
           }}
         >
-          <SingleImage
-            heightFull
-            shadowWrapper
+          <OptimizedImage
             image={props.bgImage && props.bgImage.image}
-            cover
+            fill
           />
         </Box>
 
@@ -90,7 +89,7 @@ export default function ShowcaseTemplate(props) {
                           }}
                         >
                           <FaCheckCircle
-                            sx={{ color: 'green', pr: 1, minWidth: '1rem' }}
+                            sx={{color: 'green', pr: 1, minWidth: '1rem'}}
                           />
                           {item.title}
                         </li>
@@ -123,7 +122,7 @@ export default function ShowcaseTemplate(props) {
                           display: 'flex',
                         }}
                       >
-                        <FaRegEye sx={{ pr: 1, mr: 1 }} />{' '}
+                        <FaRegEye sx={{pr: 1, mr: 1}}/>{' '}
                         {props.firstButton.buttonText}
                       </Text>
                     </LinkCheck>
