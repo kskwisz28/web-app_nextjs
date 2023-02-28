@@ -3,7 +3,6 @@ import {HiArrowRight} from 'react-icons/hi'
 import LinkCheck from './linkCheck'
 
 export default function LinkWithArrow(props) {
-  console.log(props)
   return (
     <Box
       sx={{
