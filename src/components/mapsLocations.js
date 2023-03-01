@@ -20,8 +20,6 @@ import {BiCurrentLocation} from 'react-icons/bi'
 import {Flex, Button} from 'theme-ui'
 import Image from 'next/image'
 
-import qbLogoDark from '../images/qb-logo-black.svg'
-
 import styled from '@emotion/styled'
 
 import MapStyles from '../helpers/mapStyles'
@@ -111,19 +109,6 @@ export default function MapsLocations(props) {
           width: '100%',
         }}
       >
-        <Image
-          py={2}
-          sx={{
-            top: '1rem',
-            maxWidth: '8rem',
-            left: '1rem',
-            zIndex: 10,
-            margin: 0,
-            padding: 0,
-          }}
-          src={qbLogoDark}
-        />
-
         <Search panTo={panTo}/>
         <Locate panTo={panTo}/>
       </Flex>
@@ -144,7 +129,7 @@ export default function MapsLocations(props) {
               lng: marker.location && marker.location.lng,
             }}
             icon={{
-              url: '/qb-app.svg',
+              url: '/favicon.svg',
               scaledSize: new window.google.maps.Size(20, 20),
               origin: new window.google.maps.Point(0, 0),
               anchor: new window.google.maps.Point(10, 10),
