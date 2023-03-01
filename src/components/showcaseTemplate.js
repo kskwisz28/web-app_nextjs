@@ -39,10 +39,11 @@ export default function ShowcaseTemplate(props) {
             height: '100%',
           }}
         >
-          <OptimizedImage
-            image={props.bgImage && props.bgImage.image}
+          {props.bgImage && props.bgImage.image && <OptimizedImage
+            image={props.bgImage.image}
             fill
-          />
+          />}
+
         </Box>
 
         <Box
