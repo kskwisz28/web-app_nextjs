@@ -5,8 +5,8 @@ import Container from './container'
 
 import {Flex, Link, Heading, Box, Button, Grid, Text} from 'theme-ui'
 
-import qbLogoWhite from '../images/quickbutik-white.svg'
-import qbLogoDark from '../images/quickbutik-black.svg'
+import qbLogoWhite from '../images/quickbutik-full-white.svg'
+import qbLogoDark from '../images/quickbutik-full-black.svg'
 
 import {CountryFlag} from '@/helpers/countryFlags'
 import {Dialog} from '@headlessui/react'
@@ -70,7 +70,7 @@ export default function Navbar(props) {
                 <Image
                   src={props.logoDark ? qbLogoDark : qbLogoWhite}
                   alt="Quickbutik logo"
-                  height={28}
+                  height={30}
                   priority
                 />
               </LinkCheck>
@@ -81,7 +81,8 @@ export default function Navbar(props) {
                 height: '100%',
                 marginLeft: '11px',
                 marginTop: '8px',
-                padding: 0
+                padding: 0,
+                display: 'none'
               }}>
                 <Box sx={{maxWidth: '1.5rem'}}>
                   <CountryFlag country={currentLanguage} small priority/>
