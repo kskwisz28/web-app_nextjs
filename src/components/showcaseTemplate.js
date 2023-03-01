@@ -27,6 +27,7 @@ export default function ShowcaseTemplate(props) {
         }}
       >
         <Box
+          bg="light300"
           css={{
             position: 'absolute',
             top: 0,
@@ -38,13 +39,7 @@ export default function ShowcaseTemplate(props) {
             width: '50%',
             height: '100%',
           }}
-        >
-          {props.bgImage && props.bgImage.image && <OptimizedImage
-            image={props.bgImage.image}
-            fill
-          />}
-
-        </Box>
+        />
 
         <Box
           bg="light300"
