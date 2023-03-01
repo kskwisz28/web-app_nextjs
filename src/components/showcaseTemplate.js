@@ -9,7 +9,6 @@ import LinkCheck from './linkCheck'
 import OptimizedImage from "@/components/optimizedImage";
 
 export default function ShowcaseTemplate(props) {
-  console.log(props.bgImage)
   return (
     <Container
       sx={{
