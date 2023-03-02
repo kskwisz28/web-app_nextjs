@@ -4,9 +4,11 @@ import {Box, Heading, Text, Button, Flex} from 'theme-ui'
 import MainImage from '../components/mainImage'
 import {useTranslation} from "next-i18next";
 import OptimizedImage from "@/components/optimizedImage";
+import {useRouter} from "next/router";
 
 export default function CardPost({node}) {
   const {t} = useTranslation('common')
+  const {locale} = useRouter()
 
   return (
     <article
@@ -66,7 +68,7 @@ export default function CardPost({node}) {
               )}
               {node.publishedAt && (
                 <Text px={1} variant="lead" sx={{color: 'dark300'}}>
-                  {(new Date(node.publishedAt)).toLocaleDateString()}
+                  {(new Date(node.publishedAt)).toLocaleDateString(locale)}
                 </Text>
               )}
             </Flex>

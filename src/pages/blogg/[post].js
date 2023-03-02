@@ -19,6 +19,7 @@ import ExitFromPreview from "@/components/ExitFromPreview";
 import {PreviewSuspense} from "next-sanity/preview";
 import {usePreview} from "@/lib/sanity.preview";
 import {groq} from "next-sanity";
+import {useRouter} from "next/router";
 
 export default function PageOrPreview({preview, ...props}) {
   return preview ? (
@@ -44,6 +45,7 @@ function PreviewPage({query, queryParams}) {
 
 function Page({page, navigation, settings}) {
   const {t} = useTranslation('common')
+  const {locale} = useRouter()
   const context = useThemeUI()
   const {theme} = context
 
@@ -149,7 +151,7 @@ function Page({page, navigation, settings}) {
                       variant="lead"
                       sx={{color: 'dark300', textAlign: 'center'}}
                     >
-                      {(new Date(page.publishedAt)).toLocaleDateString()}
+                      {(new Date(page.publishedAt)).toLocaleDateString(locale)}
                     </Text>
                   )}
                 </Box>
