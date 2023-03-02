@@ -212,7 +212,7 @@ function Page({page, navigation, settings}) {
 export async function getStaticPaths() {
   const data = await client.fetch('*[_type == "post"]{slug, language}')
 
-  const paths = data.filter(page => page.slug.current).map(page => ({
+  const paths = data.filter(page => page.slug.current).filter(page => isNaN(page.slug.current)).map(page => ({
     locale: page.language,
     params: {
       post: page.slug.current
