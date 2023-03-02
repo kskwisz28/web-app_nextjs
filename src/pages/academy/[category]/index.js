@@ -144,7 +144,12 @@ const query = groq`
   }
   `
 
-export async function getStaticProps({params, locale, preview = false}) {
+export async function getStaticProps({params, locale, defaultLocale, preview = false}) {
+  if (locale === defaultLocale) {
+    return {
+      notFound: true,
+    }
+  }
   const queryParams = {slug: params.category, language: locale}
 
   if (preview) {

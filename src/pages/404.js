@@ -5,10 +5,16 @@ import Layout from '@/components/layout'
 import Seo from '@/components/seo'
 import {client} from "@/sanity-client";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import {useRouter} from "next/router";
 
 export default function Custom404(props) {
   const {t} = useTranslation('404')
   const defaultMeta = props.settings.openGraph
+
+  const {locale, defaultLocale} = useRouter()
+  if (locale === defaultLocale) {
+    return null
+  }
 
   return (
     <Layout
@@ -54,9 +60,7 @@ export async function getStaticProps({locale}) {
       "navigation": *[_type == "navigationMenu"],
       "settings": *[_type == "siteSettings"][0],
     }
-  `, {
-    language: locale
-  })
+  `)
   return {
     props: {
       ...(await serverSideTranslations(locale)),

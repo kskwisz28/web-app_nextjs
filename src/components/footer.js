@@ -335,7 +335,7 @@ export default function Footer(props) {
               </Text>
 
               {!SwedishAltExists && i18n.language === 'sv' && (
-                <Link href={`/sv${currentUrl}`} sx={{mx: '0.2rem'}} locale={false}>
+                <Link href={currentUrl} sx={{mx: '0.2rem'}} locale="sv">
                   <CountryFlag country={'sv'}/>
                 </Link>
               )}

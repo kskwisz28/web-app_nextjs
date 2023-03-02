@@ -121,7 +121,12 @@ const query = groq`
     "settings": *[_type == "siteSettings"][0], 
   }`
 
-export async function getStaticProps({locale, preview = false}) {
+export async function getStaticProps({locale, defaultLocale, preview = false}) {
+  if (locale === defaultLocale) {
+    return {
+      notFound: true,
+    }
+  }
   const queryParams = {language: locale}
 
   if (preview) {
