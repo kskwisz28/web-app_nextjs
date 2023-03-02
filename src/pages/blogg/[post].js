@@ -239,7 +239,7 @@ const query = groq`
     }
   `
 
-export async function getStaticProps({params, locale, defaultLocale, preview = false}) {
+export async function getStaticProps({params, locale, preview = false}) {
   const queryParams = {slug: params.post, language: locale}
 
   if (preview) {
@@ -254,7 +254,7 @@ export async function getStaticProps({params, locale, defaultLocale, preview = f
 
   let data = await client.fetch(query, queryParams)
   if (!data.page) {
-    if (locale === defaultLocale) {
+    if (locale === 'sv') {
       data = await client.fetch(query, {
         ...queryParams,
         language: null
