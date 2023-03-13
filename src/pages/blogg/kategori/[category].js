@@ -105,6 +105,7 @@ const query = groq`
           ...,
           author->,
           categories[]->,
+          tags[]->,
         }
       },
       "navigation": *[_type == "navigationMenu"],

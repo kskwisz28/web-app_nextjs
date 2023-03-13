@@ -124,6 +124,7 @@ const query = groq`
         ...,
         author->,
         categories[]->,
+        tags[]->,
       },
       "total": count(*[_type == "post" && language == $language]),
       "navigation": *[_type == "navigationMenu"],

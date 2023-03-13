@@ -59,7 +59,7 @@ export default function CardPost({node}) {
                         borderRadius: '4px',
                         mr: 1,
                       }}
-                      key={category._key}
+                      key={category._id}
                     >
                       {category.title}
                     </Text>
@@ -94,7 +94,7 @@ export default function CardPost({node}) {
                       mr: 2,
                       borderRadius: '4px',
                     }}
-                    key={tag._key}
+                    key={tag._id}
                   >
                     #{tag.title}
                   </Text>
