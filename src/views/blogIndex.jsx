@@ -1,19 +1,60 @@
 import {client} from "@/sanity-client";
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import Layout from '@/components/layout'
-import {Box, Grid} from 'theme-ui'
-import Container from '@/components/container'
-import CardPost from "@/components/cardPost";
-import BlogSidebar from "@/components/blogSidebar";
-
-import Pagination from '@/components/pagination'
-import Seo from "@/components/seo";
-import ExitFromPreview from "@/components/ExitFromPreview";
-import {usePreview} from "@/lib/sanity.preview";
-import {PreviewSuspense} from "next-sanity/preview";
 import {groq} from "next-sanity";
+import {usePreview} from "@/lib/sanity.preview";
+import ExitFromPreview from "@/components/ExitFromPreview";
+import Layout from "@/components/layout";
+import Seo from "@/components/seo";
+import {Box, Grid} from "theme-ui";
+import Container from "@/components/container";
+import CardPost from "@/components/cardPost";
+import Pagination from "@/components/pagination";
+import BlogSidebar from "@/components/blogSidebar";
+import {PreviewSuspense} from "next-sanity/preview";
 
-const POSTS_PER_PAGE = 10
+
+export const POSTS_PER_PAGE = 10
+
+export const query = groq`
+    {
+      "posts": *[_type == "post" && language == $language] | order(publishedAt desc)[$start...$end] {
+        ...,
+        author->,
+        categories[]->,
+        tags[]->,
+      },
+      "total": count(*[_type == "post" && language == $language]),
+      "navigation": *[_type == "navigationMenu"],
+      "settings": *[_type == "siteSettings"][0],
+    }
+  `
+
+export async function getPropsForIndex(raw_index, locale, preview) {
+  const index = raw_index ? Number(raw_index) - 1 : 0
+  const queryParams = {
+    start: POSTS_PER_PAGE * index,
+    end: POSTS_PER_PAGE * (index + 1),
+    language: locale
+  }
+
+  if (preview) {
+    return {
+      props: {
+        preview,
+        queryParams
+      }
+    }
+  }
+  const data = await client.fetch(query, queryParams)
+  return {
+    posts: data.posts,
+    pagination: {
+      total: data.total,
+      current: index + 1
+    },
+    navigation: data.navigation,
+    settings: data.settings,
+  }
+}
 
 export default function PageOrPreview({preview, ...props}) {
   return preview ? (
@@ -33,7 +74,7 @@ function PreviewPage({query, queryParams}) {
     <>
       <Page {...data} pagination={{
         total: data.total,
-        current: index === 0 ? 1 : index
+        current: index
       }}/>
       <ExitFromPreview/>
     </>
@@ -94,72 +135,4 @@ function Page({posts, pagination, navigation, settings}) {
       </Box>
     </Layout>
   )
-}
-
-export async function getStaticPaths() {
-  const data = await client.fetch('*[_type == "post"]{language}')
-
-  const locales = ['sv', 'no', 'da', 'en']
-  let paths = []
-  locales.forEach(locale => {
-    const posts = data.filter(post => post.language === locale)
-    const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE)
-
-    paths = paths.concat(Array.from({length: totalPages}).map((_, index) => ({
-      locale,
-      params: {
-        index: [index === 0 ? '' : (index + 1).toString()]
-      }
-    })))
-  })
-  return {
-    paths,
-    fallback: false,
-  }
-}
-
-const query = groq`
-    {
-      "posts": *[_type == "post" && language == $language] | order(publishedAt desc)[$start...$end] {
-        ...,
-        author->,
-        categories[]->,
-        tags[]->,
-      },
-      "total": count(*[_type == "post" && language == $language]),
-      "navigation": *[_type == "navigationMenu"],
-      "settings": *[_type == "siteSettings"][0],
-    }
-  `
-
-export async function getStaticProps({params, locale, preview = false}) {
-  const index = Number(params.index ? params.index[0] - 1 : 0)
-  const queryParams = {
-    start: POSTS_PER_PAGE * index,
-    end: POSTS_PER_PAGE * (index + 1),
-    language: locale
-  }
-
-  if (preview) {
-    return {
-      props: {
-        ...(await serverSideTranslations(locale)),
-        preview,
-        queryParams
-      }
-    }
-  }
-  const data = await client.fetch(query, queryParams)
-  return {
-    props: {
-      ...(await serverSideTranslations(locale)),
-      posts: data.posts,
-      pagination: {
-        total: data.total,
-        current: index === 0 ? 1 : index + 1
-      },
-      navigation: data.navigation,
-      settings: data.settings,
-    },
-  }
 }

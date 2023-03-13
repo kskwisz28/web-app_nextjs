@@ -21,15 +21,22 @@ import {usePreview} from "@/lib/sanity.preview";
 import {groq} from "next-sanity";
 import {useRouter} from "next/router";
 import useFormattedDate from "@/hooks/useFormattedDate";
+import PageOrPreview, {getPropsForIndex, POSTS_PER_PAGE} from "@/views/blogIndex";
 
-export default function PageOrPreview({preview, ...props}) {
-  return preview ? (
-    <PreviewSuspense fallback="Loading...">
-      <PreviewPage query={query} queryParams={props.queryParams}/>
-    </PreviewSuspense>
-  ) : (
-    <Page {...props}/>
-  );
+export default function PageOrPreviewIndexOrPost({preview, ...props}) {
+  const router = useRouter()
+
+  if (isNaN(router.query.index_or_post)) {
+    return preview ? (
+      <PreviewSuspense fallback="Loading...">
+        <PreviewPage query={query} queryParams={props.queryParams}/>
+      </PreviewSuspense>
+    ) : (
+      <Page {...props}/>
+    );
+  } else {
+    return <PageOrPreview preview={preview} {...props}/>
+  }
 }
 
 function PreviewPage({query, queryParams}) {
@@ -58,7 +65,7 @@ function Page({page, navigation, settings}) {
   `
 
   const date = useFormattedDate(page.publishedAt, locale)
-  
+
   return (
     <Layout
       headerBg={
@@ -216,14 +223,29 @@ function Page({page, navigation, settings}) {
 }
 
 export async function getStaticPaths() {
-  const data = await client.fetch('*[_type == "post"]{slug, language}')
+  let paths = []
 
-  const paths = data.filter(page => page.slug.current).filter(page => isNaN(page.slug.current)).map(page => ({
+  const index_data = await client.fetch('*[_type == "post"]{language}')
+  const locales = ['sv', 'no', 'da', 'en']
+  locales.forEach(locale => {
+    const posts = index_data.filter(post => post.language === locale)
+    const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE)
+
+    paths = paths.concat(Array.from({length: totalPages}).map((_, index) => ({
+      locale,
+      params: {
+        index_or_post: (index + 1).toString()
+      }
+    })))
+  })
+
+  const posts_data = await client.fetch('*[_type == "post"]{slug, language}')
+  paths = paths.concat(posts_data.filter(page => page.slug.current).filter(page => isNaN(page.slug.current)).map(page => ({
     locale: page.language,
     params: {
-      post: page.slug.current
+      index_or_post: page.slug.current
     }
-  }))
+  })))
   return {
     paths,
     fallback: false,
@@ -246,7 +268,20 @@ const query = groq`
   `
 
 export async function getStaticProps({params, locale, preview = false}) {
-  const queryParams = {slug: params.post, language: locale}
+  if (isNaN(params.index_or_post)) {
+    return getPropsForPost(params.index_or_post, locale, preview)
+  } else {
+    return {
+      props: {
+        ...(await serverSideTranslations(locale)),
+        ...(await getPropsForIndex(params.index_or_post, locale, preview)),
+      }
+    }
+  }
+}
+
+async function getPropsForPost(post, locale, preview) {
+  const queryParams = {slug: post, language: locale}
 
   if (preview) {
     return {
