@@ -20,6 +20,7 @@ import {PreviewSuspense} from "next-sanity/preview";
 import {usePreview} from "@/lib/sanity.preview";
 import {groq} from "next-sanity";
 import {useRouter} from "next/router";
+import useFormattedDate from "@/hooks/useFormattedDate";
 
 export default function PageOrPreview({preview, ...props}) {
   return preview ? (
@@ -55,6 +56,9 @@ function Page({page, navigation, settings}) {
   const CategoryLink = styled(LinkCustom)`
     color: ${theme.colors.primary600};
   `
+
+  const date = useFormattedDate(page.publishedAt, locale)
+  
   return (
     <Layout
       headerBg={
@@ -151,7 +155,7 @@ function Page({page, navigation, settings}) {
                       variant="lead"
                       sx={{color: 'dark300', textAlign: 'center'}}
                     >
-                      {(new Date(page.publishedAt)).toLocaleDateString(locale)}
+                      {date}
                     </Text>
                   )}
                 </Box>

@@ -5,10 +5,13 @@ import MainImage from '../components/mainImage'
 import {useTranslation} from "next-i18next";
 import OptimizedImage from "@/components/optimizedImage";
 import {useRouter} from "next/router";
+import useFormattedDate from "@/hooks/useFormattedDate";
 
 export default function CardPost({node}) {
   const {t} = useTranslation('common')
   const {locale} = useRouter()
+  const date = useFormattedDate(node.publishedAt, locale)
+
 
   return (
     <article
@@ -68,7 +71,7 @@ export default function CardPost({node}) {
               )}
               {node.publishedAt && (
                 <Text px={1} variant="lead" sx={{color: 'dark300'}}>
-                  {(new Date(node.publishedAt)).toLocaleDateString(locale)}
+                  {date}
                 </Text>
               )}
             </Flex>
