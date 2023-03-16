@@ -220,7 +220,7 @@ const serializers = {
           }}
         >
           <Container>
-            <SingleImage {...node} />
+            <OptimizedImage image={node} />
           </Container>
         </Box>
       ) : (
@@ -233,7 +233,7 @@ const serializers = {
             mx: node.centered ? 'auto' : '',
           }}
         >
-          <SingleImage {...node} />
+          <OptimizedImage image={node} />
         </Box>
       )
     },
