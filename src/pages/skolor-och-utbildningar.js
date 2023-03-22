@@ -94,7 +94,7 @@ function Page({page, navigation, settings}) {
               colorDesc: {hex: '#fff'},
             }}
             primaryButtonText={"Starta webbutik"}
-            primaryButtonUrl={"/starta-webbutik"}
+            primaryButtonUrl={"https://quickbutik.com/starta-webbutik"}
             secondaryButtonText={"Besök hjälpcenter"}
             secondaryButtonUrl={"https://help.quickbutik.com"}
             padding={{bottom: 6}}
