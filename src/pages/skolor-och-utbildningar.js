@@ -87,7 +87,7 @@ function Page({page, navigation, settings}) {
           <CTABoxRegister
             info={{
               headline: 'Köra igång på egen hand?',
-              description: 'Du kan även själv komma igång med e-handel och ta del av vårt egna utbildningsmaterial för e-handel.',
+              description: 'Du kan även komma igång med e-handel på egen hand med vårt utbildningsmaterial för e-handel.',
               centered: true,
               colorBg: {hex: '#362F4A'},
               colorHeadline: {hex: '#fff'},
