@@ -186,7 +186,7 @@ function Page({page, navigation, settings}) {
                   page.categories.map(category => (
                     <CategoryLink
                       key={category._key}
-                      to=""
+                      to={`/blogg/kategori/${category.slug.current}`}
                       // to={'/' + category._rawSlug && category._rawSlug.current}
                       effect="fade"
                       length={0}
