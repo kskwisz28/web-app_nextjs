@@ -26,7 +26,7 @@ import PageOrPreview, {getPropsForIndex, POSTS_PER_PAGE} from "@/views/blogIndex
 export default function PageOrPreviewIndexOrPost({preview, ...props}) {
   const router = useRouter()
 
-  if (isNaN(router.query.index_or_post)) {
+  if (isNaN(router.query.index_or_post[0])) {
     return preview ? (
       <PreviewSuspense fallback="Loading...">
         <PreviewPage query={query} queryParams={props.queryParams}/>
@@ -234,7 +234,7 @@ export async function getStaticPaths() {
     paths = paths.concat(Array.from({length: totalPages}).map((_, index) => ({
       locale,
       params: {
-        index_or_post: (index + 1).toString()
+        index_or_post: [(index + 1).toString()]
       }
     })))
   })
@@ -243,7 +243,7 @@ export async function getStaticPaths() {
   paths = paths.concat(posts_data.filter(page => page.slug.current).filter(page => isNaN(page.slug.current)).map(page => ({
     locale: page.language,
     params: {
-      index_or_post: page.slug.current
+      index_or_post: page.slug.current.split('/')
     }
   })))
   return {
@@ -268,13 +268,13 @@ const query = groq`
   `
 
 export async function getStaticProps({params, locale, preview = false}) {
-  if (isNaN(params.index_or_post)) {
-    return getPropsForPost(params.index_or_post, locale, preview)
+  if (isNaN(params.index_or_post[0])) {
+    return getPropsForPost(params.index_or_post.join("/"), locale, preview)
   } else {
     return {
       props: {
         ...(await serverSideTranslations(locale)),
-        ...(await getPropsForIndex(params.index_or_post, locale, preview)),
+        ...(await getPropsForIndex(params.index_or_post[0], locale, preview)),
       }
     }
   }
