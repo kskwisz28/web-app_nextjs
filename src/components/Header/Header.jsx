@@ -168,12 +168,9 @@ export default function Header({
         <Box sx={{
           position: ["fixed", null, null, null, "static"],
           top: ['64px', null, null, null, "92px"],
-          bottom: '0',
-          left: '0',
-          right: '0',
           zIndex: '99',
           backgroundColor: ["white", null, null, null, "initial"],
-          height: ['calc(100vh - 64px)', null, null, null, "fit-content"],
+          height: ['calc(100% - 64px)', null, null, null, "fit-content"],
           width: '100vw',
           padding: ['10px', null, null, null, '0'],
           transform: [!isOpen ? 'translate3d(100%, 0, 0)' : 'translate3d(0, 0, 0);', null, null, null, 'none'],
