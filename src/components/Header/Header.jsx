@@ -8,6 +8,7 @@ import {Box, Button, Link, useThemeUI} from "theme-ui";
 import NavLink from "@/components/Header/NavLink";
 import NextLink from 'next/link';
 import useBreakpoint from "@/hooks/useBreakpoint";
+import Hamburger from "@/components/Header/Hamburger";
 
 const CountryVisitInfo = country => {
   switch (country) {
@@ -227,21 +228,15 @@ export default function Header({
           </Box>
         </Box>
 
-        <div sx={{
-          display: ['flex', null, null, null, 'none'],
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '64px',
-          width: '64px',
-          cursor: 'pointer',
-        }}
-             onClick={() => setIsOpen(prev => !prev)}
-        >
-          <Image
-            src={menu}
-            alt="Menu"
+        <Box sx={{
+          display: ['block', null, null, null, 'none'],
+          mr: '17px',
+        }}>
+          <Hamburger
+            open={isOpen}
+            onClick={() => setIsOpen(prev => !prev)}
           />
-        </div>
+        </Box>
       </Box>
     </Box>
   )
