@@ -185,6 +185,7 @@ const buttons = {
     fontSize: '20px',
     lineHeight: '1',
     cursor: 'pointer',
+    borderRadius: '5px',
 
     svg: {
       fill: 'black',
