@@ -37,7 +37,6 @@ const nextConfig = {
       apiVersion: '2023-02-14',
     })
     const redirects = await client.fetch(`*[_type == "redirect"]`)
-    console.log(redirects)
     return redirects.filter(redirect => redirect.fromPath !== '/academy').map(redirect => ({
       source: redirect.fromPath[0] === '/' ? redirect.fromPath : '/' + redirect.fromPath,
       destination: redirect.toPath,
