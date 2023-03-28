@@ -124,8 +124,9 @@ export default function Header({
         </Box>
 
         <Box>
-          <Button variant="naMedium" onClick={() => setIsOpen(prev => !prev)}
-                  sx={{display: ['none', null, null, null, 'flex']}}>
+          <Button
+            variant="naMedium" onClick={() => setIsOpen(prev => !prev)}
+            sx={{display: ['none', null, null, null, 'flex']}}>
             Discover
             <svg sx={{
               ml: '8px',

@@ -14,7 +14,7 @@ export default function NavLink({children, ...props}) {
   }, [asPath, locale, props.href])
   return (
     <Heading as="li" sx={{
-      fontSize: ['30px', null, null, null, '40px', null],
+      fontSize: ['30px', null, null, null, '32px', null],
       lineHeight: ['30px', null, null, null, '40px', null],
       fontWeight: '700',
       letterSpacing: '-0.05em',
