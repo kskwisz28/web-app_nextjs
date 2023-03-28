@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Footer from './footer'
-import Header from './navbar'
+import Header from '@/components/Header/Header'
 import GlobalStyles from '../styles/globalStyles'
 import Headroom from 'react-headroom'
 
@@ -13,22 +13,21 @@ export default function Layout(props) {
 
   return (
     <div
-      css={{
+      sx={{
         display: 'flex',
         flexDirection: 'column',
         minHeight: '100vh',
+        pt: ['64px', null, null, null, '92px'],
       }}
     >
       <GlobalStyles/>
-      <Headroom>
-        <Header
-          navMenu={mainMenu}
-          logoDark={props.logoDark}
-          headerBg={props.headerBg}
-          headerColor={props.headerColor}
-          siteSettings={props?.siteSettings}
-        />
-      </Headroom>
+      <Header
+        navMenu={mainMenu}
+        logoDark={props.logoDark}
+        headerBg={props.headerBg}
+        headerColor={props.headerColor}
+        siteSettings={props?.siteSettings}
+      />
       <main
         css={{
           width: '100%',

@@ -1,16 +1,32 @@
 import prism from './prism'
 
 const colors = {
+  black: '#000000',
+  grey1: '#7F7F7F',
+  // OLD: grey2: '#62666A',
+  grey2: '#8C8C8C',
+  grey3: '#F0F0F0',
+  white: '#ffffff',
+
+  danger: '#DCDCDC',
+  raspberry: '#f44599',
+  kiwi: '#20D287',
+  egg: '#faf8f7',
+  blurple: '#5754F9',
+
+  mintu: 'linear-gradient(118.99deg, #20D287 1.71%, #5754F9 111.56%)',
+  rainbow: 'linear-gradient(107.56deg, #5754F9 0%, #F44599 100%)',
+  fade: 'linear-gradient(107.89deg, #252429 0.63%, #121116 99.15%)',
+  yogurt: 'linear-gradient(107.56deg, #F9D4E4 0%, #DDD6F5 100%)',
+
+
+
   base: '#6154F9',
   aubergine: '#362F4A',
-  kiwi: '#20D287',
-  raspberry: '#f44599',
   behance: '#5754f9',
-  egg: '#faf8f7',
   bgSecondary: '#F5F4F5',
   textPrimary: '#26252F',
   textFadedOne: '#81808A',
-  black: '#000000',
   dark: '#362F4A',
   dark400: '#302b40',
   dark300: '#626d7b',
@@ -20,7 +36,6 @@ const colors = {
   light300: '#f7f8fc',
   light200: '#f7f9fd',
   light100: '#fdfeff',
-  white: '#ffffff',
   primary: '#6154F9',
   primary400: '#83c2ef',
   primary300: '#9dd7f7',
@@ -69,7 +84,6 @@ const colors = {
   prism,
   secondary: '#302b40',
   grey: '#626d7b',
-  grey2: '#62666A',
   background: '#ffffff',
   accent: '#fd6462',
   hover: 'rgba(0, 0, 0, 0.07)',
