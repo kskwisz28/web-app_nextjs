@@ -18,6 +18,16 @@ const nextConfig = {
     release: 'quickbutik:latest',
   },
   async redirects() {
+    /*
+    return [
+      {
+        source: '/no/unifaun',
+        destination: '/no/integration-nshift',
+        permanent: true,
+        locale: false,
+      }
+    ]
+     */
     const projectId = process.env.SANITY_PROJECT_ID || '7hja5omh'
     const dataset = process.env.SANITY_DATASET || 'production'
     const client = createClient({
@@ -27,10 +37,12 @@ const nextConfig = {
       apiVersion: '2023-02-14',
     })
     const redirects = await client.fetch(`*[_type == "redirect"]`)
+    console.log(redirects)
     return redirects.filter(redirect => redirect.fromPath !== '/academy').map(redirect => ({
       source: redirect.fromPath[0] === '/' ? redirect.fromPath : '/' + redirect.fromPath,
       destination: redirect.toPath,
-      permanent: redirect.statusCode === '301'
+      permanent: redirect.statusCode === '301',
+      locale: false,
     }))
   }
 }
