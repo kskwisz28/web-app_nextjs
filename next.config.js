@@ -39,7 +39,7 @@ const nextConfig = {
     const redirects = await client.fetch(`*[_type == "redirect"]`)
     return redirects.filter(redirect => redirect.fromPath !== '/academy').map(redirect => {
       let source = redirect.fromPath[0] === '/' ? redirect.fromPath : '/' + redirect.fromPath
-      if (!['sv', 'da', 'no', 'en'].includes(source.split('/')[0])) {
+      if (!['sv', 'da', 'no', 'en'].includes(source.split('/')[1])) {
         source = '/sv' + source
       }
 
