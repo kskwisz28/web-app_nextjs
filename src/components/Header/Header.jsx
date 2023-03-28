@@ -1,7 +1,6 @@
 import React, {useEffect, useMemo, useState} from 'react'
 import Image from 'next/image';
 import logo from './icon.svg'
-import menu from './Menu.svg'
 import {useTranslation} from "next-i18next";
 import {useRouter} from "next/router";
 import {Box, Button, Link, useThemeUI} from "theme-ui";
@@ -77,6 +76,7 @@ export default function Header({
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: [null, null, null, null, "18px 40px"],
+        flexWrap: 'wrap',
       }}>
         <Box sx={{
           display: 'flex',
@@ -166,14 +166,13 @@ export default function Header({
         </Box>
 
         <Box sx={{
-          position: ["fixed", null, null, null, "absolute"],
+          position: ["fixed", null, null, null, "static"],
           top: ['64px', null, null, null, "92px"],
           bottom: '0',
           left: '0',
           right: '0',
           zIndex: '99',
-          backgroundColor: ["white", null, null, null, 'rgba(255, 255, 255, 0.8)'],
-          backdropFilter: [null, null, null, null, 'blur(20px)'],
+          backgroundColor: ["white", null, null, null, "initial"],
           height: ['calc(100vh - 64px)', null, null, null, "fit-content"],
           width: '100vw',
           padding: ['10px', null, null, null, '0'],
@@ -184,7 +183,7 @@ export default function Header({
           justifyContent: 'space-between',
         }}>
           <Box sx={{
-            padding: ['30px', null, null, null, '56px 0'],
+            padding: ['30px', null, null, null, '56px 0 38px'],
           }}>
             <Box as="ul" sx={{
               display: 'flex',
