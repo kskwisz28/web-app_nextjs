@@ -2,6 +2,7 @@ import React from 'react'
 import {Box, Flex, Heading} from 'theme-ui'
 import Container from './container'
 import SingleImage from './singleImage'
+import OptimizedImage from "@/components/optimizedImage";
 
 export default function GridTeamFull(props) {
   return (
@@ -23,12 +24,16 @@ export default function GridTeamFull(props) {
                   width: ['100%', null, null, '50%', null, '33.333%'],
                   px: 2,
                   py: 3,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
                 }}
               >
-                <SingleImage
-                  noLazyLoad={employee.image && employee.image.noLazyLoad}
-                  rounded="8px"
-                  sx={{width: '10%', borderRadius: '18px'}}
+                <OptimizedImage
+                  priority={employee.image && employee.image.noLazyLoad}
+                  style={{width: '100%', borderRadius: '18px'}}
+                  maxWidth='362px'
+                  maxHeight='362px'
                   image={
                     employee.image &&
                     employee.image.image &&

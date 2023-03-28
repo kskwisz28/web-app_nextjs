@@ -44,7 +44,7 @@ export default function OptimizedImage({
       ...s,
       ...style
     }
-  }, [maxWidth, maxHeight, imageProps])
+  }, [baseOnHeight, imageProps.width, imageProps.height, maxWidth, maxHeight, style])
 
   const props = useMemo(() => {
     if (!fill) {
