@@ -37,12 +37,19 @@ const nextConfig = {
       apiVersion: '2023-02-14',
     })
     const redirects = await client.fetch(`*[_type == "redirect"]`)
-    return redirects.filter(redirect => redirect.fromPath !== '/academy').map(redirect => ({
-      source: redirect.fromPath[0] === '/' ? redirect.fromPath : '/' + redirect.fromPath,
-      destination: redirect.toPath,
-      permanent: redirect.statusCode === '301',
-      locale: false,
-    }))
+    return redirects.filter(redirect => redirect.fromPath !== '/academy').map(redirect => {
+      let source = redirect.fromPath[0] === '/' ? redirect.fromPath : '/' + redirect.fromPath
+      if (!['sv', 'da', 'no', 'en'].includes(source.split('/')[0])) {
+        source = '/sv' + source
+      }
+
+      return {
+        source,
+        destination: redirect.toPath,
+        permanent: redirect.statusCode === '301',
+        locale: false,
+      }
+    })
   }
 }
 
