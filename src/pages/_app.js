@@ -105,6 +105,7 @@ function App({Component, pageProps}) {
           />
           <GA4Head />
           <Script
+            id="ga4-script"
             strategy="afterInteractive"
             onLoad={() => ReactGA.initialize()}
             dangerouslySetInnerHTML={{
