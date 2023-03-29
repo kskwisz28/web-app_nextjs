@@ -19,6 +19,7 @@ import {useRouter} from "next/router";
 import ReactGA from "react-ga4";
 import GA4Head from '../components/GA4Head';
 
+
 export const AlternateLinksContext = createContext([])
 
 function App({Component, pageProps}) {
@@ -58,11 +59,17 @@ function App({Component, pageProps}) {
 
   useEffect(() => {
     const handleRouteChange = (url) => {
-      `
-      window.gtag('config', '${process.env.NEXT_PUBLIC_GA4_SV_ID}', {
+      let GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA4_SV_ID;
+
+      if (url.startsWith('/no')) {
+        GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA4_NO_ID;
+      } else if (url.startsWith('/da')) {
+        GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA4_DA_ID;
+      }
+
+      window.gtag('config', GA_MEASUREMENT_ID, {
         page_path: url,
       });
-      `
     };
 
     router.events.on('routeChangeComplete', handleRouteChange);
@@ -71,6 +78,31 @@ function App({Component, pageProps}) {
       router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, [router.events]);
+
+  useEffect(() => {
+    function handleLinkClick(event) {
+      const linkUrl = event.target.href;
+
+      console.log(linkUrl);
+      if (linkUrl && linkUrl.includes('/starta-webbutik')) {
+
+        console.log("yes");
+        const utmParams = getUtmFromCookies();
+        const newUrl = linkUrl + (utmParams ? `?${utmParams}` : '');
+        event.target.href = newUrl;
+      }
+    }
+
+    document.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', handleLinkClick);
+    });
+
+    return () => {
+      document.querySelectorAll('a').forEach(link => {
+        link.removeEventListener('click', handleLinkClick);
+      });
+    };
+  }, [router.pathname]);
 
   const INTERCOM_APP_ID = 'pjlmfkmx'
 
