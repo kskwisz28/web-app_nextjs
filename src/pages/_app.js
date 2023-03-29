@@ -12,8 +12,12 @@ import 'vanilla-cookieconsent/dist/cookieconsent'
 import 'vanilla-cookieconsent/dist/cookieconsent.css'
 import {setCookieConsent} from "@/lib/cookieConsent";
 import Script from "next/script";
+
 import {GoogleAnalytics} from "nextjs-google-analytics";
 import {useRouter} from "next/router";
+
+import ReactGA from "react-ga4";
+import GA4Head from '../components/GA4Head';
 
 export const AlternateLinksContext = createContext([])
 
@@ -52,6 +56,22 @@ function App({Component, pageProps}) {
     }
   }, [router.events])
 
+  useEffect(() => {
+    const handleRouteChange = (url) => {
+      `
+      window.gtag('config', '${process.env.NEXT_PUBLIC_GA4_SV_ID}', {
+        page_path: url,
+      });
+      `
+    };
+
+    router.events.on('routeChangeComplete', handleRouteChange);
+
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router.events]);
+
   const INTERCOM_APP_ID = 'pjlmfkmx'
 
   return (
@@ -80,6 +100,21 @@ function App({Component, pageProps}) {
             s.parentNode.insertBefore(t,s)}(window, document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
             fbq('init', ${fbq.FB_PIXEL_ID});
+          `,
+            }}
+          />
+          <GA4Head />
+          <Script
+            strategy="afterInteractive"
+            onLoad={() => ReactGA.initialize()}
+            dangerouslySetInnerHTML={{
+              __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${process.env.NEXT_PUBLIC_GA4_SV_ID}', {
+              page_path: window.location.pathname,
+            });
           `,
             }}
           />
