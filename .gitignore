@@ -34,3 +34,5 @@ yarn-error.log*
 # seo
 robots.txt
 sitemap*.xml
+
+.env
