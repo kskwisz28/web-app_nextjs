@@ -19,6 +19,8 @@ import {useRouter} from "next/router";
 import ReactGA from "react-ga4";
 import GA4Head from '../components/GA4Head';
 
+import queryString from "query-string";
+import Cookies from "js-cookie";
 
 export const AlternateLinksContext = createContext([])
 
@@ -40,6 +42,25 @@ function App({Component, pageProps}) {
 
   useEffect(() => {
     setCookieConsent()
+
+    if (typeof window !== 'undefined') {
+      // Read the UTM parameters and gclid value from the URL
+      const queryParams = queryString.parse(window.location.search);
+      const utmParams = {
+        source: queryParams.utm_source || '',
+        medium: queryParams.utm_medium || '',
+        campaign: queryParams.utm_campaign || '',
+      };
+      const gclid = queryParams.gclid || '';
+
+      // Save the UTM parameters and gclid value to cookies
+      if (gclid) {
+        Cookies.set('source-gclid', gclid, { domain: '.quickbutik.com' });
+      }
+      if (utmParams && (utmParams.source || utmParams.medium || utmParams.campaign)) {
+        Cookies.set('source-utm', JSON.stringify(utmParams), { domain: '.quickbutik.com' });
+      }
+    }
   }, [])
 
   const router = useRouter()
@@ -78,31 +99,6 @@ function App({Component, pageProps}) {
       router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, [router.events]);
-
-  useEffect(() => {
-    function handleLinkClick(event) {
-      const linkUrl = event.target.href;
-
-      console.log(linkUrl);
-      if (linkUrl && linkUrl.includes('/starta-webbutik')) {
-
-        console.log("yes");
-        const utmParams = getUtmFromCookies();
-        const newUrl = linkUrl + (utmParams ? `?${utmParams}` : '');
-        event.target.href = newUrl;
-      }
-    }
-
-    document.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', handleLinkClick);
-    });
-
-    return () => {
-      document.querySelectorAll('a').forEach(link => {
-        link.removeEventListener('click', handleLinkClick);
-      });
-    };
-  }, [router.pathname]);
 
   const INTERCOM_APP_ID = 'pjlmfkmx'
 
