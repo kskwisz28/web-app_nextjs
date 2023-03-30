@@ -163,7 +163,7 @@ export default function Header({
             <Box as="ul" sx={{
               display: 'flex',
               flexDirection: ['column', null, null, null, "row"],
-              gap: ['20px', null, null, null, '40px', '80px'],
+              gap: ['20px', null, null, null, '38px', '80px'],
               justifyContent: 'center',
             }}>
               <NavLink
