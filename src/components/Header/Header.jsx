@@ -31,9 +31,8 @@ export default function Header({
                                  navMenu,
                                  siteSettings,
                                }) {
-  const {i18n} = useTranslation('common')
+  const {t} = useTranslation('common')
   const [isOpen, setIsOpen] = useState(false)
-  const {theme} = useThemeUI()
 
   const {locale, asPath} = useRouter()
 
@@ -104,7 +103,7 @@ export default function Header({
           <Button
             variant="naMedium" onClick={() => setIsOpen(prev => !prev)}
             sx={{display: ['none', null, null, null, 'flex']}}>
-            Discover
+            {t('discover')}
             <svg sx={{
               ml: '8px',
               transform: isOpen ? 'rotate(-180deg)' : 'rotate(0deg)',
