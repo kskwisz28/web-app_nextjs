@@ -163,7 +163,7 @@ export default function Header({
             }}>
               <NavLink
                 href={`/${locale}`}>
-                Home
+                {t('home')}
               </NavLink>
               {menuItems.map(item => (
                 <NavLink
@@ -180,7 +180,7 @@ export default function Header({
             gap: '10px',
           }}>
             <Link href={siteSettings.headerSecondButtonUrl[locale]} variant="white">
-              Sign in
+              {t('sign in')}
             </Link>
             <Link href={siteSettings.headerButtonUrl[locale]} variant="blue">
               {siteSettings.headerButtonText[locale]}

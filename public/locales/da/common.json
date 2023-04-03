@@ -30,5 +30,7 @@
   "hours": "Timer",
   "minutes": "Minutter",
   "seconds": "Sekunder",
-  "discover": "Opdag"
+  "discover": "Opdag",
+  "home": "Hjem",
+  "sign in": "Log ind"
 }

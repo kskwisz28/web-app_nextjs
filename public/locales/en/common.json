@@ -28,5 +28,7 @@
   "hours": "Hours",
   "minutes": "Minutes",
   "seconds": "Seconds",
-  "discover": "Discover"
+  "discover": "Discover",
+  "home": "Home",
+  "sign in": "Sign in"
 }
